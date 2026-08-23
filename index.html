@@ -117,6 +117,8 @@
             transition: all 0.3s;
             white-space: nowrap;
             touch-action: manipulation;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav-tabs button i {
@@ -368,12 +370,14 @@
             background: white;
             transition: border-color 0.3s;
             touch-action: manipulation;
+            user-select: text;
         }
 
         table input:focus {
             border-color: #c41e3a;
             outline: none;
             background: #fff;
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
         }
 
         table input[readonly] {
@@ -910,11 +914,32 @@
         .price-inline .form-group input {
             padding: 6px 8px;
             font-size: 13px;
+            background: #f0f0f0;
+            cursor: not-allowed;
+            border-color: #ddd;
+        }
+
+        .price-inline .form-group input:focus {
+            border-color: #ddd;
+            box-shadow: none;
+        }
+
+        .price-inline .lock-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 12px;
+        }
+
+        .price-inline .form-group {
+            position: relative;
         }
 
         @media (min-width: 768px) {
             .price-inline {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: 1fr 1fr;
                 gap: 15px;
                 padding: 16px;
             }
@@ -924,6 +949,31 @@
             .price-inline .form-group input {
                 padding: 8px 10px;
                 font-size: 14px;
+            }
+        }
+
+        /* Unlock button */
+        .unlock-btn {
+            background: none;
+            border: none;
+            color: #c41e3a;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .unlock-btn:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 768px) {
+            .unlock-btn {
+                font-size: 13px;
             }
         }
     </style>
@@ -1024,24 +1074,21 @@
                     </div>
                 </div>
 
-                <!-- Harga inline -->
+                <!-- Harga inline dengan lock -->
                 <div class="price-inline">
                     <div class="form-group">
-                        <label>Harga Jual Pertalite / L</label>
-                        <input type="number" id="hargaJualPertalite" value="10000" onchange="updateAll()">
+                        <label>Harga Jual Pertalite / L <i class="fas fa-lock" style="color:#888;font-size:11px;margin-left:4px;"></i></label>
+                        <input type="number" id="hargaJualPertalite" value="10000" readonly>
+                        <button class="unlock-btn" onclick="toggleLock('hargaJualPertalite')"><i class="fas fa-unlock"></i> Buka</button>
                     </div>
                     <div class="form-group">
-                        <label>Harga Jual Pertamax / L</label>
-                        <input type="number" id="hargaJualPertamax" value="16250" onchange="updateAll()">
+                        <label>Harga Jual Pertamax / L <i class="fas fa-lock" style="color:#888;font-size:11px;margin-left:4px;"></i></label>
+                        <input type="number" id="hargaJualPertamax" value="16250" readonly>
+                        <button class="unlock-btn" onclick="toggleLock('hargaJualPertamax')"><i class="fas fa-unlock"></i> Buka</button>
                     </div>
-                    <div class="form-group">
-                        <label>Harga Modal Pertalite / L</label>
-                        <input type="number" id="hargaModalPertalite" value="8500" onchange="updateAll()">
-                    </div>
-                    <div class="form-group">
-                        <label>Harga Modal Pertamax / L</label>
-                        <input type="number" id="hargaModalPertamax" value="14200" onchange="updateAll()">
-                    </div>
+                </div>
+                <div style="margin-top:6px;font-size:11px;color:#888;">
+                    <i class="fas fa-info-circle"></i> Klik "Buka" untuk mengubah harga, klik "Kunci" untuk mengunci kembali
                 </div>
             </div>
 
@@ -1163,6 +1210,10 @@
         let reports = JSON.parse(localStorage.getItem('spbuReports')) || [];
         let expenses = JSON.parse(localStorage.getItem('spbuExpenses')) || [];
         let currentReportId = Date.now();
+        let isLocked = {
+            hargaJualPertalite: true,
+            hargaJualPertamax: true
+        };
 
         const nozzles = [
             { id: 'A1', product: 'Pertalite', label: 'A1' },
@@ -1178,6 +1229,8 @@
             Pertalite: { stokAwal: 0, do: 0, selisih: 0, stokAkhir: 0, penjualan: 0 },
             Pertamax: { stokAwal: 0, do: 0, selisih: 0, stokAkhir: 0, penjualan: 0 }
         };
+
+        let updateTimeout = null;
 
         // ===== INIT =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -1204,8 +1257,6 @@
             if (params) {
                 document.getElementById('hargaJualPertalite').value = params.hargaJualPertalite || 10000;
                 document.getElementById('hargaJualPertamax').value = params.hargaJualPertamax || 16250;
-                document.getElementById('hargaModalPertalite').value = params.hargaModalPertalite || 8500;
-                document.getElementById('hargaModalPertamax').value = params.hargaModalPertamax || 14200;
             }
 
             renderTotalisator();
@@ -1227,17 +1278,65 @@
                 });
             });
 
-            // Auto calculate with debounce
-            let debounceTimer;
+            // Input handling dengan debounce untuk mencegah bug
             document.addEventListener('input', function(e) {
                 const target = e.target;
-                if (target.closest('#totalisatorTable') || target.closest('#stokTable') || 
-                    target.id === 'hargaJualPertalite' || target.id === 'hargaJualPertamax' ||
-                    target.id === 'hargaModalPertalite' || target.id === 'hargaModalPertamax') {
-                    clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(() => {
+                if (target.closest('#totalisatorTable') || target.closest('#stokTable')) {
+                    clearTimeout(updateTimeout);
+                    updateTimeout = setTimeout(() => {
+                        // Ambil nilai terbaru dari input
+                        const inputs = target.closest('tr')?.querySelectorAll('input');
+                        if (inputs) {
+                            inputs.forEach(inp => {
+                                if (inp.dataset.id) {
+                                    const val = parseFloat(inp.value) || 0;
+                                    if (!totalizerData[inp.dataset.id]) totalizerData[inp.dataset.id] = { awal: 0,
+                                        akhir: 0 };
+                                    if (inp.classList.contains('total-awal')) {
+                                        totalizerData[inp.dataset.id].awal = val;
+                                    }
+                                } else if (inp.dataset.produk) {
+                                    const produk = inp.dataset.produk;
+                                    const field = inp.classList.contains('stok-awal') ? 'stokAwal' :
+                                        inp.classList.contains('stok-do') ? 'do' :
+                                        inp.classList.contains('stok-selisih') ? 'selisih' : null;
+                                    if (field) {
+                                        stokData[produk][field] = val;
+                                    }
+                                }
+                            });
+                        }
                         updateAll();
-                    }, 150);
+                    }, 200);
+                }
+            });
+
+            // Handle change event untuk kepastian
+            document.addEventListener('change', function(e) {
+                const target = e.target;
+                if (target.closest('#totalisatorTable') || target.closest('#stokTable')) {
+                    clearTimeout(updateTimeout);
+                    updateTimeout = setTimeout(() => {
+                        // Re-read all values
+                        document.querySelectorAll('#totalisatorTable .total-awal').forEach(inp => {
+                            const id = inp.dataset.id;
+                            const val = parseFloat(inp.value) || 0;
+                            if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
+                            totalizerData[id].awal = val;
+                        });
+                        document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-do, #stokTable .stok-selisih')
+                            .forEach(inp => {
+                                const produk = inp.dataset.produk;
+                                const val = parseFloat(inp.value) || 0;
+                                const field = inp.classList.contains('stok-awal') ? 'stokAwal' :
+                                    inp.classList.contains('stok-do') ? 'do' :
+                                    inp.classList.contains('stok-selisih') ? 'selisih' : null;
+                                if (field) {
+                                    stokData[produk][field] = val;
+                                }
+                            });
+                        updateAll();
+                    }, 200);
                 }
             });
 
@@ -1250,6 +1349,36 @@
                 loadReport(reports[reports.length - 1]);
             }
         });
+
+        // ===== LOCK FUNCTIONS =====
+        function toggleLock(id) {
+            const input = document.getElementById(id);
+            const btn = input.parentElement.querySelector('.unlock-btn');
+            if (isLocked[id]) {
+                input.removeAttribute('readonly');
+                input.style.background = 'white';
+                input.style.cursor = 'text';
+                btn.innerHTML = '<i class="fas fa-lock"></i> Kunci';
+                isLocked[id] = false;
+            } else {
+                input.setAttribute('readonly', 'readonly');
+                input.style.background = '#f0f0f0';
+                input.style.cursor = 'not-allowed';
+                btn.innerHTML = '<i class="fas fa-unlock"></i> Buka';
+                isLocked[id] = true;
+                // Save params
+                saveParams();
+                updateAll();
+            }
+        }
+
+        function saveParams() {
+            const params = {
+                hargaJualPertalite: parseFloat(document.getElementById('hargaJualPertalite').value) || 10000,
+                hargaJualPertamax: parseFloat(document.getElementById('hargaJualPertamax').value) || 16250
+            };
+            localStorage.setItem('spbuParams', JSON.stringify(params));
+        }
 
         // ===== RENDER FUNCTIONS =====
         function renderTotalisator() {
@@ -1267,7 +1396,7 @@
                 row.innerHTML = `
                     <td><strong>${n.product}</strong></td>
                     <td>${n.label}</td>
-                    <td><input type="number" step="0.01" class="total-awal" data-id="${n.id}" value="${awal}" onchange="updateTotalizer('${n.id}','awal',this.value)"></td>
+                    <td><input type="number" step="0.01" class="total-awal" data-id="${n.id}" value="${awal}"></td>
                     <td><input type="number" step="0.01" class="total-akhir" data-id="${n.id}" value="${akhir}" readonly></td>
                     <td><input type="number" step="0.01" readonly value="${penjualan.toFixed(2)}" style="font-weight:600;"></td>
                     <td>${formatRupiah(harga)}</td>
@@ -1283,29 +1412,49 @@
             const products = ['Pertalite', 'Pertamax'];
             products.forEach(p => {
                 const data = stokData[p];
-                // Penjualan = Stok Awal + DO - Stok Akhir
-                // Stok Akhir = Stok Awal + DO - Penjualan
-                // Selisih = Stok Akhir - (Stok Awal + DO - Penjualan) = 0 idealnya
-                // Tapi kita pakai selisih sebagai input: Selisih = Stok Akhir - (Stok Awal + DO)
-                // Maka Stok Akhir = Stok Awal + DO + Selisih
-                // Penjualan = Stok Awal + DO - Stok Akhir = -Selisih
                 const stokAkhir = data.stokAwal + data.do + data.selisih;
                 data.stokAkhir = Math.max(0, stokAkhir);
                 data.penjualan = data.stokAwal + data.do - data.stokAkhir;
 
-                // Hitung totalisator otomatis berdasarkan selisih
-                calculateTotalizerFromSelisih(p);
-
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><strong>${p}</strong></td>
-                    <td><input type="number" step="0.01" class="stok-awal" data-produk="${p}" value="${data.stokAwal}" onchange="updateStok('${p}','stokAwal',this.value)"></td>
-                    <td><input type="number" step="0.01" class="stok-do" data-produk="${p}" value="${data.do}" onchange="updateStok('${p}','do',this.value)"></td>
-                    <td><input type="number" step="0.01" class="stok-selisih" data-produk="${p}" value="${data.selisih}" onchange="updateStok('${p}','selisih',this.value)" style="font-weight:700;color:#c41e3a;"></td>
+                    <td><input type="number" step="0.01" class="stok-awal" data-produk="${p}" value="${data.stokAwal}"></td>
+                    <td><input type="number" step="0.01" class="stok-do" data-produk="${p}" value="${data.do}"></td>
+                    <td><input type="number" step="0.01" class="stok-selisih" data-produk="${p}" value="${data.selisih}" style="font-weight:700;color:#c41e3a;"></td>
                     <td><input type="number" step="0.01" readonly value="${data.stokAkhir.toFixed(2)}" style="font-weight:600;color:${data.stokAkhir >= 0 ? '#00b894' : '#d63031'};"></td>
                     <td><input type="number" step="0.01" readonly value="${data.penjualan.toFixed(2)}" style="font-weight:600;"></td>
                 `;
                 tbody.appendChild(row);
+            });
+        }
+
+        function renderExpenses() {
+            const container = document.getElementById('expenseContainer');
+            container.innerHTML = '';
+            expenses.forEach((e, idx) => {
+                const div = document.createElement('div');
+                div.className = 'expense-row';
+                div.innerHTML = `
+                    <span class="exp-number">${idx+1}</span>
+                    <input type="text" value="${e.keterangan}" placeholder="Keterangan" onchange="updateExpense(${e.id},'keterangan',this.value)">
+                    <input type="number" step="0.01" value="${e.nominal}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
+                    <button class="btn btn-danger btn-sm" onclick="hapusExpense(${e.id})"><i class="fas fa-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
+            updateTotalPengeluaran();
+        }
+
+        // ===== UPDATE FUNCTIONS =====
+        function calculateAll() {
+            const products = ['Pertalite', 'Pertamax'];
+            products.forEach(p => {
+                const data = stokData[p];
+                const stokAkhir = data.stokAwal + data.do + data.selisih;
+                data.stokAkhir = Math.max(0, stokAkhir);
+                data.penjualan = data.stokAwal + data.do - data.stokAkhir;
+                calculateTotalizerFromSelisih(p);
             });
         }
 
@@ -1336,7 +1485,6 @@
                         }
                     });
                 } else {
-                    // Distribusi merata jika semua awal 0
                     const avg = penjualan / nozz.length;
                     nozz.forEach(n => {
                         if (totalizerData[n.id]) {
@@ -1346,46 +1494,6 @@
                     });
                 }
             }
-        }
-
-        function renderExpenses() {
-            const container = document.getElementById('expenseContainer');
-            container.innerHTML = '';
-            expenses.forEach((e, idx) => {
-                const div = document.createElement('div');
-                div.className = 'expense-row';
-                div.innerHTML = `
-                    <span class="exp-number">${idx+1}</span>
-                    <input type="text" value="${e.keterangan}" placeholder="Keterangan" onchange="updateExpense(${e.id},'keterangan',this.value)">
-                    <input type="number" step="0.01" value="${e.nominal}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
-                    <button class="btn btn-danger btn-sm" onclick="hapusExpense(${e.id})"><i class="fas fa-trash"></i></button>
-                `;
-                container.appendChild(div);
-            });
-            updateTotalPengeluaran();
-        }
-
-        // ===== UPDATE FUNCTIONS =====
-        function updateTotalizer(id, field, value) {
-            if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
-            totalizerData[id][field] = parseFloat(value) || 0;
-            // Recalculate based on selisih
-            const product = nozzles.find(n => n.id === id)?.product;
-            if (product) {
-                calculateTotalizerFromSelisih(product);
-            }
-            renderTotalisator();
-            renderStok();
-            updateAll();
-        }
-
-        function updateStok(produk, field, value) {
-            stokData[produk][field] = parseFloat(value) || 0;
-            // Jika selisih berubah, hitung ulang semuanya
-            calculateTotalizerFromSelisih(produk);
-            renderStok();
-            renderTotalisator();
-            updateAll();
         }
 
         function updateExpense(id, field, value) {
@@ -1421,13 +1529,6 @@
             };
         }
 
-        function getHargaModal() {
-            return {
-                pertalite: parseFloat(document.getElementById('hargaModalPertalite').value) || 8500,
-                pertamax: parseFloat(document.getElementById('hargaModalPertamax').value) || 14200
-            };
-        }
-
         function formatRupiah(angka) {
             if (isNaN(angka) || !isFinite(angka)) return 'Rp 0';
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
@@ -1436,7 +1537,6 @@
         // ===== CALCULATIONS =====
         function getSummary() {
             const hargaJual = getHargaJual();
-            const hargaModal = getHargaModal();
 
             let totalPertalite = 0,
                 totalPertamax = 0;
@@ -1456,7 +1556,6 @@
                 }
             });
 
-            // Gunakan dari stok
             const stokPertalite = stokData.Pertalite.penjualan || 0;
             const stokPertamax = stokData.Pertamax.penjualan || 0;
 
@@ -1464,8 +1563,9 @@
             const finalPertamax = Math.max(totalPertamax, stokPertamax);
 
             const totalOmzet = (finalPertalite * hargaJual.pertalite) + (finalPertamax * hargaJual.pertamax);
-            const labaKotor = (finalPertalite * (hargaJual.pertalite - hargaModal.pertalite)) +
-                (finalPertamax * (hargaJual.pertamax - hargaModal.pertamax));
+
+            // Laba kotor = omzet (tanpa harga modal)
+            const labaKotor = totalOmzet;
 
             const totalPengeluaran = expenses.reduce((sum, e) => sum + (e.nominal || 0), 0);
             const labaBersih = labaKotor - totalPengeluaran;
@@ -1488,31 +1588,14 @@
         }
 
         function updateAll() {
-            // Recalculate all
-            const products = ['Pertalite', 'Pertamax'];
-            products.forEach(p => {
-                const data = stokData[p];
-                const stokAkhir = data.stokAwal + data.do + data.selisih;
-                data.stokAkhir = Math.max(0, stokAkhir);
-                data.penjualan = data.stokAwal + data.do - data.stokAkhir;
-                calculateTotalizerFromSelisih(p);
-            });
-
+            calculateAll();
             renderTotalisator();
             renderStok();
             updateDashboard();
             updateRekonsiliasi();
             updateTotalPengeluaran();
             updateAlerts();
-
-            // Save params
-            const params = {
-                hargaJualPertalite: parseFloat(document.getElementById('hargaJualPertalite').value) || 10000,
-                hargaJualPertamax: parseFloat(document.getElementById('hargaJualPertamax').value) || 16250,
-                hargaModalPertalite: parseFloat(document.getElementById('hargaModalPertalite').value) || 8500,
-                hargaModalPertamax: parseFloat(document.getElementById('hargaModalPertamax').value) || 14200
-            };
-            localStorage.setItem('spbuParams', JSON.stringify(params));
+            saveParams();
         }
 
         function updateDashboard() {
@@ -1552,7 +1635,6 @@
             html += `</tbody></table></div>`;
             document.getElementById('rekonsiliasiStok').innerHTML = html;
 
-            // Rekonsiliasi Totalisator
             let html2 = `<div class="recon-grid">`;
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const nozz = nozzles.filter(n => n.product === p);
@@ -1653,6 +1735,28 @@
                 return;
             }
 
+            // Ambil nilai terbaru dari input
+            document.querySelectorAll('#totalisatorTable .total-awal').forEach(inp => {
+                const id = inp.dataset.id;
+                const val = parseFloat(inp.value) || 0;
+                if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
+                totalizerData[id].awal = val;
+            });
+
+            document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-do, #stokTable .stok-selisih')
+                .forEach(inp => {
+                    const produk = inp.dataset.produk;
+                    const val = parseFloat(inp.value) || 0;
+                    const field = inp.classList.contains('stok-awal') ? 'stokAwal' :
+                        inp.classList.contains('stok-do') ? 'do' :
+                        inp.classList.contains('stok-selisih') ? 'selisih' : null;
+                    if (field) {
+                        stokData[produk][field] = val;
+                    }
+                });
+
+            calculateAll();
+
             const s = getSummary();
             const report = {
                 id: currentReportId,
@@ -1665,7 +1769,6 @@
                 expenses: JSON.parse(JSON.stringify(expenses)),
                 summary: s,
                 hargaJual: getHargaJual(),
-                hargaModal: getHargaModal(),
                 createdAt: new Date().toISOString()
             };
 
@@ -1699,8 +1802,6 @@
             if (report.hargaJual) {
                 document.getElementById('hargaJualPertalite').value = report.hargaJual.pertalite || 10000;
                 document.getElementById('hargaJualPertamax').value = report.hargaJual.pertamax || 16250;
-                document.getElementById('hargaModalPertalite').value = report.hargaModal?.pertalite || 8500;
-                document.getElementById('hargaModalPertamax').value = report.hargaModal?.pertamax || 14200;
             }
 
             renderTotalisator();
@@ -1745,7 +1846,7 @@
 
             if (filtered.length === 0) {
                 container.innerHTML =
-                `<p style="color: #b2bec3; text-align: center; padding: 20px;">Tidak ada laporan ditemukan.</p>`;
+                    `<p style="color: #b2bec3; text-align: center; padding: 20px;">Tidak ada laporan ditemukan.</p>`;
                 return;
             }
 
@@ -1785,7 +1886,6 @@
         function generateReportHTML() {
             const s = getSummary();
             const hargaJual = getHargaJual();
-            const hargaModal = getHargaModal();
             const tanggal = document.getElementById('tanggal').value || new Date().toISOString().split('T')[0];
             const shift = document.getElementById('shift').value || '-';
             const operator = document.getElementById('operator').value || '-';
