@@ -379,9 +379,23 @@
             cursor: not-allowed;
         }
 
-        .highlight-penjualan {
-            color: #00b894;
+        .param-badge {
+            display: inline-block;
+            background: #fff8e1;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 10px;
             font-weight: 700;
+            color: #e65100;
+            border: 1px solid #f9a825;
+            margin-left: 6px;
+        }
+
+        @media (min-width: 768px) {
+            .param-badge {
+                font-size: 12px;
+                padding: 2px 16px;
+            }
         }
 
         .highlight-penguapan {
@@ -963,16 +977,6 @@
                 padding: 12px 18px;
             }
         }
-
-        .input-penjualan {
-            background: #fff8e1 !important;
-            border-color: #f9a825 !important;
-        }
-
-        .input-penjualan:focus {
-            border-color: #f57f17 !important;
-            box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.2) !important;
-        }
     </style>
 </head>
 <body>
@@ -1084,12 +1088,13 @@
                 </div>
             </div>
 
+            <!-- TOTALISATOR -->
             <div class="form-section">
                 <h3><i class="fas fa-tachometer-alt"></i> Totalisator Nozzle</h3>
                 <div class="info-box">
-                    <i class="fas fa-info-circle"></i> <strong>Totalisator Awal</strong> diinput manual. <strong>Penjualan</strong> diinput manual (parameter). <strong>Totalisator Akhir</strong> otomatis = Totalisator Awal + Penjualan.
+                    <i class="fas fa-info-circle"></i> <strong>Totalisator Awal</strong> dan <strong>Totalisator Akhir</strong> diinput manual. <strong>Penjualan Totalisator</strong> otomatis = Akhir - Awal.
                 </div>
-                <div class="table-responsive" id="totalisatorContainer">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
@@ -1107,20 +1112,21 @@
                 </div>
             </div>
 
+            <!-- STOK -->
             <div class="form-section">
                 <h3><i class="fas fa-warehouse"></i> Stok BBM</h3>
                 <div class="info-box">
-                    <i class="fas fa-info-circle"></i> <strong>Stok Awal, Pembelian</strong> diinput manual. <strong>Penjualan</strong> diinput manual (parameter). <strong>Stok Akhir</strong> otomatis = Stok Awal + Pembelian - Penjualan. <strong>Penguapan</strong> otomatis = Penjualan - (Totalisator Akhir - Totalisator Awal).
+                    <i class="fas fa-info-circle"></i> <strong>Stok Awal, Pembelian, Stok Akhir</strong> diinput manual. <strong>Penjualan Stok</strong> otomatis = Stok Awal + Pembelian - Stok Akhir. <strong>Penguapan</strong> = Penjualan Stok - Penjualan Totalisator.
                 </div>
-                <div class="table-responsive" id="stokContainer">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
                                 <th>Produk</th>
                                 <th>Stok Awal</th>
                                 <th>Pembelian (DO)</th>
-                                <th>Penjualan (L)</th>
-                                <th>Stok Akhir</th>
+                                <th>Stok Akhir <span class="param-badge">PARAMETER</span></th>
+                                <th>Penjualan Stok</th>
                                 <th>Penguapan</th>
                             </tr>
                         </thead>
@@ -1128,10 +1134,10 @@
                     </table>
                 </div>
                 <div style="margin-top:8px;font-size:12px;color:#636e72;">
-                    <i class="fas fa-calculator"></i> Rumus: <strong>Totalisator Akhir = Totalisator Awal + Penjualan</strong> | <strong>Stok Akhir = Stok Awal + Pembelian - Penjualan</strong> | <strong>Penguapan = Penjualan - (Totalisator Akhir - Totalisator Awal)</strong>
+                    <i class="fas fa-calculator"></i> Rumus: <strong>Penjualan Totalisator = Totalisator Akhir - Totalisator Awal</strong> | <strong>Penjualan Stok = Stok Awal + Pembelian - Stok Akhir</strong> | <strong>Penguapan = Penjualan Stok - Penjualan Totalisator</strong>
                 </div>
                 <div style="margin-top:6px;font-size:12px;color:#0984e3;">
-                    <i class="fas fa-info-circle"></i> <strong>Penguapan:</strong> 0 = ideal | Positif = kehilangan (penguapan/kebocoran) | Negatif = kelebihan volume
+                    <i class="fas fa-info-circle"></i> <strong>Penguapan:</strong> <span style="color:#00b894;">0 = Ideal</span> | <span style="color:#c41e3a;">Positif = Kehilangan</span> | <span style="color:#0984e3;">Negatif = Kelebihan</span>
                 </div>
             </div>
 
@@ -1221,8 +1227,8 @@
 
         let totalizerData = {};
         let stokData = {
-            Pertalite: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 },
-            Pertamax: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 }
+            Pertalite: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 },
+            Pertamax: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 }
         };
 
         let updateTimer = null;
@@ -1272,7 +1278,6 @@
                 });
             });
 
-            // Event untuk menangkap perubahan saat input kehilangan fokus
             document.addEventListener('focusout', function(e) {
                 const target = e.target;
                 if (target.tagName === 'INPUT' && target.closest('#totalisatorTable, #stokTable')) {
@@ -1319,39 +1324,28 @@
 
         // ===== FUNGSI MEMBACA SEMUA INPUT =====
         function readAllInputs() {
-            // Baca totalisator awal
-            document.querySelectorAll('#totalisatorTable .total-awal').forEach(inp => {
+            // Baca totalisator
+            document.querySelectorAll('#totalisatorTable .total-awal, #totalisatorTable .total-akhir').forEach(inp => {
                 const id = inp.dataset.id;
                 const val = parseFloat(inp.value) || 0;
                 if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
-                totalizerData[id].awal = val;
-            });
-
-            // Baca penjualan (parameter) dari totalisator table
-            document.querySelectorAll('#totalisatorTable .penjualan-input').forEach(inp => {
-                const id = inp.dataset.id;
-                const val = parseFloat(inp.value) || 0;
-                // Cari produk dari nozzle
-                const nozzle = nozzles.find(n => n.id === id);
-                if (nozzle) {
-                    if (!stokData[nozzle.product]) {
-                        stokData[nozzle.product] = { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
-                    }
-                    stokData[nozzle.product].penjualan = val;
-                    // Set penjualan per nozzle
-                    if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
-                    totalizerData[id].penjualan = val;
+                if (inp.classList.contains('total-awal')) {
+                    totalizerData[id].awal = val;
+                } else {
+                    totalizerData[id].akhir = val;
                 }
             });
 
             // Baca stok
-            document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-pembelian').forEach(inp => {
+            document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-pembelian, #stokTable .stok-akhir').forEach(inp => {
                 const produk = inp.dataset.produk;
                 const val = parseFloat(inp.value) || 0;
-                const field = inp.classList.contains('stok-awal') ? 'stokAwal' : 'pembelian';
+                const field = inp.classList.contains('stok-awal') ? 'stokAwal' :
+                    inp.classList.contains('stok-pembelian') ? 'pembelian' :
+                    inp.classList.contains('stok-akhir') ? 'stokAkhir' : null;
                 if (field) {
                     if (!stokData[produk]) {
-                        stokData[produk] = { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
+                        stokData[produk] = { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
                     }
                     stokData[produk][field] = val;
                 }
@@ -1392,31 +1386,30 @@
             const tbody = document.getElementById('totalisatorTable');
             const hargaJual = getHargaJual();
             const currentValues = {};
-            tbody.querySelectorAll('.total-awal, .penjualan-input').forEach(inp => {
-                const key = inp.dataset.id + '-' + (inp.classList.contains('total-awal') ? 'awal' : 'penjualan');
+            tbody.querySelectorAll('.total-awal, .total-akhir').forEach(inp => {
+                const key = inp.dataset.id + '-' + (inp.classList.contains('total-awal') ? 'awal' : 'akhir');
                 currentValues[key] = inp.value;
             });
 
             tbody.innerHTML = '';
             nozzles.forEach((n) => {
-                if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0, penjualan: 0 };
+                if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
                 const awal = totalizerData[n.id].awal || 0;
-                const penjualan = totalizerData[n.id].penjualan || 0;
-                const akhir = awal + penjualan;
-                totalizerData[n.id].akhir = akhir;
+                const akhir = totalizerData[n.id].akhir || 0;
+                const penjualan = Math.max(0, akhir - awal);
                 const harga = n.product === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
                 const total = penjualan * harga;
-                
+
                 const savedAwal = currentValues[n.id + '-awal'] !== undefined ? currentValues[n.id + '-awal'] : awal;
-                const savedPenjualan = currentValues[n.id + '-penjualan'] !== undefined ? currentValues[n.id + '-penjualan'] : penjualan;
-                
+                const savedAkhir = currentValues[n.id + '-akhir'] !== undefined ? currentValues[n.id + '-akhir'] : akhir;
+
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><strong>${n.product}</strong></td>
                     <td>${n.label}</td>
                     <td><input type="number" step="0.01" class="total-awal" data-id="${n.id}" value="${savedAwal}"></td>
-                    <td><input type="number" step="0.01" class="total-akhir" data-id="${n.id}" value="${akhir.toFixed(2)}" readonly style="font-weight:600;color:#0984e3;"></td>
-                    <td><input type="number" step="0.01" class="penjualan-input input-penjualan" data-id="${n.id}" value="${savedPenjualan}" style="font-weight:700;color:#f57f17;"></td>
+                    <td><input type="number" step="0.01" class="total-akhir" data-id="${n.id}" value="${savedAkhir}"></td>
+                    <td><input type="number" step="0.01" readonly value="${penjualan.toFixed(2)}" style="font-weight:600;color:#0984e3;"></td>
                     <td>${formatRupiah(harga)}</td>
                     <td><input type="text" readonly value="${formatRupiah(total)}" style="font-weight:600;color:#c41e3a;"></td>
                 `;
@@ -1427,39 +1420,35 @@
         function renderStok() {
             const tbody = document.getElementById('stokTable');
             const currentValues = {};
-            tbody.querySelectorAll('.stok-awal, .stok-pembelian').forEach(inp => {
-                const key = inp.dataset.produk + '-' + (inp.classList.contains('stok-awal') ? 'awal' : 'pembelian');
+            tbody.querySelectorAll('.stok-awal, .stok-pembelian, .stok-akhir').forEach(inp => {
+                const key = inp.dataset.produk + '-' + 
+                    (inp.classList.contains('stok-awal') ? 'awal' : 
+                     inp.classList.contains('stok-pembelian') ? 'pembelian' : 'akhir');
                 currentValues[key] = inp.value;
             });
 
             tbody.innerHTML = '';
             const products = ['Pertalite', 'Pertamax'];
             products.forEach(p => {
-                const data = stokData[p] || { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
-                
-                // Hitung total penjualan dari semua nozzle produk ini
-                let totalPenjualan = 0;
+                const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+
+                // Penjualan Stok = Stok Awal + Pembelian - Stok Akhir
+                data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
+
+                // Penjualan Totalisator (total per produk)
+                let penjualanTotalisator = 0;
                 nozzles.filter(n => n.product === p).forEach(n => {
-                    totalPenjualan += totalizerData[n.id]?.penjualan || 0;
+                    const awal = totalizerData[n.id]?.awal || 0;
+                    const akhir = totalizerData[n.id]?.akhir || 0;
+                    penjualanTotalisator += Math.max(0, akhir - awal);
                 });
-                data.penjualan = totalPenjualan;
-                
-                // Stok Akhir = Stok Awal + Pembelian - Penjualan
-                data.stokAkhir = data.stokAwal + data.pembelian - data.penjualan;
-                
-                // Hitung totalisator akhir - awal
-                let totalAkhir = 0;
-                let totalAwal = 0;
-                nozzles.filter(n => n.product === p).forEach(n => {
-                    totalAwal += totalizerData[n.id]?.awal || 0;
-                    totalAkhir += totalizerData[n.id]?.akhir || 0;
-                });
-                
-                // Penguapan = Penjualan - (Totalisator Akhir - Totalisator Awal)
-                data.penguapan = data.penjualan - (totalAkhir - totalAwal);
+
+                // Penguapan = Penjualan Stok - Penjualan Totalisator
+                data.penguapan = data.penjualanStok - penjualanTotalisator;
 
                 const valAwal = currentValues[p + '-awal'] !== undefined ? currentValues[p + '-awal'] : data.stokAwal;
                 const valPembelian = currentValues[p + '-pembelian'] !== undefined ? currentValues[p + '-pembelian'] : data.pembelian;
+                const valAkhir = currentValues[p + '-akhir'] !== undefined ? currentValues[p + '-akhir'] : data.stokAkhir;
 
                 const penguapanClass = data.penguapan === 0 ? 'zero' : (data.penguapan > 0 ? 'positive' : 'negative');
                 const penguapanLabel = data.penguapan === 0 ? '✓ Ideal' : (data.penguapan > 0 ? '⚠️ Penguapan' : '⚠️ Kelebihan');
@@ -1469,8 +1458,8 @@
                     <td><strong>${p}</strong></td>
                     <td><input type="number" step="0.01" class="stok-awal" data-produk="${p}" value="${valAwal}"></td>
                     <td><input type="number" step="0.01" class="stok-pembelian" data-produk="${p}" value="${valPembelian}"></td>
-                    <td><input type="number" step="0.01" readonly value="${data.penjualan.toFixed(2)}" class="highlight-penjualan"></td>
-                    <td><input type="number" step="0.01" readonly value="${data.stokAkhir.toFixed(2)}" style="font-weight:600;color:${data.stokAkhir >= 0 ? '#0984e3' : '#d63031'};"></td>
+                    <td><input type="number" step="0.01" class="stok-akhir" data-produk="${p}" value="${valAkhir}" style="font-weight:600;color:#e65100;background:#fff8e1;"></td>
+                    <td><input type="number" step="0.01" readonly value="${data.penjualanStok.toFixed(2)}" style="font-weight:600;color:#0984e3;"></td>
                     <td>
                         <input type="number" step="0.01" readonly value="${data.penguapan.toFixed(2)}" class="highlight-penguapan ${penguapanClass}">
                         <span style="font-size:10px;margin-left:4px;color:#636e72;">${penguapanLabel}</span>
@@ -1499,35 +1488,23 @@
 
         // ===== UPDATE FUNCTIONS =====
         function updateAll() {
-            // Update semua perhitungan
             const products = ['Pertalite', 'Pertamax'];
             products.forEach(p => {
-                const data = stokData[p] || { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
-                
-                // Hitung total penjualan dari semua nozzle produk ini
-                let totalPenjualan = 0;
-                nozzles.filter(n => n.product === p).forEach(n => {
-                    totalPenjualan += totalizerData[n.id]?.penjualan || 0;
-                });
-                data.penjualan = totalPenjualan;
-                
-                // Stok Akhir = Stok Awal + Pembelian - Penjualan
-                data.stokAkhir = data.stokAwal + data.pembelian - data.penjualan;
-                
-                // Hitung totalisator akhir - awal
-                let totalAkhir = 0;
-                let totalAwal = 0;
+                const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+
+                // Penjualan Stok
+                data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
+
+                // Penjualan Totalisator
+                let penjualanTotalisator = 0;
                 nozzles.filter(n => n.product === p).forEach(n => {
                     const awal = totalizerData[n.id]?.awal || 0;
-                    const penjualan = totalizerData[n.id]?.penjualan || 0;
-                    totalizerData[n.id].akhir = awal + penjualan;
-                    totalAwal += awal;
-                    totalAkhir += totalizerData[n.id].akhir;
+                    const akhir = totalizerData[n.id]?.akhir || 0;
+                    penjualanTotalisator += Math.max(0, akhir - awal);
                 });
-                
-                // Penguapan = Penjualan - (Totalisator Akhir - Totalisator Awal)
-                data.penguapan = data.penjualan - (totalAkhir - totalAwal);
-                
+
+                data.penguapan = data.penjualanStok - penjualanTotalisator;
+
                 stokData[p] = data;
             });
 
@@ -1578,7 +1555,6 @@
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         }
 
-        // ===== CALCULATIONS =====
         function getSummary() {
             const hargaJual = getHargaJual();
 
@@ -1588,7 +1564,9 @@
                 totalPenjualanPertamax = 0;
 
             nozzles.forEach(n => {
-                const penjualan = totalizerData[n.id]?.penjualan || 0;
+                const awal = totalizerData[n.id]?.awal || 0;
+                const akhir = totalizerData[n.id]?.akhir || 0;
+                const penjualan = Math.max(0, akhir - awal);
                 if (n.product === 'Pertalite') {
                     totalPertalite += penjualan;
                     totalPenjualanPertalite += penjualan * hargaJual.pertalite;
@@ -1600,22 +1578,14 @@
 
             const totalOmzet = totalPenjualanPertalite + totalPenjualanPertamax;
             const labaKotor = totalOmzet;
-
             const totalPengeluaran = expenses.reduce((sum, e) => sum + (e.nominal || 0), 0);
             const labaBersih = labaKotor - totalPengeluaran;
-
             const totalStok = (stokData.Pertalite?.stokAkhir || 0) + (stokData.Pertamax?.stokAkhir || 0);
             const totalPenguapan = (stokData.Pertalite?.penguapan || 0) + (stokData.Pertamax?.penguapan || 0);
 
             return {
-                totalPertalite: totalPertalite,
-                totalPertamax: totalPertamax,
-                totalOmzet: totalOmzet,
-                labaKotor: labaKotor,
-                totalPengeluaran: totalPengeluaran,
-                labaBersih: labaBersih,
-                totalStok: totalStok,
-                totalPenguapan: totalPenguapan
+                totalPertalite, totalPertamax, totalOmzet, labaKotor,
+                totalPengeluaran, labaBersih, totalStok, totalPenguapan
             };
         }
 
@@ -1637,10 +1607,16 @@
 
         function updateRekonsiliasi() {
             let html = `<div class="table-responsive"><table>
-                <thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Penjualan</th><th>Stok Akhir</th><th>Penguapan</th><th>Status</th></tr></thead>
+                <thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Stok Akhir</th><th>Penjualan Stok</th><th>Penjualan Totalisator</th><th>Penguapan</th><th>Status</th></tr></thead>
                 <tbody>`;
             ['Pertalite', 'Pertamax'].forEach(p => {
-                const d = stokData[p] || { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
+                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+                let penjualanTotalisator = 0;
+                nozzles.filter(n => n.product === p).forEach(n => {
+                    const awal = totalizerData[n.id]?.awal || 0;
+                    const akhir = totalizerData[n.id]?.akhir || 0;
+                    penjualanTotalisator += Math.max(0, akhir - awal);
+                });
                 const status = d.stokAkhir >= 0 ? '✅ Normal' : '⚠️ Minus';
                 const color = d.stokAkhir >= 0 ? '#00b894' : '#d63031';
                 const penguapanClass = d.penguapan === 0 ? 'zero' : (d.penguapan > 0 ? 'positive' : 'negative');
@@ -1648,8 +1624,9 @@
                     <td><strong>${p}</strong></td>
                     <td>${d.stokAwal.toFixed(2)}</td>
                     <td>${d.pembelian.toFixed(2)}</td>
-                    <td class="highlight-penjualan">${d.penjualan.toFixed(2)}</td>
                     <td style="color:${color};font-weight:700;">${d.stokAkhir.toFixed(2)}</td>
+                    <td style="font-weight:600;color:#0984e3;">${d.penjualanStok.toFixed(2)}</td>
+                    <td style="font-weight:600;color:#0984e3;">${penjualanTotalisator.toFixed(2)}</td>
                     <td class="highlight-penguapan ${penguapanClass}">${d.penguapan.toFixed(2)}</td>
                     <td>${status}</td>
                 </tr>`;
@@ -1663,12 +1640,14 @@
                 let totalTot = 0;
                 let details = '';
                 nozz.forEach(n => {
-                    const penjualan = totalizerData[n.id]?.penjualan || 0;
+                    const awal = totalizerData[n.id]?.awal || 0;
+                    const akhir = totalizerData[n.id]?.akhir || 0;
+                    const penjualan = Math.max(0, akhir - awal);
                     totalTot += penjualan;
                     details += `<div class="row"><span>${n.label}</span><span>${penjualan.toFixed(2)} L</span></div>`;
                 });
-                const stokPenj = stokData[p]?.penjualan || 0;
-                const selisih = totalTot - stokPenj;
+                const stokPenj = stokData[p]?.penjualanStok || 0;
+                const selisih = stokPenj - totalTot;
                 const status = Math.abs(selisih) < 0.5 ? '✅ Sesuai' : '⚠️ Selisih';
 
                 html2 += `
@@ -1676,15 +1655,15 @@
                         <h4>${p}</h4>
                         ${details}
                         <div class="row" style="font-weight:700;border-top:2px solid #dfe6e9;padding-top:6px;margin-top:6px;">
-                            <span>Total Penjualan</span>
-                            <span>${totalTot.toFixed(2)} L</span>
-                        </div>
-                        <div class="row">
                             <span>Penjualan Stok</span>
                             <span>${stokPenj.toFixed(2)} L</span>
                         </div>
+                        <div class="row" style="font-weight:700;">
+                            <span>Penjualan Totalisator</span>
+                            <span>${totalTot.toFixed(2)} L</span>
+                        </div>
                         <div class="row" style="color:${Math.abs(selisih) < 0.5 ? '#00b894' : '#d63031'};font-weight:700;">
-                            <span>Selisih</span>
+                            <span>Penguapan (Stok - Totalisator)</span>
                             <span>${selisih.toFixed(2)} L</span>
                         </div>
                         <div style="margin-top:6px;font-weight:700;">Status: ${status}</div>
@@ -1710,7 +1689,7 @@
                 }
                 const penguapan = d.penguapan || 0;
                 if (penguapan > 0.01) {
-                    alerts.push(`📊 Penguapan ${p}: ${penguapan.toFixed(2)} L (Penguapan/Kebocoran)`);
+                    alerts.push(`📊 Penguapan ${p}: ${penguapan.toFixed(2)} L (Kehilangan)`);
                 } else if (penguapan < -0.01) {
                     alerts.push(`📊 Penguapan ${p}: ${penguapan.toFixed(2)} L (Kelebihan Volume)`);
                 }
@@ -1718,7 +1697,7 @@
 
             if (alerts.length === 0) {
                 container.innerHTML =
-                    `<div class="alert alert-success"><i class="fas fa-check-circle"></i> Semua data dalam keadaan sesuai (Penguapan 0 L)</div>`;
+                    `<div class="alert alert-success"><i class="fas fa-check-circle"></i> Semua data dalam keadaan sesuai</div>`;
             } else {
                 container.innerHTML = alerts.map(a =>
                     `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ${a}</div>`).join('');
@@ -1730,8 +1709,8 @@
             currentReportId = Date.now();
             totalizerData = {};
             stokData = {
-                Pertalite: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 },
-                Pertamax: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 }
+                Pertalite: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 },
+                Pertamax: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 }
             };
             document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
             document.getElementById('operator').value = '';
@@ -1760,10 +1739,7 @@
             const s = getSummary();
             const report = {
                 id: currentReportId,
-                tanggal: tanggal,
-                shift: shift,
-                operator: operator,
-                keterangan: keterangan,
+                tanggal, shift, operator, keterangan,
                 totalizerData: JSON.parse(JSON.stringify(totalizerData)),
                 stokData: JSON.parse(JSON.stringify(stokData)),
                 expenses: JSON.parse(JSON.stringify(expenses)),
@@ -1773,11 +1749,8 @@
             };
 
             const idx = reports.findIndex(r => r.id === currentReportId);
-            if (idx >= 0) {
-                reports[idx] = report;
-            } else {
-                reports.push(report);
-            }
+            if (idx >= 0) reports[idx] = report;
+            else reports.push(report);
 
             localStorage.setItem('spbuReports', JSON.stringify(reports));
             loadHistory();
@@ -1793,8 +1766,8 @@
 
             totalizerData = JSON.parse(JSON.stringify(report.totalizerData || {}));
             stokData = JSON.parse(JSON.stringify(report.stokData || {
-                Pertalite: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 },
-                Pertamax: { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 }
+                Pertalite: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 },
+                Pertamax: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 }
             }));
             expenses = JSON.parse(JSON.stringify(report.expenses || []));
             localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
@@ -1895,8 +1868,8 @@
             let nozzleRows = '';
             nozzles.forEach(n => {
                 const awal = totalizerData[n.id]?.awal || 0;
-                const penjualan = totalizerData[n.id]?.penjualan || 0;
-                const akhir = awal + penjualan;
+                const akhir = totalizerData[n.id]?.akhir || 0;
+                const penjualan = Math.max(0, akhir - awal);
                 const harga = n.product === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
                 nozzleRows +=
                     `<tr><td>${n.product}</td><td>${n.label}</td><td>${awal.toFixed(2)}</td><td>${akhir.toFixed(2)}</td><td>${penjualan.toFixed(2)}</td><td>${formatRupiah(harga)}</td><td>${formatRupiah(penjualan * harga)}</td></tr>`;
@@ -1904,10 +1877,10 @@
 
             let stokRows = '';
             ['Pertalite', 'Pertamax'].forEach(p => {
-                const d = stokData[p] || { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
+                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
                 const penguapanClass = d.penguapan === 0 ? '' : (d.penguapan > 0 ? 'style="color:#c41e3a;"' : 'style="color:#0984e3;"');
                 stokRows +=
-                    `<tr><td>${p}</td><td>${d.stokAwal.toFixed(2)}</td><td>${d.pembelian.toFixed(2)}</td><td class="highlight-penjualan">${d.penjualan.toFixed(2)}</td><td>${d.stokAkhir.toFixed(2)}</td><td ${penguapanClass}>${d.penguapan.toFixed(2)}</td></tr>`;
+                    `<tr><td>${p}</td><td>${d.stokAwal.toFixed(2)}</td><td>${d.pembelian.toFixed(2)}</td><td style="font-weight:700;color:#e65100;">${d.stokAkhir.toFixed(2)}</td><td style="font-weight:600;color:#0984e3;">${d.penjualanStok.toFixed(2)}</td><td ${penguapanClass}>${d.penguapan.toFixed(2)}</td></tr>`;
             });
 
             let expenseRows = '';
@@ -1936,7 +1909,6 @@
                     .total{font-size:16px;font-weight:700;margin-top:10px;}
                     .laba{color:#00b894;}
                     .rugi{color:#d63031;}
-                    .highlight-penjualan{color:#00b894;font-weight:700;}
                     @media print{body{padding:15px;}}
                 </style>
                 </head><body>
@@ -1951,9 +1923,9 @@
                 </div>
                 <div class="section">
                     <h3>STOK BBM & PENGUAPAN</h3>
-                    <table><thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Penjualan (L)</th><th>Stok Akhir</th><th>Penguapan</th></tr></thead><tbody>${stokRows}</tbody></table>
+                    <table><thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Stok Akhir</th><th>Penjualan Stok</th><th>Penguapan</th></tr></thead><tbody>${stokRows}</tbody></table>
                     <div style="margin-top:8px;font-size:12px;color:#636e72;">
-                        <strong>Keterangan Penguapan:</strong> 0 = Ideal | Positif = Penguapan/Kebocoran | Negatif = Kelebihan Volume
+                        <strong>Keterangan Penguapan:</strong> 0 = Ideal | Positif = Kehilangan | Negatif = Kelebihan Volume
                     </div>
                 </div>
                 <div class="section">
@@ -1982,18 +1954,18 @@
             csv += 'Nozzle,Produk,Mesin,Awal,Akhir,Penjualan,Harga,Total\n';
             nozzles.forEach(n => {
                 const awal = totalizerData[n.id]?.awal || 0;
-                const penjualan = totalizerData[n.id]?.penjualan || 0;
-                const akhir = awal + penjualan;
+                const akhir = totalizerData[n.id]?.akhir || 0;
+                const penjualan = Math.max(0, akhir - awal);
                 const harga = n.product === 'Pertalite' ? getHargaJual().pertalite : getHargaJual().pertamax;
                 csv +=
                     `${n.id},${n.product},${n.label},${awal.toFixed(2)},${akhir.toFixed(2)},${penjualan.toFixed(2)},${harga},${(penjualan*harga).toFixed(2)}\n`;
             });
             csv += '\nStok & Penguapan\n';
-            csv += 'Produk,Stok Awal,Pembelian,Penjualan,Stok Akhir,Penguapan\n';
+            csv += 'Produk,Stok Awal,Pembelian,Stok Akhir,Penjualan Stok,Penguapan\n';
             ['Pertalite', 'Pertamax'].forEach(p => {
-                const d = stokData[p] || { stokAwal: 0, pembelian: 0, penjualan: 0, stokAkhir: 0, penguapan: 0 };
+                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
                 csv +=
-                    `${p},${d.stokAwal.toFixed(2)},${d.pembelian.toFixed(2)},${d.penjualan.toFixed(2)},${d.stokAkhir.toFixed(2)},${d.penguapan.toFixed(2)}\n`;
+                    `${p},${d.stokAwal.toFixed(2)},${d.pembelian.toFixed(2)},${d.stokAkhir.toFixed(2)},${d.penjualanStok.toFixed(2)},${d.penguapan.toFixed(2)}\n`;
             });
             csv += `\nTotal Omzet,${s.totalOmzet.toFixed(2)}\n`;
             csv += `Laba Kotor,${s.labaKotor.toFixed(2)}\n`;
