@@ -555,7 +555,7 @@
         }
 
         @media (min-width: 768px) {
-            .laba-grid { grid-template-columns: repeat(5, 1fr); }
+            .laba-grid { grid-template-columns: repeat(3, 1fr); }
             .laba-card-value { font-size: 19px; }
             .laba-card-main .laba-card-value { font-size: 21px; }
         }
@@ -1703,6 +1703,11 @@
                         <div class="laba-card-value" id="labaHasilAkhir">Rp 0</div>
                         <div class="laba-card-note">Hasil − Pengeluaran</div>
                     </div>
+                    <div class="laba-card">
+                        <div class="laba-card-label">Hasil Penjualan − Pengeluaran & Setor Bank</div>
+                        <div class="laba-card-value" id="labaHasilKas">Rp 0</div>
+                        <div class="laba-card-note">Omzet − Pengeluaran − Setor Bank</div>
+                    </div>
                 </div>
             </div>
 
@@ -1989,8 +1994,29 @@
         function setModeTotalizer(p, mode) {
             if (!stokData[p]) stokData[p] = {};
             stokData[p].modeTotalizer = mode;
-            renderTotalisator();
-            renderStok();
+
+            // Terapkan TANPA membangun ulang tabel agar fokus & input tidak terganggu
+            const sub = document.querySelector('#totalisatorTable tr[data-produk="' + p + '"]');
+            if (sub) {
+                sub.querySelectorAll('.mode-btn').forEach(b => {
+                    b.classList.toggle('on', b.textContent.toUpperCase() === mode.toUpperCase());
+                });
+            }
+            nozzles.filter(n => n.product === p).forEach(n => {
+                const row = document.querySelector('#totalisatorTable tr[data-id="' + n.id + '"]');
+                if (!row) return;
+                const inp = row.querySelector('.total-akhir');
+                if (inp) {
+                    if (mode === 'manual') {
+                        inp.removeAttribute('readonly');
+                        inp.style.background = 'white';
+                    } else {
+                        inp.setAttribute('readonly', 'readonly');
+                        inp.style.background = '#f5f3ff';
+                    }
+                }
+            });
+
             updateAll();
             showToast(p + ': Totalisator Akhir mode ' + (mode === 'manual' ? 'MANUAL (input dispenser)' : 'AUTO (dihitung)'));
         }
@@ -2118,8 +2144,8 @@
                         </div>
                     </td>
                     <td></td>
-                    <td><input type="number" step="0.1" readonly class="sub-awal" value="${sumAwal.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
-                    <td><input type="number" step="0.1" readonly class="sub-akhir" value="${sumAkhir.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${savedPenjualan}" style="font-weight:700;color:#6c5ce7;background:${lockedPJ ? '#f5f6fa' : '#f5f3ff'};" ${lockedPJ ? 'disabled' : ''}>
                         <span class="stok-badge stok-penjualan-badge"${d.penjualanManual ? ' style="background:#e3f2fd;color:#0d47a1;border-color:#0984e3;"' : ''}>${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
@@ -2156,8 +2182,8 @@
             glob.innerHTML = `
                 <td><strong>TOTAL GLOBAL</strong></td>
                 <td></td>
-                <td><input type="number" step="0.1" readonly class="sub-awal" value="${gAwal.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
-                <td><input type="number" step="0.1" readonly class="sub-akhir" value="${gAkhir.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                <td></td>
+                <td></td>
                 <td><input type="number" step="0.1" readonly class="sub-penjualan" value="${gPenjualan.toFixed(1)}" style="font-weight:700;background:#f8f9fa;color:#c41e3a;"></td>
                 <td></td>
                 <td><strong class="sub-omzet">${formatRupiah(gOmzet)}</strong></td>
@@ -2282,6 +2308,7 @@
                     if (akhirSum) akhirSum.value = sumAkhir.toFixed(1);
                     const totalPenjInput = sub.querySelector('.stok-penjualan-total');
                     if (totalPenjInput && !d.penjualanManual) totalPenjInput.value = (d.penjualan || 0).toFixed(1);
+                    // (Total Totalisator Awal/Akhir tidak lagi ditampilkan di baris TOTAL)
                     const badgePenjualan = sub.querySelector('.stok-penjualan-badge');
                     if (badgePenjualan) {
                         badgePenjualan.textContent = d.penjualanManual ? 'MANUAL' : 'AUTO';
@@ -2320,8 +2347,6 @@
             const glob = document.querySelector('#totalisatorTable tr[data-produk="GLOBAL"]');
             if (glob) {
                 const gPenjualan = (stokData.Pertalite?.penjualan || 0) + (stokData.Pertamax?.penjualan || 0);
-                const gA = glob.querySelector('.sub-awal'); if (gA) gA.value = gAwal.toFixed(1);
-                const gB = glob.querySelector('.sub-akhir'); if (gB) gB.value = gAkhir.toFixed(1);
                 const gP = glob.querySelector('.sub-penjualan'); if (gP) gP.value = gPenjualan.toFixed(1);
                 const gO = glob.querySelector('.sub-omzet'); if (gO) gO.textContent = formatRupiah(gOmzet);
             }
@@ -2427,9 +2452,16 @@
             const hasilKeseluruhan = totalKeuntungan + nilaiPenguapan;
             const pengeluaran = expenses.reduce((s, e) => s + (e.nominal || 0), 0);
             const labaAkhir = hasilKeseluruhan - pengeluaran;
+            // Hasil penjualan totalisator - (pengeluaran + setor bank)
+            const omzet = ['Pertalite', 'Pertamax'].reduce((s2, pr) => {
+                const hj = pr === 'Pertalite' ? hargaJualP : hargaJualX;
+                return s2 + nozzles.filter(n => n.product === pr).reduce((x, n) => x + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)) * hj, 0);
+            }, 0);
+            const hasilKas = omzet - pengeluaran - setorBank;
             return {
                 marginP, marginX, hargaJualP, hargaJualX, pP, pX, pengP, pengX, untungP, untungX,
                 totalKeuntungan, nilaiPenguapan, hasilKeseluruhan, pengeluaran, labaAkhir,
+                omzet, hasilKas,
                 stokAwalP: stokP.stokAwal || 0, doP: stokP.pembelian || 0, stokAkhirP: stokP.stokAkhir || 0, penjStokP,
                 stokAwalX: stokX.stokAwal || 0, doX: stokX.pembelian || 0, stokAkhirX: stokX.stokAkhir || 0, penjStokX
             };
@@ -2459,6 +2491,7 @@
             set('labaTotalKeuntungan', formatRupiah(l.totalKeuntungan));
             set('labaHasilKeseluruhan', formatRupiah(l.hasilKeseluruhan));
             set('labaPengeluaranHarian', formatRupiah(l.pengeluaran));
+            set('labaHasilKas', formatRupiah(l.hasilKas));
             const akhir = document.getElementById('labaHasilAkhir');
             if (akhir) {
                 akhir.textContent = formatRupiah(l.labaAkhir);
@@ -2794,15 +2827,16 @@
                 createdAt: new Date().toISOString()
             };
 
-            const idx = reports.findIndex(r => r.id === currentReportId);
-            if (idx >= 0) reports[idx] = report;
-            else reports.push(report);
+            // Selalu simpan sebagai DATA BARU (boleh dengan tanggal yang sama) — tidak menimpa laporan lama
+            report.id = Date.now();
+            currentReportId = report.id;
+            reports.push(report);
 
             localStorage.setItem('spbuReports', JSON.stringify(reports));
             loadHistory();
             // Kembali ke halaman awal laporan (pilihan aksi)
             pindahTab('laporan', false);
-            showToast('Laporan berhasil disimpan ✓');
+            showToast('Laporan berhasil disimpan ✓ (data baru)');
             } catch (err) {
                 console.error('Gagal menyimpan laporan:', err);
                 alert('Gagal menyimpan laporan: ' + err.message);
@@ -3268,10 +3302,70 @@
             document.getElementById('previewModal').classList.remove('active');
         }
 
-        // Bagikan ringkasan laporan (Web Share API atau salin teks)
-        function bagikanLaporan(id) {
+        // Muat library eksternal (jsPDF & html2canvas) dari CDN saat dibutuhkan
+        function muatLib(src) {
+            return new Promise((res, rej) => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = res;
+                s.onerror = () => rej(new Error('gagal memuat ' + src));
+                document.head.appendChild(s);
+            });
+        }
+
+        // Bagikan laporan: utamakan FILE PDF ke semua aplikasi (WhatsApp, email, dll.);
+        // fallback: bagikan / salin ringkasan teks
+        async function bagikanLaporan(id) {
             const r = reports.find(x => x.id === id);
             if (!r) return;
+
+            // 1) Coba bagikan sebagai PDF
+            try {
+                if (!window.jspdf) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+                if (!window.html2canvas) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+
+                const html = denganStateLaporan(r, () => generateReportHTML());
+                const iframe = document.createElement('iframe');
+                iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;background:#fff;border:0;';
+                document.body.appendChild(iframe);
+                const d = iframe.contentDocument;
+                d.open(); d.write(html); d.close();
+                await new Promise(res => setTimeout(res, 700));
+
+                const canvas = await html2canvas(d.body, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const pageW = 210, pageH = 297;
+                const imgH = canvas.height * pageW / canvas.width;
+                let pos = 0, sisa = imgH;
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, pos, pageW, imgH);
+                sisa -= pageH;
+                while (sisa > 0) {
+                    pos -= pageH;
+                    pdf.addPage();
+                    pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, pos, pageW, imgH);
+                    sisa -= pageH;
+                }
+                document.body.removeChild(iframe);
+
+                const blob = pdf.output('blob');
+                const file = new File([blob], 'Laporan_SPBU_' + r.tanggal + '.pdf', { type: 'application/pdf' });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ title: 'Laporan SPBU 34-17603 ' + r.tanggal, text: 'Laporan SPBU 34-17603 ' + r.tanggal, files: [file] });
+                    return;
+                }
+                // Perangkat tidak mendukung berbagi file: unduh PDF
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = file.name;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('PDF diunduh — bagikan manual ke sosmed');
+                return;
+            } catch (e) {
+                console.warn('Bagikan PDF gagal, fallback teks:', e);
+            }
+
+            // 2) Fallback: bagikan / salin ringkasan teks
             const s = r.summary || {};
             const lh = r.labaHarian || {};
             const garis = '═'.repeat(34);
