@@ -1229,7 +1229,8 @@
             }
         }
 
-        #previewModal {
+        #previewModal,
+        #shareModal {
             display: none;
             position: fixed;
             top: 0;
@@ -1256,6 +1257,34 @@
             position: relative;
             max-height: 94vh;
             overflow: hidden;
+        }
+
+        #shareModal.active {
+            display: flex;
+        }
+
+        #shareModal .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        #shareModal .close-btn {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #636e72;
+            padding: 0 4px;
+            z-index: 2;
         }
 
         #previewModal .close-btn {
@@ -1520,6 +1549,23 @@
                     <button type="button" class="btn btn-primary" onclick="buatLaporanBaru()" style="min-width:170px;"><i class="fas fa-plus"></i> Buat Baru</button>
                     <button type="button" class="btn btn-outline" onclick="pindahTab('riwayat', false)" style="min-width:170px;"><i class="fas fa-history"></i> Data Laporan</button>
                 </div>
+
+                <div class="form-section" style="margin-top:16px;text-align:left;box-shadow:none;border:1px solid #eee;">
+                    <h3 style="justify-content:flex-start;margin-bottom:10px;"><i class="fas fa-database"></i> Database Supabase (Opsional)</h3>
+                    <div class="form-group" style="margin-bottom:8px;">
+                        <label>Supabase URL</label>
+                        <input type="text" id="supabaseUrl" placeholder="https://xxxx.supabase.co">
+                    </div>
+                    <div class="form-group" style="margin-bottom:8px;">
+                        <label>Anon Key</label>
+                        <input type="text" id="supabaseKey" placeholder="eyJhbGciOi...">
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="simpanSupabaseCfg()"><i class="fas fa-plug"></i> Hubungkan</button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="salinSqlSupabase()"><i class="fas fa-copy"></i> Salin SQL Tabel</button>
+                    </div>
+                    <div id="supabaseStatus" style="font-size:12px;color:#636e72;margin-top:8px;">Belum terhubung</div>
+                </div>
             </div>
             <div id="formLaporan" style="display:none;">
             <div class="form-section">
@@ -1744,6 +1790,19 @@
             </div>
         </div>
 
+        <div id="shareModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeShare()">&times;</button>
+                <h3 style="color:#c41e3a;margin:0 0 4px;"><i class="fas fa-share-alt"></i> Bagikan Laporan</h3>
+                <p style="color:#636e72;font-size:13px;margin-bottom:14px;">Pilih format PDF:</p>
+                <div class="btn-group" style="flex-direction:column;align-items:stretch;">
+                    <button type="button" class="btn btn-primary" onclick="bagikanLaporan(currentShareId, 'warna')"><i class="fas fa-print"></i> PDF Berwarna</button>
+                    <button type="button" class="btn btn-outline" onclick="bagikanLaporan(currentShareId, 'bw')"><i class="fas fa-circle"></i> PDF Hitam Putih</button>
+                    <button type="button" class="btn btn-outline" onclick="bagikanLaporan(currentShareId, 'teks')"><i class="fas fa-align-left"></i> Ringkasan Teks</button>
+                </div>
+            </div>
+        </div>
+
         <div id="previewModal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closePreview()">&times;</button>
@@ -1767,6 +1826,46 @@
         let expenses = [];
         // Setor Bank: field khusus, TIDAK masuk pengeluaran harian
         let setorBank = 0;
+
+        // Supabase (opsional): database cloud untuk sinkronisasi laporan
+        let supabaseClient = null;
+        let supabaseCfg = { url: '', key: '' };
+        try { supabaseCfg = JSON.parse(localStorage.getItem('spbuSupabase')) || supabaseCfg; } catch (e) { supabaseCfg = { url: '', key: '' }; }
+        const SQL_SUPABASE = `create table laporan_spbu (
+  id bigint primary key,
+  tanggal date,
+  shift text,
+  data jsonb,
+  created_at timestamptz default now()
+);
+alter table laporan_spbu enable row level security;
+create policy "allow_all" on laporan_spbu for all using (true) with check (true);`;
+
+        function simpanSupabaseCfg() {
+            supabaseCfg = {
+                url: document.getElementById('supabaseUrl').value.trim(),
+                key: document.getElementById('supabaseKey').value.trim()
+            };
+            localStorage.setItem('spbuSupabase', JSON.stringify(supabaseCfg));
+            supabaseClient = null;
+            const st = document.getElementById('supabaseStatus');
+            if (supabaseCfg.url && supabaseCfg.key && window.supabase) {
+                supabaseClient = supabase.createClient(supabaseCfg.url, supabaseCfg.key);
+                if (st) { st.textContent = 'Terhubung ✓ — data tersinkron saat Simpan/Hapus'; st.style.color = '#00b894'; }
+                showToast('Supabase terhubung');
+            } else {
+                if (st) { st.textContent = 'Isi URL & Anon Key lalu Hubungkan (butuh internet untuk memuat library)'; st.style.color = '#e65100'; }
+            }
+        }
+
+        function salinSqlSupabase() {
+            const done = () => showToast('SQL tabel disalin — jalankan di SQL Editor Supabase');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(SQL_SUPABASE).then(done).catch(() => copyFallback(SQL_SUPABASE, done));
+            } else {
+                copyFallback(SQL_SUPABASE, done);
+            }
+        }
         let currentReportId = Date.now();
         let isLocked = {
             hargaJualPertalite: true,
@@ -1841,6 +1940,12 @@
                 document.getElementById('penanggungJawab').value = params.penanggungJawab || 'Ricky Wahyudi';
             }
 
+            // Isi form konfigurasi Supabase dari penyimpanan
+            const sbUrl = document.getElementById('supabaseUrl');
+            if (sbUrl) sbUrl.value = supabaseCfg.url || '';
+            const sbKey = document.getElementById('supabaseKey');
+            if (sbKey) sbKey.value = supabaseCfg.key || '';
+
             renderTotalisator();
             renderStok();
             renderExpenses();
@@ -1898,6 +2003,32 @@
             if (reports.length > 0) {
                 loadReport(reports[reports.length - 1]);
                 pindahTab('dashboard', false);
+            }
+
+            // Sinkron database Supabase (jika dikonfigurasi)
+            if (supabaseCfg.url && supabaseCfg.key) {
+                const s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                s.onload = () => {
+                    try { supabaseClient = supabase.createClient(supabaseCfg.url, supabaseCfg.key); }
+                    catch (e) { console.warn('Supabase init gagal', e); return; }
+                    supabaseClient.from('laporan_spbu').select('data').order('tanggal', { ascending: true })
+                        .then(({ data }) => {
+                            if (data && data.length) {
+                                const dbReports = data.map(d => d.data).filter(Boolean);
+                                if (dbReports.length) {
+                                    reports = dbReports;
+                                    localStorage.setItem('spbuReports', JSON.stringify(reports));
+                                    if (reports.length > 0) loadReport(reports[reports.length - 1]);
+                                    pindahTab('dashboard', false);
+                                    const st = document.getElementById('supabaseStatus');
+                                    if (st) { st.textContent = 'Terhubung ✓ — ' + dbReports.length + ' laporan dari DB'; st.style.color = '#00b894'; }
+                                }
+                            }
+                        }).catch(e => console.warn('Supabase baca gagal', e));
+                };
+                s.onerror = () => console.warn('Gagal memuat supabase-js');
+                document.head.appendChild(s);
             }
         });
 
@@ -2784,6 +2915,8 @@
             setorBank = 0;
             const sbInput = document.getElementById('setorBank');
             if (sbInput) sbInput.value = 0;
+            document.getElementById('totalisatorTable').innerHTML = '';
+            document.getElementById('stokTable').innerHTML = '';
             renderTotalisator();
             renderStok();
             renderExpenses();
@@ -2833,6 +2966,11 @@
             reports.push(report);
 
             localStorage.setItem('spbuReports', JSON.stringify(reports));
+            // Sinkron ke Supabase (jika terhubung)
+            if (supabaseClient) {
+                supabaseClient.from('laporan_spbu').upsert({ id: report.id, tanggal: report.tanggal, shift: report.shift, data: report })
+                    .then(() => {}).catch(e => console.warn('Supabase simpan gagal', e));
+            }
             loadHistory();
             // Kembali ke halaman awal laporan (pilihan aksi)
             pindahTab('laporan', false);
@@ -2875,6 +3013,9 @@
                 document.getElementById('hargaJualPertamax').value = report.hargaJual.pertamax || 16250;
             }
 
+            // Bersihkan tabel dulu agar nilai lama di layar tidak menimpa data laporan yang dimuat
+            document.getElementById('totalisatorTable').innerHTML = '';
+            document.getElementById('stokTable').innerHTML = '';
             renderTotalisator();
             renderStok();
             renderExpenses();
@@ -2886,6 +3027,9 @@
             if (!confirm('Yakin ingin menghapus laporan ini?')) return;
             reports = reports.filter(r => r.id !== id);
             localStorage.setItem('spbuReports', JSON.stringify(reports));
+            if (supabaseClient) {
+                supabaseClient.from('laporan_spbu').delete().eq('id', id).catch(e => console.warn('Supabase hapus gagal', e));
+            }
             loadHistory();
             showNotification('Laporan dihapus', 'warning');
         }
@@ -2947,7 +3091,7 @@
                             <button class="btn btn-outline btn-sm" onclick="lihatDetail(${r.id})"><i class="fas fa-search"></i> Detail</button>
                             <button class="btn btn-outline btn-sm" onclick="cetakLaporan(${r.id}, false)"><i class="fas fa-print"></i> Cetak Warna</button>
                             <button class="btn btn-outline btn-sm" onclick="cetakLaporan(${r.id}, true)"><i class="fas fa-circle"></i> Cetak BW</button>
-                            <button class="btn btn-outline btn-sm" onclick="bagikanLaporan(${r.id})"><i class="fas fa-share-alt"></i> Bagikan</button>
+                            <button class="btn btn-outline btn-sm" onclick="pilihBagikan(${r.id})"><i class="fas fa-share-alt"></i> Bagikan</button>
                             <button class="btn btn-outline btn-sm" onclick="loadReport(${r.id})"><i class="fas fa-pen"></i> Edit</button>
                             <button class="btn btn-outline btn-sm" onclick="duplikatLaporan(${r.id})"><i class="fas fa-copy"></i></button>
                             <button class="btn btn-danger btn-sm" onclick="hapusLaporan(${r.id})"><i class="fas fa-trash"></i></button>
@@ -3313,18 +3457,44 @@
             });
         }
 
-        // Bagikan laporan: utamakan FILE PDF ke semua aplikasi (WhatsApp, email, dll.);
-        // fallback: bagikan / salin ringkasan teks
-        async function bagikanLaporan(id) {
+        let currentShareId = 0;
+
+        function pilihBagikan(id) {
+            currentShareId = id;
+            document.getElementById('shareModal').classList.add('active');
+        }
+
+        function closeShare() {
+            document.getElementById('shareModal').classList.remove('active');
+        }
+
+        // Bagikan laporan: PDF berwarna / hitam putih / ringkasan teks
+        async function bagikanLaporan(id, mode) {
             const r = reports.find(x => x.id === id);
             if (!r) return;
+            mode = mode || 'warna';
+            closeShare();
 
-            // 1) Coba bagikan sebagai PDF
-            try {
-                if (!window.jspdf) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-                if (!window.html2canvas) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+            if (mode !== 'teks') {
+                // 1) Bagikan sebagai PDF (warna / hitam putih) ke semua aplikasi
+                try {
+                    if (!window.jspdf) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+                    if (!window.html2canvas) await muatLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
 
-                const html = denganStateLaporan(r, () => generateReportHTML());
+                    const html = denganStateLaporan(r, () => {
+                        let h = generateReportHTML();
+                        if (mode === 'bw') {
+                            h = h.replace('</head>', `<style>
+                                *{color:#000!important;background:#fff!important;background-color:#fff!important;border-color:#000!important;}
+                                tr.total-row td{background:#fff!important;}
+                                .header{background:#fff!important;color:#000!important;border:2px solid #000!important;}
+                                .badge{border:1px solid #000!important;}
+                                .sub{color:#000!important;border-color:#000!important;}
+                                .laba,.rugi{color:#000!important;}
+                            </style></head>`);
+                        }
+                        return h;
+                    });
                 const iframe = document.createElement('iframe');
                 iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;background:#fff;border:0;';
                 document.body.appendChild(iframe);
@@ -3363,6 +3533,7 @@
                 return;
             } catch (e) {
                 console.warn('Bagikan PDF gagal, fallback teks:', e);
+            }
             }
 
             // 2) Fallback: bagikan / salin ringkasan teks
