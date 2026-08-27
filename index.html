@@ -60,9 +60,11 @@
         }
 
         .header .subtitle {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 2px;
+            font-size: 13px;
+            font-weight: 800;
+            opacity: 0.95;
+            margin-top: 3px;
+            letter-spacing: 0.5px;
         }
 
         .header .spbu-id {
@@ -80,7 +82,7 @@
                 font-size: 26px;
             }
             .header .subtitle {
-                font-size: 15px;
+                font-size: 20px;
             }
         }
 
@@ -398,6 +400,319 @@
             }
         }
 
+        .stok-badge {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 8px;
+            background: #e8f5e9;
+            color: #1b5e20;
+            border: 1px solid #00b894;
+            margin-left: 4px;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .subtotal-row td {
+            background: #f8f9fa !important;
+            border-top: 2px solid #c41e3a;
+            font-weight: 700;
+        }
+
+        .toggle-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .toggle-switch .slider {
+            width: 44px;
+            height: 24px;
+            background: #dfe6e9;
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch .slider::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: left 0.3s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-switch input:checked + .slider {
+            background: #c41e3a;
+        }
+
+        .toggle-switch input:checked + .slider::after {
+            left: 23px;
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .toggle-panel {
+            display: none;
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            margin-bottom: 16px;
+        }
+
+        .toggle-panel.open {
+            display: block;
+            animation: panelIn 0.25s ease;
+        }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @media (min-width: 768px) {
+            .toggle-label { font-size: 14px; }
+            .toggle-panel { padding: 20px; }
+        }
+
+        /* Layout landscape untuk ringkasan laba harian */
+        .laba-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .laba-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .laba-card-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #b2bec3;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .laba-card-value {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 4px 0 2px;
+            color: #2d3436;
+        }
+
+        .laba-card-note {
+            font-size: 10px;
+            color: #b2bec3;
+        }
+
+        .laba-card-main {
+            border: 2px solid #c41e3a;
+            background: #fff8f8;
+        }
+
+        .laba-card-main .laba-card-value {
+            color: #c41e3a;
+            font-size: 19px;
+        }
+
+        @media (min-width: 768px) {
+            .laba-grid { grid-template-columns: repeat(5, 1fr); }
+            .laba-card-value { font-size: 19px; }
+            .laba-card-main .laba-card-value { font-size: 21px; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d3436;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* Format rumus laba horizontal: Penjualan x Margin = Hasil */
+        .laba-produk-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .laba-produk-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .laba-produk-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #c41e3a;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .laba-formula {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 6px 0;
+            border-top: 1px dashed #eee;
+        }
+
+        .laba-formula:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .lf-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+
+        .lf-label {
+            font-size: 9px;
+            color: #b2bec3;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .lf-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2d3436;
+            white-space: nowrap;
+        }
+
+        .lf-op {
+            font-size: 16px;
+            font-weight: 800;
+            color: #c41e3a;
+        }
+
+        .lf-item input {
+            width: 72px;
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1.5px solid #dfe6e9;
+            border-radius: 6px;
+            text-align: center;
+            background: white;
+        }
+
+        .lf-item input:focus {
+            border-color: #c41e3a;
+            outline: none;
+        }
+
+        .lf-hasil {
+            background: #fff8f8;
+            border: 1px solid #f5c6cf;
+        }
+
+        .lf-hasil .lf-value {
+            color: #c41e3a;
+            font-size: 14px;
+        }
+
+        .lf-note {
+            font-size: 9px;
+            font-weight: 700;
+            color: #b2bec3;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .laba-produk-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Layout laba proporsional */
+        .laba-produk-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .laba-formula .lf-item {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ===== RESPONSIVE: SEMUA DEVICE ===== */
+        @media (max-width: 767px) {
+            .container { padding: 8px 10px; }
+            .header { padding: 12px 14px; }
+            .header h1 { font-size: 15px; }
+            .card { min-height: 62px; padding: 10px 12px; }
+            .card .value { font-size: 14px; }
+            .form-section { padding: 12px; }
+            .btn { min-height: 38px; }
+            .btn-group { gap: 6px; }
+            table th { padding: 6px 4px; font-size: 9px; }
+            table td { padding: 5px 3px; }
+            table input { font-size: 16px; min-width: 54px; padding: 5px 6px; }
+            .form-group input, .form-group select { font-size: 16px; }
+            .history-item { padding: 10px 12px; }
+            #detailModal { padding: 6px; }
+            #detailModal .modal-content { padding: 14px; max-height: 94vh; }
+            .toggle-panel { padding: 10px; }
+            .laba-grid { grid-template-columns: repeat(2, 1fr); }
+            .lf-item { padding: 3px 6px; }
+            .lf-value { font-size: 12px; }
+        }
+        @media (min-width: 1600px) {
+            .container { max-width: 1400px; }
+        }
+
         .highlight-penguapan {
             font-weight: 700;
         }
@@ -554,6 +869,42 @@
                 flex: 0 1 auto;
                 min-width: 100px;
             }
+        }
+
+        .setor-bank {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .setor-bank-label {
+            font-weight: 700;
+            font-size: 13px;
+            color: #0d47a1;
+        }
+
+        .setor-bank input {
+            width: 140px;
+            padding: 6px 10px;
+            border: 1.5px solid #dfe6e9;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .setor-bank input:focus {
+            border-color: #0984e3;
+            outline: none;
+        }
+
+        .setor-bank-note {
+            font-size: 11px;
+            color: #636e72;
         }
 
         .expense-row {
@@ -714,7 +1065,7 @@
 
         @media (min-width: 480px) {
             .history-item {
-                grid-template-columns: auto 1fr auto;
+                grid-template-columns: auto 1.1fr 1fr auto;
                 gap: 12px;
                 padding: 14px 18px;
                 align-items: center;
@@ -728,6 +1079,7 @@
             .history-item {
                 padding: 18px 24px;
                 gap: 20px;
+                grid-template-columns: auto 1.1fr 1fr auto;
             }
             .history-item .date {
                 font-size: 16px;
@@ -746,6 +1098,21 @@
 
         .tab-content.active {
             display: block;
+            animation: tabIn 0.3s ease;
+        }
+
+        @keyframes tabIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        #detailModal.active .modal-content {
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.94); }
+            to { opacity: 1; transform: none; }
         }
 
         .recon-grid {
@@ -950,6 +1317,21 @@
             text-decoration: underline;
         }
 
+        .unlock-mini {
+            background: none;
+            border: none;
+            color: #636e72;
+            cursor: pointer;
+            font-size: 11px;
+            padding: 2px 4px;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+
+        .unlock-mini:hover {
+            color: #c41e3a;
+        }
+
         @media (min-width: 768px) {
             .unlock-btn {
                 font-size: 13px;
@@ -983,16 +1365,14 @@
     <div class="container" id="app">
         <div class="header">
             <h1>⛽ LAPORAN PENJUALAN & LABA/RUGI HARIAN</h1>
-            <div class="subtitle">SPBU 34-17603</div>
-            <div class="spbu-id"><i class="fas fa-map-pin"></i> SPBU 34-17603 - Jakarta</div>
+            <div class="subtitle"><i class="fas fa-gas-pump"></i> SPBU 34-17603</div>
+            <div class="spbu-id"><i class="fas fa-file-invoice"></i> Laporan Harian</div>
         </div>
 
         <div class="nav-tabs">
             <button class="active" data-tab="dashboard"><i class="fas fa-chart-pie"></i> <span class="hide-mobile">Dashboard</span></button>
             <button data-tab="laporan"><i class="fas fa-file-alt"></i> <span class="hide-mobile">Laporan</span></button>
-            <button data-tab="stok"><i class="fas fa-boxes"></i> <span class="hide-mobile">Stok</span></button>
-            <button data-tab="pengeluaran"><i class="fas fa-money-bill-wave"></i> <span class="hide-mobile">Pengeluaran</span></button>
-            <button data-tab="riwayat"><i class="fas fa-history"></i> <span class="hide-mobile">Riwayat</span></button>
+            <button data-tab="riwayat"><i class="fas fa-history"></i> <span class="hide-mobile">Data Riwayat</span></button>
         </div>
 
         <div id="dashboard" class="tab-content active">
@@ -1008,6 +1388,14 @@
                 <div class="card">
                     <div class="label">Pertamax</div>
                     <div class="value" id="dashPertamax">0 L</div>
+                </div>
+                <div class="card">
+                    <div class="label">Penjualan Pertalite</div>
+                    <div class="value" id="dashPenjualanPertalite">Rp 0</div>
+                </div>
+                <div class="card">
+                    <div class="label">Penjualan Pertamax</div>
+                    <div class="value" id="dashPenjualanPertamax">Rp 0</div>
                 </div>
                 <div class="card">
                     <div class="label">Laba Kotor</div>
@@ -1031,20 +1419,19 @@
                 </div>
             </div>
 
-            <div class="form-section no-print">
-                <h3><i class="fas fa-bolt"></i> Aksi Cepat</h3>
-                <div class="btn-group">
-                    <button class="btn btn-primary" onclick="buatLaporanBaru()"><i class="fas fa-plus"></i> Buat Baru</button>
-                    <button class="btn btn-success" onclick="hitungOtomatis()"><i class="fas fa-calculator"></i> Hitung</button>
-                    <button class="btn btn-outline" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
-                    <button class="btn btn-outline" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Excel</button>
-                </div>
-            </div>
-
             <div id="alertContainer"></div>
         </div>
 
         <div id="laporan" class="tab-content">
+            <div id="pilihLaporan" class="form-section" style="text-align:center;padding:36px 16px;">
+                <h3 style="justify-content:center;"><i class="fas fa-clipboard-list"></i> Laporan Harian</h3>
+                <p style="color:#636e72;margin-bottom:20px;">Pilih aksi untuk memulai</p>
+                <div class="btn-group" style="justify-content:center;">
+                    <button type="button" class="btn btn-primary" onclick="buatLaporanBaru()" style="min-width:170px;"><i class="fas fa-plus"></i> Buat Baru</button>
+                    <button type="button" class="btn btn-outline" onclick="pindahTab('riwayat', false)" style="min-width:170px;"><i class="fas fa-history"></i> Data Laporan</button>
+                </div>
+            </div>
+            <div id="formLaporan" style="display:none;">
             <div class="form-section">
                 <h3><i class="fas fa-edit"></i> Form Laporan Harian</h3>
                 <div class="form-grid">
@@ -1062,12 +1449,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Operator</label>
-                        <input type="text" id="operator" placeholder="Nama operator" value="Admin">
-                    </div>
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <input type="text" id="keterangan" placeholder="Catatan tambahan">
+                        <label>Penanggung Jawab <i class="fas fa-lock" style="color:#888;font-size:11px;margin-left:4px;"></i></label>
+                        <select id="penanggungJawab" disabled style="background:#f0f0f0;cursor:not-allowed;">
+                            <option value="Ricky Wahyudi">Ricky Wahyudi</option>
+                            <option value="Ag Windy Susilo">Ag Windy Susilo</option>
+                        </select>
+                        <button class="unlock-btn" onclick="toggleLockSelect('penanggungJawab')"><i class="fas fa-unlock"></i> Buka</button>
                     </div>
                 </div>
 
@@ -1083,18 +1470,12 @@
                         <button class="unlock-btn" onclick="toggleLock('hargaJualPertamax')"><i class="fas fa-unlock"></i> Buka</button>
                     </div>
                 </div>
-                <div style="margin-top:6px;font-size:11px;color:#888;">
-                    <i class="fas fa-info-circle"></i> Klik "Buka" untuk mengubah harga, klik "Kunci" untuk mengunci kembali
-                </div>
             </div>
 
             <!-- TOTALISATOR -->
             <div class="form-section">
                 <h3><i class="fas fa-tachometer-alt"></i> Totalisator Nozzle</h3>
-                <div class="info-box">
-                    <i class="fas fa-info-circle"></i> <strong>Totalisator Awal</strong> dan <strong>Totalisator Akhir</strong> diinput manual. <strong>Penjualan Totalisator</strong> otomatis = Akhir - Awal.
-                </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="margin-top:4px;">
                     <table>
                         <thead>
                             <tr>
@@ -1115,9 +1496,6 @@
             <!-- STOK -->
             <div class="form-section">
                 <h3><i class="fas fa-warehouse"></i> Stok BBM</h3>
-                <div class="info-box">
-                    <i class="fas fa-info-circle"></i> <strong>Stok Awal, Pembelian, Stok Akhir</strong> diinput manual. <strong>Penjualan Stok</strong> otomatis = Stok Awal + Pembelian - Stok Akhir. <strong>Penguapan</strong> = Penjualan Stok - Penjualan Totalisator.
-                </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -1126,52 +1504,128 @@
                                 <th>Stok Awal</th>
                                 <th>Pembelian (DO)</th>
                                 <th>Stok Akhir <span class="param-badge">PARAMETER</span></th>
-                                <th>Penjualan Stok</th>
                                 <th>Penguapan</th>
                             </tr>
                         </thead>
                         <tbody id="stokTable"></tbody>
                     </table>
                 </div>
-                <div style="margin-top:8px;font-size:12px;color:#636e72;">
-                    <i class="fas fa-calculator"></i> Rumus: <strong>Penjualan Totalisator = Totalisator Akhir - Totalisator Awal</strong> | <strong>Penjualan Stok = Stok Awal + Pembelian - Stok Akhir</strong> | <strong>Penguapan = Penjualan Stok - Penjualan Totalisator</strong>
+                <div style="margin-top:8px;">
+                    <button class="btn btn-outline btn-sm" onclick="resetStokOtomatis()"><i class="fas fa-undo"></i> Reset ke AUTO</button>
                 </div>
-                <div style="margin-top:6px;font-size:12px;color:#0984e3;">
-                    <i class="fas fa-info-circle"></i> <strong>Penguapan:</strong> <span style="color:#00b894;">0 = Ideal</span> | <span style="color:#c41e3a;">Positif = Kehilangan</span> | <span style="color:#0984e3;">Negatif = Kelebihan</span>
+            </div>
+
+            <!-- TOGGLE PENGELUARAN & KEUNTUNGAN LABA HARIAN -->
+            <div class="form-section no-print">
+                <h3><i class="fas fa-sliders-h"></i> Pengeluaran & Keuntungan Laba Harian</h3>
+                <div class="toggle-row">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="togglePengeluaran" onchange="togglePanel('panelPengeluaran', this)">
+                        <span class="slider"></span>
+                        <span class="toggle-label"><i class="fas fa-money-bill-wave"></i> Pengeluaran</span>
+                    </label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggleLaba" onchange="togglePanel('panelLaba', this)">
+                        <span class="slider"></span>
+                        <span class="toggle-label"><i class="fas fa-chart-line"></i> Keuntungan Laba Harian</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- PANEL PENGELUARAN -->
+            <div id="panelPengeluaran" class="toggle-panel">
+                <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
+                <div class="setor-bank">
+                    <span class="setor-bank-label"><i class="fas fa-building-columns"></i> Setor Bank</span>
+                    <input type="number" step="0.1" id="setorBank" value="0" placeholder="0">
+                    <span class="setor-bank-note">tidak masuk pengeluaran harian</span>
+                </div>
+                <div id="expenseContainer"></div>
+                <button class="btn btn-primary btn-sm no-print" onclick="tambahPengeluaran()"><i class="fas fa-plus"></i> Tambah</button>
+                <div class="total-display">TOTAL PENGELUARAN: <span id="totalPengeluaranDisplay">Rp 0</span></div>
+                <div class="total-display" style="color:#0984e3;">SETOR BANK: <span id="setorBankDisplay">Rp 0</span> <span style="font-size:11px;font-weight:400;">(di luar pengeluaran)</span></div>
+            </div>
+
+            <!-- PANEL KEUNTUNGAN LABA HARIAN -->
+            <div id="panelLaba" class="toggle-panel">
+                <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-chart-line"></i> Perhitungan Keuntungan Laba Harian</h3>
+                <!-- Format rumus horizontal: Penjualan x Margin = Hasil (Pertalite & Pertamax berdampingan) -->
+                <div class="laba-produk-grid">
+                    <div class="laba-produk-card">
+                        <div class="laba-produk-title">⛽ PERTALITE</div>
+                        <div class="laba-formula">
+                            <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertalite">0.0 L</strong></span>
+                            <span class="lf-op">×</span>
+                            <span class="lf-item"><span class="lf-label">Margin/L</span><input type="number" step="0.1" id="marginPertalite" value="500"></span>
+                            <span class="lf-op">=</span>
+                            <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertalite">Rp 0</strong></span>
+                        </div>
+                        <div class="laba-formula">
+                            <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertalite">0.0 L</strong></span>
+                            <span class="lf-op">×</span>
+                            <span class="lf-item"><span class="lf-label">Harga Jual/L</span><strong class="lf-value" id="labaHargaJualPertaliteTxt">Rp 10.000</strong></span>
+                            <span class="lf-op">=</span>
+                            <span class="lf-item lf-hasil"><span class="lf-label">Nilai Penguapan</span><strong class="lf-value" id="labaNilaiPenguapanPertalite">Rp 0</strong><span class="lf-note" id="labaNilaiPenguapanPertaliteKet">0 (ideal)</span></span>
+                        </div>
+                    </div>
+                    <div class="laba-produk-card">
+                        <div class="laba-produk-title">⛽ PERTAMAX</div>
+                        <div class="laba-formula">
+                            <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertamax">0.0 L</strong></span>
+                            <span class="lf-op">×</span>
+                            <span class="lf-item"><span class="lf-label">Margin/L</span><input type="number" step="0.1" id="marginPertamax" value="800"></span>
+                            <span class="lf-op">=</span>
+                            <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertamax">Rp 0</strong></span>
+                        </div>
+                        <div class="laba-formula">
+                            <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertamax">0.0 L</strong></span>
+                            <span class="lf-op">×</span>
+                            <span class="lf-item"><span class="lf-label">Harga Jual/L</span><strong class="lf-value" id="labaHargaJualPertamaxTxt">Rp 16.250</strong></span>
+                            <span class="lf-op">=</span>
+                            <span class="lf-item lf-hasil"><span class="lf-label">Nilai Penguapan</span><strong class="lf-value" id="labaNilaiPenguapanPertamax">Rp 0</strong><span class="lf-note" id="labaNilaiPenguapanPertamaxKet">0 (ideal)</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="laba-grid">
+                    <div class="laba-card">
+                        <div class="laba-card-label">Total Keuntungan</div>
+                        <div class="laba-card-value" id="labaTotalKeuntungan">Rp 0</div>
+                        <div class="laba-card-note">Penjualan × Margin</div>
+                    </div>
+                    <div class="laba-card">
+                        <div class="laba-card-label">Nilai Penguapan</div>
+                        <div class="laba-card-value" id="labaNilaiPenguapanTotal">Rp 0</div>
+                        <div class="laba-card-note">− kehilangan | + ditambah</div>
+                    </div>
+                    <div class="laba-card">
+                        <div class="laba-card-label">Hasil Keseluruhan</div>
+                        <div class="laba-card-value" id="labaHasilKeseluruhan">Rp 0</div>
+                        <div class="laba-card-note">Keuntungan + Nilai Penguapan</div>
+                    </div>
+                    <div class="laba-card">
+                        <div class="laba-card-label">Pengeluaran Harian</div>
+                        <div class="laba-card-value" id="labaPengeluaranHarian">Rp 0</div>
+                        <div class="laba-card-note">Total potongan harian</div>
+                    </div>
+                    <div class="laba-card laba-card-main">
+                        <div class="laba-card-label">Hasil Laba / Margin</div>
+                        <div class="laba-card-value" id="labaHasilAkhir">Rp 0</div>
+                        <div class="laba-card-note">Hasil − Pengeluaran</div>
+                    </div>
                 </div>
             </div>
 
             <div class="btn-group no-print">
-                <button class="btn btn-success" onclick="simpanLaporan()"><i class="fas fa-save"></i> Simpan</button>
-                <button class="btn btn-primary" onclick="hitungOtomatis()"><i class="fas fa-sync"></i> Hitung Ulang</button>
+                <button type="button" class="btn btn-outline" onclick="buatLaporanBaru()"><i class="fas fa-plus"></i> Buat Baru</button>
+                <button type="button" class="btn btn-success" onclick="simpanLaporan()"><i class="fas fa-save"></i> Simpan</button>
+                <button type="button" class="btn btn-primary" onclick="hitungOtomatis()"><i class="fas fa-sync"></i> Hitung Ulang</button>
             </div>
-        </div>
-
-        <div id="stok" class="tab-content">
-            <div class="form-section">
-                <h3><i class="fas fa-balance-scale"></i> Rekonsiliasi Stok</h3>
-                <div id="rekonsiliasiStok"></div>
-            </div>
-            <div class="form-section">
-                <h3><i class="fas fa-exchange-alt"></i> Rekonsiliasi Totalisator</h3>
-                <div id="rekonsiliasiTotalisator"></div>
-            </div>
-        </div>
-
-        <div id="pengeluaran" class="tab-content">
-            <div class="form-section">
-                <h3><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
-                <div id="expenseContainer"></div>
-                <button class="btn btn-primary btn-sm no-print" onclick="tambahPengeluaran()"><i class="fas fa-plus"></i> Tambah</button>
-                <div class="total-display">
-                    TOTAL PENGELUARAN: <span id="totalPengeluaranDisplay">Rp 0</span>
-                </div>
-            </div>
+            </div><!-- /formLaporan -->
         </div>
 
         <div id="riwayat" class="tab-content">
             <div class="form-section">
-                <h3><i class="fas fa-clock"></i> Riwayat Laporan</h3>
+                <h3><i class="fas fa-clock"></i> Data Riwayat</h3>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Filter Tanggal</label>
@@ -1186,10 +1640,6 @@
                             <option value="Malam">Malam</option>
                             <option value="Global">Global</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Filter Operator</label>
-                        <input type="text" id="filterOperator" placeholder="Cari operator">
                     </div>
                 </div>
                 <div id="historyList">
@@ -1208,12 +1658,21 @@
 
     <script>
         // ===== DATA STORE =====
-        let reports = JSON.parse(localStorage.getItem('spbuReports')) || [];
-        let expenses = JSON.parse(localStorage.getItem('spbuExpenses')) || [];
+        let reports = [];
+        try { reports = JSON.parse(localStorage.getItem('spbuReports')) || []; } catch (e) { reports = []; }
+        // Pengeluaran default kosong — tidak dibaca dari localStorage; melekat pada laporan (tanggal & shift)
+        let expenses = [];
+        // Setor Bank: field khusus, TIDAK masuk pengeluaran harian
+        let setorBank = 0;
         let currentReportId = Date.now();
         let isLocked = {
             hargaJualPertalite: true,
-            hargaJualPertamax: true
+            hargaJualPertamax: true,
+            penanggungJawab: true,
+            stokAkhirPertalite: true,
+            stokAkhirPertamax: true,
+            penjualanPertalite: true,
+            penjualanPertamax: true
         };
 
         const nozzles = [
@@ -1234,30 +1693,47 @@
         let updateTimer = null;
         let isUpdating = false;
 
+        // Pindah tab + kontrol tampilan tab Laporan (landing aksi / form perhitungan)
+        function pindahTab(nama, langsungForm) {
+            document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('[data-tab="' + nama + '"]');
+            if (btn) btn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            const target = document.getElementById(nama);
+            if (target) target.classList.add('active');
+            if (nama === 'laporan') {
+                if (langsungForm) tampilkanFormLaporan();
+                else showLandingLaporan();
+            }
+            if (nama === 'riwayat') loadHistory();
+        }
+
+        function showLandingLaporan() {
+            const p = document.getElementById('pilihLaporan');
+            const f = document.getElementById('formLaporan');
+            if (p) p.style.display = 'block';
+            if (f) f.style.display = 'none';
+        }
+
+        function tampilkanFormLaporan() {
+            const p = document.getElementById('pilihLaporan');
+            const f = document.getElementById('formLaporan');
+            if (p) p.style.display = 'none';
+            if (f) f.style.display = 'block';
+        }
+
         // ===== INIT =====
         document.addEventListener('DOMContentLoaded', function() {
-            if (expenses.length === 0) {
-                expenses = [
-                    { id: 1, keterangan: 'Di Setor Bank', nominal: 0 },
-                    { id: 2, keterangan: 'Curah Jualan Tangki', nominal: 0 },
-                    { id: 3, keterangan: 'Makan Sama Main Tangki', nominal: 0 },
-                    { id: 4, keterangan: 'Cektrim Mobil PM', nominal: 0 },
-                    { id: 5, keterangan: 'MT Penerimaan 2x', nominal: 0 },
-                    { id: 6, keterangan: 'Foto Copy Laporan', nominal: 0 },
-                    { id: 7, keterangan: 'Uang DO', nominal: 0 },
-                    { id: 8, keterangan: 'Reward Shift', nominal: 0 },
-                    { id: 9, keterangan: 'Pengeluaran lain', nominal: 0 }
-                ];
-                for (let i = 10; i <= 30; i++) {
-                    expenses.push({ id: i, keterangan: '', nominal: 0 });
-                }
-                localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
-            }
+            // Pengeluaran default kosong — isi lewat tombol "Tambah" di panel Pengeluaran
 
-            const params = JSON.parse(localStorage.getItem('spbuParams'));
+            let params = null;
+            try { params = JSON.parse(localStorage.getItem('spbuParams')); } catch (e) { params = null; }
             if (params) {
                 document.getElementById('hargaJualPertalite').value = params.hargaJualPertalite || 10000;
                 document.getElementById('hargaJualPertamax').value = params.hargaJualPertamax || 16250;
+                document.getElementById('marginPertalite').value = params.marginPertalite || 500;
+                document.getElementById('marginPertamax').value = params.marginPertamax || 800;
+                document.getElementById('penanggungJawab').value = params.penanggungJawab || 'Ricky Wahyudi';
             }
 
             renderTotalisator();
@@ -1269,12 +1745,7 @@
             document.querySelectorAll('.nav-tabs button').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-                    const target = document.getElementById(this.dataset.tab);
-                    if (target) target.classList.add('active');
-                    if (this.dataset.tab === 'riwayat') loadHistory();
+                    pindahTab(this.dataset.tab, false);
                 });
             });
 
@@ -1295,7 +1766,8 @@
 
             document.addEventListener('change', function(e) {
                 const target = e.target;
-                if (target.id === 'hargaJualPertalite' || target.id === 'hargaJualPertamax') {
+                if (target.id === 'hargaJualPertalite' || target.id === 'hargaJualPertamax' ||
+                    target.id === 'marginPertalite' || target.id === 'marginPertamax') {
                     saveParams();
                     updateAll();
                 }
@@ -1319,6 +1791,7 @@
 
             if (reports.length > 0) {
                 loadReport(reports[reports.length - 1]);
+                pindahTab('dashboard', false);
             }
         });
 
@@ -1350,6 +1823,16 @@
                     stokData[produk][field] = val;
                 }
             });
+
+            // Baca Penjualan Total (berada di baris TOTAL tabel Totalisator)
+            document.querySelectorAll('.stok-penjualan-total').forEach(inp => {
+                const produk = inp.dataset.produk;
+                const val = parseFloat(inp.value) || 0;
+                if (!stokData[produk]) {
+                    stokData[produk] = { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+                }
+                stokData[produk].penjualan = val;
+            });
         }
 
         // ===== LOCK FUNCTIONS =====
@@ -1373,12 +1856,71 @@
             }
         }
 
+        function toggleLockSelect(id) {
+            const sel = document.getElementById(id);
+            const btn = sel.parentElement.querySelector('.unlock-btn');
+            if (isLocked[id]) {
+                sel.removeAttribute('disabled');
+                sel.style.background = 'white';
+                sel.style.cursor = 'pointer';
+                btn.innerHTML = '<i class="fas fa-lock"></i> Kunci';
+                isLocked[id] = false;
+            } else {
+                sel.setAttribute('disabled', 'disabled');
+                sel.style.background = '#f0f0f0';
+                sel.style.cursor = 'not-allowed';
+                btn.innerHTML = '<i class="fas fa-unlock"></i> Buka';
+                isLocked[id] = true;
+                saveParams();
+                updateAll();
+            }
+        }
+
+        // Kunci / buka input di tabel (Stok Akhir & Total Penjualan) per produk
+        function toggleLockKey(key) {
+            isLocked[key] = !isLocked[key];
+            renderTotalisator();
+            renderStok();
+            updateAll();
+        }
+
         function saveParams() {
             const params = {
                 hargaJualPertalite: parseFloat(document.getElementById('hargaJualPertalite').value) || 10000,
-                hargaJualPertamax: parseFloat(document.getElementById('hargaJualPertamax').value) || 16250
+                hargaJualPertamax: parseFloat(document.getElementById('hargaJualPertamax').value) || 16250,
+                marginPertalite: parseFloat(document.getElementById('marginPertalite').value) || 0,
+                marginPertamax: parseFloat(document.getElementById('marginPertamax').value) || 0,
+                penanggungJawab: document.getElementById('penanggungJawab').value || 'Ricky Wahyudi'
             };
             localStorage.setItem('spbuParams', JSON.stringify(params));
+        }
+
+        // ===== PERBAIKAN DOUBLE-CLICK: simpan & pulihkan fokus input saat tabel di-render ulang =====
+        function getActiveTableFocus(tbody) {
+            const active = document.activeElement;
+            if (!active || !tbody || !tbody.contains(active) || active.tagName !== 'INPUT') return null;
+            const cls = (active.className || '').split(' ').filter(c => c.indexOf('total-') === 0 || c.indexOf('stok-') === 0)[0] || '';
+            return {
+                cls: cls,
+                id: active.dataset.id || '',
+                produk: active.dataset.produk || '',
+                pos: (typeof active.selectionStart === 'number') ? active.selectionStart : null
+            };
+        }
+
+        function restoreTableFocus(tbody, focusInfo) {
+            if (!focusInfo || !focusInfo.cls || !tbody) return;
+            let restored = null;
+            if (focusInfo.id) {
+                restored = tbody.querySelector('input.' + focusInfo.cls + '[data-id="' + focusInfo.id + '"]');
+            } else if (focusInfo.produk) {
+                restored = tbody.querySelector('input.' + focusInfo.cls + '[data-produk="' + focusInfo.produk + '"]');
+            }
+            if (!restored) return;
+            restored.focus();
+            if (focusInfo.pos !== null) {
+                try { restored.setSelectionRange(focusInfo.pos, focusInfo.pos); } catch (e) {}
+            }
         }
 
         // ===== RENDER FUNCTIONS =====
@@ -1386,35 +1928,263 @@
             const tbody = document.getElementById('totalisatorTable');
             const hargaJual = getHargaJual();
             const currentValues = {};
-            tbody.querySelectorAll('.total-awal, .total-akhir').forEach(inp => {
-                const key = inp.dataset.id + '-' + (inp.classList.contains('total-awal') ? 'awal' : 'akhir');
+            tbody.querySelectorAll('.total-awal, .total-akhir, .stok-penjualan-total').forEach(inp => {
+                const key = inp.dataset.id
+                    ? inp.dataset.id + '-' + (inp.classList.contains('total-awal') ? 'awal' : 'akhir')
+                    : inp.dataset.produk + '-penjualan';
                 currentValues[key] = inp.value;
             });
 
+            // Perbaikan double-click: simpan fokus aktif sebelum tabel di-render ulang
+            const activeFocus = getActiveTableFocus(tbody);
+
             tbody.innerHTML = '';
-            nozzles.forEach((n) => {
-                if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
-                const awal = totalizerData[n.id].awal || 0;
-                const akhir = totalizerData[n.id].akhir || 0;
-                const penjualan = Math.max(0, akhir - awal);
-                const harga = n.product === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
-                const total = penjualan * harga;
+            const products = ['Pertalite', 'Pertamax'];
+            products.forEach(p => {
+                const pNozz = nozzles.filter(n => n.product === p);
+                let sumAwal = 0, sumAkhir = 0, sumOmzet = 0;
 
-                const savedAwal = currentValues[n.id + '-awal'] !== undefined ? currentValues[n.id + '-awal'] : awal;
-                const savedAkhir = currentValues[n.id + '-akhir'] !== undefined ? currentValues[n.id + '-akhir'] : akhir;
+                // Baris nozzle (3 mesin per produk)
+                pNozz.forEach(n => {
+                    if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
+                    const awal = totalizerData[n.id].awal || 0;
+                    const akhir = totalizerData[n.id].akhir || 0;
+                    const penjualan = Math.max(0, akhir - awal);
+                    const harga = p === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
+                    const total = penjualan * harga;
+                    sumAwal += awal; sumAkhir += akhir; sumOmzet += total;
 
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${n.product}</strong></td>
-                    <td>${n.label}</td>
-                    <td><input type="number" step="0.01" class="total-awal" data-id="${n.id}" value="${savedAwal}"></td>
-                    <td><input type="number" step="0.01" class="total-akhir" data-id="${n.id}" value="${savedAkhir}"></td>
-                    <td><input type="number" step="0.01" readonly value="${penjualan.toFixed(2)}" style="font-weight:600;color:#0984e3;"></td>
-                    <td>${formatRupiah(harga)}</td>
-                    <td><input type="text" readonly value="${formatRupiah(total)}" style="font-weight:600;color:#c41e3a;"></td>
+                    const savedAwal = currentValues[n.id + '-awal'] !== undefined ? currentValues[n.id + '-awal'] : awal;
+                    const savedAkhir = currentValues[n.id + '-akhir'] !== undefined ? currentValues[n.id + '-akhir'] : akhir;
+
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-id', n.id);
+                    row.innerHTML = `
+                        <td><strong>${n.product}</strong></td>
+                        <td>${n.label}</td>
+                        <td><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${savedAwal}"></td>
+                        <td><input type="number" step="0.1" readonly class="total-akhir" data-id="${n.id}" value="${savedAkhir}" style="font-weight:600;color:#6c5ce7;background:#f5f3ff;"></td>
+                        <td><input type="number" step="0.1" readonly class="total-penjualan" value="${penjualan.toFixed(1)}" style="font-weight:600;color:#0984e3;"></td>
+                        <td>${formatRupiah(harga)}</td>
+                        <td><input type="text" readonly class="total-omzet" value="${formatRupiah(total)}" style="font-weight:600;color:#c41e3a;"></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Baris TOTAL per produk — Penjualan (L) di sini BISA diubah manual (master penjualan)
+                const d = stokData[p] || {};
+                const lockedPJ = !!isLocked['penjualan' + p];
+                const savedPenjualan = currentValues[p + '-penjualan'] !== undefined ? currentValues[p + '-penjualan'] : (d.penjualan || 0);
+                const sub = document.createElement('tr');
+                sub.setAttribute('data-produk', p);
+                sub.className = 'subtotal-row';
+                sub.innerHTML = `
+                    <td><strong>TOTAL ${p}</strong></td>
+                    <td></td>
+                    <td><input type="number" step="0.1" readonly class="sub-awal" value="${sumAwal.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                    <td><input type="number" step="0.1" readonly class="sub-akhir" value="${sumAkhir.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                    <td>
+                        <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${savedPenjualan}" style="font-weight:700;color:#6c5ce7;background:${lockedPJ ? '#f5f6fa' : '#f5f3ff'};" ${lockedPJ ? 'disabled' : ''}>
+                        <span class="stok-badge stok-penjualan-badge"${d.penjualanManual ? ' style="background:#e3f2fd;color:#0d47a1;border-color:#0984e3;"' : ''}>${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
+                        <button class="unlock-mini" onclick="toggleLockKey('penjualan${p}')" title="Kunci / Buka"><i class="fas fa-${lockedPJ ? 'lock' : 'unlock'}"></i></button>
+                    </td>
+                    <td></td>
+                    <td><strong class="sub-omzet">${formatRupiah(sumOmzet)}</strong></td>
                 `;
-                tbody.appendChild(row);
+                tbody.appendChild(sub);
+
+                // Jika user mengedit Penjualan Total di baris TOTAL -> tandai MANUAL
+                const inpPenjualan = sub.querySelector('.stok-penjualan-total');
+                inpPenjualan.addEventListener('input', function() {
+                    if (!stokData[p].penjualanManual) {
+                        stokData[p].penjualanManual = true;
+                        const badge = this.parentElement.querySelector('.stok-penjualan-badge');
+                        if (badge) badge.textContent = 'MANUAL';
+                    }
+                });
             });
+
+            // TOTAL GLOBAL (Pertalite + Pertamax)
+            const gAwal = ['Pertalite', 'Pertamax'].reduce((s, p) => s + nozzles.filter(n => n.product === p).reduce((x, n) => x + (totalizerData[n.id]?.awal || 0), 0), 0);
+            const gAkhir = ['Pertalite', 'Pertamax'].reduce((s, p) => s + nozzles.filter(n => n.product === p).reduce((x, n) => x + (totalizerData[n.id]?.akhir || 0), 0), 0);
+            const gPenjualan = (stokData.Pertalite?.penjualan || 0) + (stokData.Pertamax?.penjualan || 0);
+            const gOmzet = ['Pertalite', 'Pertamax'].reduce((s, p) => {
+                const hj = p === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
+                return s + nozzles.filter(n => n.product === p).reduce((x, n) => x + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)) * hj, 0);
+            }, 0);
+
+            const glob = document.createElement('tr');
+            glob.setAttribute('data-produk', 'GLOBAL');
+            glob.className = 'subtotal-row';
+            glob.innerHTML = `
+                <td><strong>TOTAL GLOBAL</strong></td>
+                <td></td>
+                <td><input type="number" step="0.1" readonly class="sub-awal" value="${gAwal.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                <td><input type="number" step="0.1" readonly class="sub-akhir" value="${gAkhir.toFixed(1)}" style="font-weight:700;background:#f8f9fa;"></td>
+                <td><input type="number" step="0.1" readonly class="sub-penjualan" value="${gPenjualan.toFixed(1)}" style="font-weight:700;background:#f8f9fa;color:#c41e3a;"></td>
+                <td></td>
+                <td><strong class="sub-omzet">${formatRupiah(gOmzet)}</strong></td>
+            `;
+            tbody.appendChild(glob);
+
+            // Pulihkan fokus agar pengguna tidak perlu klik dua kali
+            restoreTableFocus(tbody, activeFocus);
+        }
+
+        // Sinkronisasi otomatis dua arah per produk (dipakai renderStok & updateAll):
+        // - Jika Stok Akhir diinput manual (dip) -> Penjualan = Stok Awal + DO - Stok Akhir,
+        //   lalu Totalisator Akhir otomatis = Totalisator Awal + Penjualan (proporsional per nozzle)
+        // - Jika Totalisator Akhir diinput manual (dispenser) -> Stok Akhir otomatis = Stok Awal + DO - Penjualan Totalisator
+        // - Jika keduanya manual -> tidak ada yang ditimpa, Penguapan = selisih keduanya
+        function sinkronkanProduk(p) {
+            const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+            const nozz = nozzles.filter(n => n.product === p);
+
+            // Volume penjualan efektif (S):
+            // 1) Penjualan Total diedit manual -> S = nilai user
+            // 2) Stok Akhir diisi manual (dip) -> S = Stok Awal + DO - Stok Akhir
+            // 3) kosong -> S = penjualan totalisator (dari nozzle, biasanya 0)
+            let S;
+            if (data.penjualanManual) {
+                S = data.penjualan || 0;
+            } else if (data.stokAkhirManual) {
+                S = data.stokAwal + data.pembelian - data.stokAkhir;
+            } else {
+                S = nozz.reduce((s, n) => s + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)), 0);
+            }
+
+            // Sinkronkan Totalisator Akhir: alokasikan S ke tiap nozzle secara acak (total persis = S)
+            if ((data.penjualanManual || data.stokAkhirManual) && S >= 0 && nozz.length > 0) {
+                // Kunci alokasi: hanya re-acak jika angka sumber berubah, agar nilai tidak melompat saat input lain diedit
+                const kunci = p + '|' + data.stokAwal + '|' + data.pembelian + '|' + data.stokAkhir + '|' + S +
+                    '|' + nozz.map(n => (totalizerData[n.id]?.awal || 0)).join(',');
+                // Hanya alokasikan ulang jika angka belum konsisten —
+                // mencegah data berubah/ter-reset saat tombol Simpan ditekan
+                const sumAkhirSkrg = nozz.reduce((x, n) => x + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)), 0);
+                if (data.allokasiKey !== kunci && Math.abs(sumAkhirSkrg - S) > 0.05) {
+                    const rnd = nozz.map(() => 0.5 + Math.random());
+                    const sumRnd = rnd.reduce((a, b) => a + b, 0);
+                    let sumAlokasi = 0;
+                    nozz.forEach((n, i) => {
+                        if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
+                        const t = totalizerData[n.id];
+                        t.akhir = Math.round((t.awal + S * (rnd[i] / sumRnd)) * 10) / 10;
+                        sumAlokasi += Math.max(0, t.akhir - t.awal);
+                    });
+                    const selisih = S - sumAlokasi;
+                    if (Math.abs(selisih) > 0.0001) {
+                        const last = nozz[nozz.length - 1];
+                        totalizerData[last.id].akhir = Math.round((totalizerData[last.id].akhir + selisih) * 10) / 10;
+                    }
+                    data.allokasiKey = kunci;
+                }
+            }
+
+            // Stok Akhir otomatis dari penjualan (jika tidak diukur manual)
+            if (!data.stokAkhirManual) {
+                data.stokAkhir = data.stokAwal + data.pembelian - S;
+            }
+
+            data.stokAkhirAuto = data.stokAwal + data.pembelian - S;
+            data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
+            // Penguapan (logika dibalik): NEGATIF = Kehilangan (minus), POSITIF = Kelebihan (plus)
+            // Kehilangan terjadi saat Penjualan Stok > Penjualan Total -> S - penjualanStok < 0
+            data.penguapan = S - data.penjualanStok;
+            if (!data.penjualanManual) data.penjualan = S;
+            stokData[p] = data;
+            return data;
+        }
+
+        function resetStokOtomatis() {
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                if (stokData[p]) {
+                    stokData[p].stokAkhirManual = false;
+                    stokData[p].penjualanManual = false;
+                }
+            });
+            updateAll();
+            showNotification('Semua kembali ke mode AUTO (sinkron dari stok / totalisator)', 'info');
+        }
+
+        // Perbarui nilai terhitung di tabel TANPA membangun ulang input (anti klik berulang)
+        function refreshComputedCells() {
+            const hargaJual = getHargaJual();
+            let gAwal = 0, gAkhir = 0, gOmzet = 0;
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                let sumAwal = 0, sumAkhir = 0, sumOmzet = 0;
+
+                // Baris nozzle
+                nozzles.filter(n => n.product === p).forEach(n => {
+                    const row = document.querySelector('#totalisatorTable tr[data-id="' + n.id + '"]');
+                    if (!row) return;
+                    const t = totalizerData[n.id] || { awal: 0, akhir: 0 };
+                    const penjualan = Math.max(0, (t.akhir || 0) - (t.awal || 0));
+                    const harga = n.product === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
+                    sumAwal += t.awal || 0; sumAkhir += t.akhir || 0; sumOmzet += penjualan * harga;
+                    gAwal += t.awal || 0; gAkhir += t.akhir || 0; gOmzet += penjualan * harga;
+                    const awalInput = row.querySelector('.total-awal');
+                    if (awalInput) awalInput.value = t.awal || 0;
+                    const akhirInput = row.querySelector('.total-akhir');
+                    if (akhirInput) akhirInput.value = t.akhir || 0;
+                    const penjualanInput = row.querySelector('.total-penjualan');
+                    if (penjualanInput) penjualanInput.value = penjualan.toFixed(1);
+                    const omzetInput = row.querySelector('.total-omzet');
+                    if (omzetInput) omzetInput.value = formatRupiah(penjualan * harga);
+                });
+
+                // Baris TOTAL per produk
+                const sub = document.querySelector('#totalisatorTable tr[data-produk="' + p + '"]');
+                if (sub) {
+                    const d = sinkronkanProduk(p);
+                    const awalSum = sub.querySelector('.sub-awal');
+                    if (awalSum) awalSum.value = sumAwal.toFixed(1);
+                    const akhirSum = sub.querySelector('.sub-akhir');
+                    if (akhirSum) akhirSum.value = sumAkhir.toFixed(1);
+                    const totalPenjInput = sub.querySelector('.stok-penjualan-total');
+                    if (totalPenjInput && !d.penjualanManual) totalPenjInput.value = (d.penjualan || 0).toFixed(1);
+                    const badgePenjualan = sub.querySelector('.stok-penjualan-badge');
+                    if (badgePenjualan) {
+                        badgePenjualan.textContent = d.penjualanManual ? 'MANUAL' : 'AUTO';
+                        badgePenjualan.style.background = d.penjualanManual ? '#e3f2fd' : '#e8f5e9';
+                        badgePenjualan.style.color = d.penjualanManual ? '#0d47a1' : '#1b5e20';
+                        badgePenjualan.style.borderColor = d.penjualanManual ? '#0984e3' : '#00b894';
+                    }
+                    const omzetSum = sub.querySelector('.sub-omzet');
+                    if (omzetSum) omzetSum.textContent = formatRupiah(sumOmzet);
+                }
+
+                // Tabel stok: stok akhir + penguapan
+                const row = document.querySelector('#stokTable tr[data-produk="' + p + '"]');
+                if (row) {
+                    const d = stokData[p] || {};
+                    const akhirInput = row.querySelector('.stok-akhir');
+                    if (akhirInput && !d.stokAkhirManual) akhirInput.value = d.stokAkhir.toFixed(1);
+                    const badge = row.querySelector('.stok-badge');
+                    if (badge) {
+                        badge.textContent = d.stokAkhirManual ? 'MANUAL' : 'AUTO';
+                        badge.style.background = d.stokAkhirManual ? '#e3f2fd' : '#e8f5e9';
+                        badge.style.color = d.stokAkhirManual ? '#0d47a1' : '#1b5e20';
+                        badge.style.borderColor = d.stokAkhirManual ? '#0984e3' : '#00b894';
+                    }
+                    const pengInput = row.querySelector('.stok-penguapan');
+                    if (pengInput) {
+                        pengInput.value = formatPenguapan(d.penguapan);
+                        pengInput.className = 'stok-penguapan highlight-penguapan ' + (d.penguapan === 0 ? 'zero' : (d.penguapan < 0 ? 'positive' : 'negative'));
+                    }
+                    const label = row.querySelector('.stok-penguapan-label');
+                    if (label) label.textContent = d.penguapan === 0 ? '✓ Ideal' : (d.penguapan < 0 ? '⚠️ Penguapan (Kehilangan −)' : '');
+                }
+            });
+
+            // TOTAL GLOBAL
+            const glob = document.querySelector('#totalisatorTable tr[data-produk="GLOBAL"]');
+            if (glob) {
+                const gPenjualan = (stokData.Pertalite?.penjualan || 0) + (stokData.Pertamax?.penjualan || 0);
+                const gA = glob.querySelector('.sub-awal'); if (gA) gA.value = gAwal.toFixed(1);
+                const gB = glob.querySelector('.sub-akhir'); if (gB) gB.value = gAkhir.toFixed(1);
+                const gP = glob.querySelector('.sub-penjualan'); if (gP) gP.value = gPenjualan.toFixed(1);
+                const gO = glob.querySelector('.sub-omzet'); if (gO) gO.textContent = formatRupiah(gOmzet);
+            }
         }
 
         function renderStok() {
@@ -1427,46 +2197,53 @@
                 currentValues[key] = inp.value;
             });
 
+            // Perbaikan double-click: simpan fokus aktif sebelum tabel di-render ulang
+            const activeFocus = getActiveTableFocus(tbody);
+
             tbody.innerHTML = '';
             const products = ['Pertalite', 'Pertamax'];
             products.forEach(p => {
-                const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-
-                // Penjualan Stok = Stok Awal + Pembelian - Stok Akhir
-                data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
-
-                // Penjualan Totalisator (total per produk)
-                let penjualanTotalisator = 0;
-                nozzles.filter(n => n.product === p).forEach(n => {
-                    const awal = totalizerData[n.id]?.awal || 0;
-                    const akhir = totalizerData[n.id]?.akhir || 0;
-                    penjualanTotalisator += Math.max(0, akhir - awal);
-                });
-
-                // Penguapan = Penjualan Stok - Penjualan Totalisator
-                data.penguapan = data.penjualanStok - penjualanTotalisator;
+                const data = sinkronkanProduk(p);
+                const lockedSA = !!isLocked['stokAkhir' + p];
 
                 const valAwal = currentValues[p + '-awal'] !== undefined ? currentValues[p + '-awal'] : data.stokAwal;
                 const valPembelian = currentValues[p + '-pembelian'] !== undefined ? currentValues[p + '-pembelian'] : data.pembelian;
                 const valAkhir = currentValues[p + '-akhir'] !== undefined ? currentValues[p + '-akhir'] : data.stokAkhir;
 
-                const penguapanClass = data.penguapan === 0 ? 'zero' : (data.penguapan > 0 ? 'positive' : 'negative');
-                const penguapanLabel = data.penguapan === 0 ? '✓ Ideal' : (data.penguapan > 0 ? '⚠️ Penguapan' : '⚠️ Kelebihan');
+                const penguapanClass = data.penguapan === 0 ? 'zero' : (data.penguapan < 0 ? 'positive' : 'negative');
+                const penguapanLabel = data.penguapan === 0 ? '✓ Ideal' : (data.penguapan < 0 ? '⚠️ Penguapan (Kehilangan −)' : '');
 
                 const row = document.createElement('tr');
+                row.setAttribute('data-produk', p);
                 row.innerHTML = `
                     <td><strong>${p}</strong></td>
-                    <td><input type="number" step="0.01" class="stok-awal" data-produk="${p}" value="${valAwal}"></td>
-                    <td><input type="number" step="0.01" class="stok-pembelian" data-produk="${p}" value="${valPembelian}"></td>
-                    <td><input type="number" step="0.01" class="stok-akhir" data-produk="${p}" value="${valAkhir}" style="font-weight:600;color:#e65100;background:#fff8e1;"></td>
-                    <td><input type="number" step="0.01" readonly value="${data.penjualanStok.toFixed(2)}" style="font-weight:600;color:#0984e3;"></td>
+                    <td><input type="number" step="0.1" class="stok-awal" data-produk="${p}" value="${valAwal}"></td>
+                    <td><input type="number" step="0.1" class="stok-pembelian" data-produk="${p}" value="${valPembelian}"></td>
                     <td>
-                        <input type="number" step="0.01" readonly value="${data.penguapan.toFixed(2)}" class="highlight-penguapan ${penguapanClass}">
-                        <span style="font-size:10px;margin-left:4px;color:#636e72;">${penguapanLabel}</span>
+                        <input type="number" step="0.1" class="stok-akhir" data-produk="${p}" value="${valAkhir}" style="font-weight:600;color:#e65100;background:${lockedSA ? '#f5f6fa' : '#fff8e1'};" ${lockedSA ? 'readonly' : ''}>
+                        <span class="stok-badge"${data.stokAkhirManual ? ' style="background:#e3f2fd;color:#0d47a1;border-color:#0984e3;"' : ''}>${data.stokAkhirManual ? 'MANUAL' : 'AUTO'}</span>
+                        <button class="unlock-mini" onclick="toggleLockKey('stokAkhir${p}')" title="Kunci / Buka"><i class="fas fa-${lockedSA ? 'lock' : 'unlock'}"></i></button>
+                    </td>
+                    <td>
+                        <input type="text" readonly value="${formatPenguapan(data.penguapan)}" class="stok-penguapan highlight-penguapan ${penguapanClass}" style="font-weight:700;">
+                        <span class="stok-penguapan-label" style="font-size:10px;margin-left:4px;color:#636e72;">${penguapanLabel}</span>
                     </td>
                 `;
                 tbody.appendChild(row);
+
+                // Jika user mengedit Stok Akhir secara manual -> tandai MANUAL
+                const inpAkhir = row.querySelector('.stok-akhir');
+                inpAkhir.addEventListener('input', function() {
+                    if (!stokData[p].stokAkhirManual) {
+                        stokData[p].stokAkhirManual = true;
+                        const badge = this.parentElement.querySelector('.stok-badge');
+                        if (badge) badge.textContent = 'MANUAL';
+                    }
+                });
             });
+
+            // Pulihkan fokus agar pengguna tidak perlu klik dua kali
+            restoreTableFocus(tbody, activeFocus);
         }
 
         function renderExpenses() {
@@ -1478,7 +2255,7 @@
                 div.innerHTML = `
                     <span class="exp-number">${idx+1}</span>
                     <input type="text" value="${e.keterangan}" placeholder="Keterangan" onchange="updateExpense(${e.id},'keterangan',this.value)">
-                    <input type="number" step="0.01" value="${e.nominal}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
+                    <input type="number" step="0.1" value="${e.nominal}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
                     <button class="btn btn-danger btn-sm" onclick="hapusExpense(${e.id})"><i class="fas fa-trash"></i></button>
                 `;
                 container.appendChild(div);
@@ -1487,33 +2264,84 @@
         }
 
         // ===== UPDATE FUNCTIONS =====
+        // Perhitungan Laba Harian: Keuntungan = Penjualan (L) x Margin; Hasil = Keuntungan - Penguapan; Laba = Hasil - Pengeluaran
+        function getLabaHarian() {
+            const marginP = parseFloat(document.getElementById('marginPertalite').value) || 0;
+            const marginX = parseFloat(document.getElementById('marginPertamax').value) || 0;
+            const stokP = stokData.Pertalite || {};
+            const stokX = stokData.Pertamax || {};
+            const pP = stokP.penjualan || 0;
+            const pX = stokX.penjualan || 0;
+            const penjStokP = stokP.penjualanStok || 0;
+            const penjStokX = stokX.penjualanStok || 0;
+            const pengP = stokP.penguapan || 0;
+            const pengX = stokX.penguapan || 0;
+            const hargaJualP = parseFloat(document.getElementById('hargaJualPertalite').value) || 10000;
+            const hargaJualX = parseFloat(document.getElementById('hargaJualPertamax').value) || 16250;
+            const untungP = pP * marginP;
+            const untungX = pX * marginX;
+            const totalKeuntungan = untungP + untungX;
+            // Nilai penguapan memakai HARGA JUAL (bukan margin)
+            const nilaiPenguapan = pengP * hargaJualP + pengX * hargaJualX;
+            // Penguapan bertanda: − (kehilangan) mengurangi, + (kelebihan) menambah
+            const hasilKeseluruhan = totalKeuntungan + nilaiPenguapan;
+            const pengeluaran = expenses.reduce((s, e) => s + (e.nominal || 0), 0);
+            const labaAkhir = hasilKeseluruhan - pengeluaran;
+            return {
+                marginP, marginX, hargaJualP, hargaJualX, pP, pX, pengP, pengX, untungP, untungX,
+                totalKeuntungan, nilaiPenguapan, hasilKeseluruhan, pengeluaran, labaAkhir,
+                stokAwalP: stokP.stokAwal || 0, doP: stokP.pembelian || 0, stokAkhirP: stokP.stokAkhir || 0, penjStokP,
+                stokAwalX: stokX.stokAwal || 0, doX: stokX.pembelian || 0, stokAkhirX: stokX.stokAkhir || 0, penjStokX
+            };
+        }
+
+        function updateLabaHarian() {
+            const l = getLabaHarian();
+            const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            set('labaPenjualanPertalite', l.pP.toFixed(1) + ' L');
+            set('labaPenjualanPertamax', l.pX.toFixed(1) + ' L');
+            set('labaMarginPertaliteTxt', formatRupiah(l.marginP));
+            set('labaMarginPertamaxTxt', formatRupiah(l.marginX));
+            set('labaHargaJualPertaliteTxt', formatRupiah(l.hargaJualP));
+            set('labaHargaJualPertamaxTxt', formatRupiah(l.hargaJualX));
+            set('labaKeuntunganPertalite', formatRupiah(l.untungP));
+            set('labaKeuntunganPertamax', formatRupiah(l.untungX));
+            set('labaPenguapanPertalite', formatPenguapan(l.pengP) + ' L');
+            set('labaPenguapanPertamax', formatPenguapan(l.pengX) + ' L');
+            set('labaNilaiPenguapanPertalite', formatRupiah(l.pengP * l.hargaJualP));
+            set('labaNilaiPenguapanPertamax', formatRupiah(l.pengX * l.hargaJualX));
+            // Keterangan tanda per produk: minus dikurangi / plus ditambah
+            const ketP = l.pengP < -0.05 ? '− minus (dikurangi)' : (l.pengP > 0.05 ? '+ plus (ditambah)' : '0 (ideal)');
+            const ketX = l.pengX < -0.05 ? '− minus (dikurangi)' : (l.pengX > 0.05 ? '+ plus (ditambah)' : '0 (ideal)');
+            set('labaNilaiPenguapanPertaliteKet', ketP);
+            set('labaNilaiPenguapanPertamaxKet', ketX);
+            set('labaNilaiPenguapanTotal', formatRupiah(l.nilaiPenguapan));
+            set('labaTotalKeuntungan', formatRupiah(l.totalKeuntungan));
+            set('labaHasilKeseluruhan', formatRupiah(l.hasilKeseluruhan));
+            set('labaPengeluaranHarian', formatRupiah(l.pengeluaran));
+            const akhir = document.getElementById('labaHasilAkhir');
+            if (akhir) {
+                akhir.textContent = formatRupiah(l.labaAkhir);
+                akhir.style.color = l.labaAkhir >= 0 ? '#00b894' : '#d63031';
+            }
+        }
+
         function updateAll() {
+            readAllInputs();
+            setorBank = parseFloat(document.getElementById('setorBank')?.value) || 0;
             const products = ['Pertalite', 'Pertamax'];
             products.forEach(p => {
-                const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-
-                // Penjualan Stok
-                data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
-
-                // Penjualan Totalisator
-                let penjualanTotalisator = 0;
-                nozzles.filter(n => n.product === p).forEach(n => {
-                    const awal = totalizerData[n.id]?.awal || 0;
-                    const akhir = totalizerData[n.id]?.akhir || 0;
-                    penjualanTotalisator += Math.max(0, akhir - awal);
-                });
-
-                data.penguapan = data.penjualanStok - penjualanTotalisator;
-
-                stokData[p] = data;
+                sinkronkanProduk(p);
             });
 
-            renderTotalisator();
-            renderStok();
+            // Perbaikan klik berulang: perbarui nilai terhitung di tempat,
+            // tanpa membangun ulang tabel (input tidak hilang / fokus tidak loncat)
+            refreshComputedCells();
             updateDashboard();
             updateRekonsiliasi();
             updateTotalPengeluaran();
             updateAlerts();
+            updateLabaHarian();
             saveParams();
         }
 
@@ -1522,7 +2350,7 @@
             if (exp) {
                 if (field === 'nominal') exp.nominal = parseFloat(value) || 0;
                 else exp.keterangan = value;
-                localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
+                            // Pengeluaran tersimpan di dalam laporan (tidak di localStorage global)
                 updateTotalPengeluaran();
                 updateAll();
             }
@@ -1530,17 +2358,39 @@
 
         function hapusExpense(id) {
             expenses = expenses.filter(e => e.id !== id);
-            localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
+                        // Pengeluaran tersimpan di dalam laporan (tidak di localStorage global)
             renderExpenses();
             updateAll();
+        }
+
+        // Hapus baris pengeluaran default lama (nominal 0 & nama bawaan) — default selalu 0 pengeluaran
+        function bersihkanPengeluaran(list) {
+            const defaultNama = ['Di Setor Bank', 'Curah Jualan Tangki', 'Makan Sama Main Tangki', 'Cektrim Mobil PM', 'MT Penerimaan 2x', 'Foto Copy Laporan', 'Uang DO', 'Reward Shift', 'Pengeluaran lain'];
+            return (list || []).filter(e => {
+                const kosong = (e.nominal || 0) === 0;
+                const namaDefault = defaultNama.includes(e.keterangan) || !e.keterangan;
+                return !(kosong && namaDefault);
+            });
         }
 
         function tambahPengeluaran() {
             const maxId = expenses.reduce((max, e) => Math.max(max, e.id), 0);
             expenses.push({ id: maxId + 1, keterangan: '', nominal: 0 });
-            localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
+                        // Pengeluaran tersimpan di dalam laporan (tidak di localStorage global)
             renderExpenses();
             updateAll();
+        }
+
+        // Toggle geser: buka/tutup panel pengeluaran & keuntungan laba harian (dinamis)
+        function togglePanel(panelId, checkbox) {
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+            panel.classList.toggle('open', !!checkbox.checked);
+            if (checkbox.checked) {
+                renderExpenses();
+                updateTotalPengeluaran();
+                updateLabaHarian();
+            }
         }
 
         function getHargaJual() {
@@ -1553,6 +2403,13 @@
         function formatRupiah(angka) {
             if (isNaN(angka) || !isFinite(angka)) return 'Rp 0';
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+        }
+
+        // Keterangan plus/minus untuk penguapan: + = Kehilangan, - = Kelebihan, 0 = Ideal (1 angka koma)
+        function formatPenguapan(v) {
+            if (isNaN(v) || !isFinite(v)) return '0.0';
+            if (Math.abs(v) < 0.05) return '0.0';
+            return (v > 0 ? '+' : '') + v.toFixed(1);
         }
 
         function getSummary() {
@@ -1592,42 +2449,40 @@
         function updateDashboard() {
             const s = getSummary();
             document.getElementById('dashPenjualan').textContent = formatRupiah(s.totalOmzet);
-            document.getElementById('dashPertalite').textContent = s.totalPertalite.toFixed(2) + ' L';
-            document.getElementById('dashPertamax').textContent = s.totalPertamax.toFixed(2) + ' L';
+            document.getElementById('dashPertalite').textContent = s.totalPertalite.toFixed(1) + ' L';
+            document.getElementById('dashPertamax').textContent = s.totalPertamax.toFixed(1) + ' L';
+            document.getElementById('dashPenjualanPertalite').textContent = formatRupiah(s.totalPenjualanPertalite);
+            document.getElementById('dashPenjualanPertamax').textContent = formatRupiah(s.totalPenjualanPertamax);
             document.getElementById('dashLabaKotor').textContent = formatRupiah(s.labaKotor);
             document.getElementById('dashPengeluaran').textContent = formatRupiah(s.totalPengeluaran);
             const labaRugiEl = document.getElementById('dashLabaRugi');
             labaRugiEl.textContent = formatRupiah(s.labaBersih);
             labaRugiEl.className = 'value ' + (s.labaBersih >= 0 ? 'positive' : 'negative');
-            document.getElementById('dashStok').textContent = s.totalStok.toFixed(2) + ' L';
+            document.getElementById('dashStok').textContent = s.totalStok.toFixed(1) + ' L';
             const penguapanEl = document.getElementById('dashPenguapan');
-            penguapanEl.textContent = s.totalPenguapan.toFixed(2) + ' L';
+            penguapanEl.textContent = formatPenguapan(s.totalPenguapan) + ' L';
             penguapanEl.className = 'value ' + (Math.abs(s.totalPenguapan) < 0.01 ? 'positive' : 'negative');
         }
 
         function updateRekonsiliasi() {
+            if (!document.getElementById('rekonsiliasiStok')) return;
             let html = `<div class="table-responsive"><table>
                 <thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Stok Akhir</th><th>Penjualan Stok</th><th>Penjualan Totalisator</th><th>Penguapan</th><th>Status</th></tr></thead>
                 <tbody>`;
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-                let penjualanTotalisator = 0;
-                nozzles.filter(n => n.product === p).forEach(n => {
-                    const awal = totalizerData[n.id]?.awal || 0;
-                    const akhir = totalizerData[n.id]?.akhir || 0;
-                    penjualanTotalisator += Math.max(0, akhir - awal);
-                });
+                const penjualanTotalisator = d.penjualan || 0;
                 const status = d.stokAkhir >= 0 ? '✅ Normal' : '⚠️ Minus';
                 const color = d.stokAkhir >= 0 ? '#00b894' : '#d63031';
                 const penguapanClass = d.penguapan === 0 ? 'zero' : (d.penguapan > 0 ? 'positive' : 'negative');
                 html += `<tr>
                     <td><strong>${p}</strong></td>
-                    <td>${d.stokAwal.toFixed(2)}</td>
-                    <td>${d.pembelian.toFixed(2)}</td>
-                    <td style="color:${color};font-weight:700;">${d.stokAkhir.toFixed(2)}</td>
-                    <td style="font-weight:600;color:#0984e3;">${d.penjualanStok.toFixed(2)}</td>
-                    <td style="font-weight:600;color:#0984e3;">${penjualanTotalisator.toFixed(2)}</td>
-                    <td class="highlight-penguapan ${penguapanClass}">${d.penguapan.toFixed(2)}</td>
+                    <td>${d.stokAwal.toFixed(1)}</td>
+                    <td>${d.pembelian.toFixed(1)}</td>
+                    <td style="color:${color};font-weight:700;">${d.stokAkhir.toFixed(1)}</td>
+                    <td style="font-weight:600;color:#0984e3;">${d.penjualanStok.toFixed(1)}</td>
+                    <td style="font-weight:600;color:#0984e3;">${penjualanTotalisator.toFixed(1)}</td>
+                    <td class="highlight-penguapan ${penguapanClass}">${formatPenguapan(d.penguapan)}</td>
                     <td>${status}</td>
                 </tr>`;
             });
@@ -1637,16 +2492,15 @@
             let html2 = `<div class="recon-grid">`;
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const nozz = nozzles.filter(n => n.product === p);
-                let totalTot = 0;
                 let details = '';
                 nozz.forEach(n => {
                     const awal = totalizerData[n.id]?.awal || 0;
                     const akhir = totalizerData[n.id]?.akhir || 0;
                     const penjualan = Math.max(0, akhir - awal);
-                    totalTot += penjualan;
-                    details += `<div class="row"><span>${n.label}</span><span>${penjualan.toFixed(2)} L</span></div>`;
+                    details += `<div class="row"><span>${n.label}</span><span>${penjualan.toFixed(1)} L</span></div>`;
                 });
                 const stokPenj = stokData[p]?.penjualanStok || 0;
+                const totalTot = stokData[p]?.penjualan || 0;
                 const selisih = stokPenj - totalTot;
                 const status = Math.abs(selisih) < 0.5 ? '✅ Sesuai' : '⚠️ Selisih';
 
@@ -1656,15 +2510,15 @@
                         ${details}
                         <div class="row" style="font-weight:700;border-top:2px solid #dfe6e9;padding-top:6px;margin-top:6px;">
                             <span>Penjualan Stok</span>
-                            <span>${stokPenj.toFixed(2)} L</span>
+                            <span>${stokPenj.toFixed(1)} L</span>
                         </div>
                         <div class="row" style="font-weight:700;">
                             <span>Penjualan Totalisator</span>
-                            <span>${totalTot.toFixed(2)} L</span>
+                            <span>${totalTot.toFixed(1)} L</span>
                         </div>
                         <div class="row" style="color:${Math.abs(selisih) < 0.5 ? '#00b894' : '#d63031'};font-weight:700;">
                             <span>Penguapan (Stok - Totalisator)</span>
-                            <span>${selisih.toFixed(2)} L</span>
+                            <span>${formatPenguapan(selisih)} L</span>
                         </div>
                         <div style="margin-top:6px;font-weight:700;">Status: ${status}</div>
                     </div>
@@ -1677,6 +2531,8 @@
         function updateTotalPengeluaran() {
             const total = expenses.reduce((sum, e) => sum + (e.nominal || 0), 0);
             document.getElementById('totalPengeluaranDisplay').textContent = formatRupiah(total);
+            const sb = document.getElementById('setorBankDisplay');
+            if (sb) sb.textContent = formatRupiah(setorBank);
         }
 
         function updateAlerts() {
@@ -1685,13 +2541,11 @@
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const d = stokData[p] || { stokAkhir: 0, penguapan: 0 };
                 if (d.stokAkhir < 0) {
-                    alerts.push(`⚠️ Stok Akhir ${p} negatif: ${d.stokAkhir.toFixed(2)} L`);
+                    alerts.push(`⚠️ Stok Akhir ${p} negatif: ${d.stokAkhir.toFixed(1)} L`);
                 }
                 const penguapan = d.penguapan || 0;
-                if (penguapan > 0.01) {
-                    alerts.push(`📊 Penguapan ${p}: ${penguapan.toFixed(2)} L (Kehilangan)`);
-                } else if (penguapan < -0.01) {
-                    alerts.push(`📊 Penguapan ${p}: ${penguapan.toFixed(2)} L (Kelebihan Volume)`);
+                if (penguapan < -0.05) {
+                    alerts.push(`📊 Penguapan ${p}: ${formatPenguapan(penguapan)} L (Kehilangan / −)`);
                 }
             });
 
@@ -1712,21 +2566,29 @@
                 Pertalite: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 },
                 Pertamax: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 }
             };
+            // Pengeluaran default kosong untuk laporan baru (terintegrasi tanggal & shift)
+            expenses = [];
+                        // Pengeluaran tersimpan di dalam laporan (tidak di localStorage global)
             document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
-            document.getElementById('operator').value = '';
-            document.getElementById('keterangan').value = '';
+            document.getElementById('penanggungJawab').value = 'Ricky Wahyudi';
+            setorBank = 0;
+            const sbInput = document.getElementById('setorBank');
+            if (sbInput) sbInput.value = 0;
             renderTotalisator();
             renderStok();
+            renderExpenses();
             updateAll();
-            document.querySelector('[data-tab="laporan"]').click();
-            showNotification('Laporan baru siap dibuat', 'info');
+            pindahTab('laporan', true);
+            showToast('Laporan baru siap diisi');
         }
 
         function simpanLaporan() {
+            try {
             const tanggal = document.getElementById('tanggal').value;
             const shift = document.getElementById('shift').value;
-            const operator = document.getElementById('operator').value || 'Admin';
-            const keterangan = document.getElementById('keterangan').value;
+            const operator = 'Admin';
+            const keterangan = '';
+            const penanggungJawab = document.getElementById('penanggungJawab').value || 'Ricky Wahyudi';
 
             if (!tanggal) {
                 showNotification('Tanggal harus diisi!', 'error');
@@ -1743,8 +2605,15 @@
                 totalizerData: JSON.parse(JSON.stringify(totalizerData)),
                 stokData: JSON.parse(JSON.stringify(stokData)),
                 expenses: JSON.parse(JSON.stringify(expenses)),
+                setorBank,
                 summary: s,
                 hargaJual: getHargaJual(),
+                penanggungJawab,
+                margin: {
+                    pertalite: parseFloat(document.getElementById('marginPertalite').value) || 0,
+                    pertamax: parseFloat(document.getElementById('marginPertamax').value) || 0
+                },
+                labaHarian: getLabaHarian(),
                 createdAt: new Date().toISOString()
             };
 
@@ -1754,23 +2623,41 @@
 
             localStorage.setItem('spbuReports', JSON.stringify(reports));
             loadHistory();
-            showNotification('Laporan berhasil disimpan!', 'success');
+            // Kembali ke halaman awal laporan (pilihan aksi)
+            pindahTab('laporan', false);
+            showToast('Laporan berhasil disimpan ✓');
+            } catch (err) {
+                console.error('Gagal menyimpan laporan:', err);
+                alert('Gagal menyimpan laporan: ' + err.message);
+            }
         }
 
         function loadReport(report) {
             currentReportId = report.id;
             document.getElementById('tanggal').value = report.tanggal;
             document.getElementById('shift').value = report.shift || 'Pagi';
-            document.getElementById('operator').value = report.operator || '';
-            document.getElementById('keterangan').value = report.keterangan || '';
+            document.getElementById('penanggungJawab').value = report.penanggungJawab || 'Ricky Wahyudi';
 
             totalizerData = JSON.parse(JSON.stringify(report.totalizerData || {}));
             stokData = JSON.parse(JSON.stringify(report.stokData || {
                 Pertalite: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 },
                 Pertamax: { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 }
             }));
-            expenses = JSON.parse(JSON.stringify(report.expenses || []));
-            localStorage.setItem('spbuExpenses', JSON.stringify(expenses));
+
+            // Laporan lama (tanpa penanda manual): perlakukan nilai tersimpan sebagai data manual
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                const d = stokData[p];
+                if (d && d.stokAkhirManual === undefined) {
+                    d.stokAkhirManual = (d.stokAkhir || 0) !== 0;
+                }
+            });
+
+            expenses = bersihkanPengeluaran(report.expenses);
+                        // Pengeluaran tersimpan di dalam laporan (tidak di localStorage global)
+
+            setorBank = report.setorBank || 0;
+            const sbInput = document.getElementById('setorBank');
+            if (sbInput) sbInput.value = setorBank;
 
             if (report.hargaJual) {
                 document.getElementById('hargaJualPertalite').value = report.hargaJual.pertalite || 10000;
@@ -1781,7 +2668,7 @@
             renderStok();
             renderExpenses();
             updateAll();
-            document.querySelector('[data-tab="laporan"]').click();
+            pindahTab('laporan', true);
         }
 
         function hapusLaporan(id) {
@@ -1826,25 +2713,98 @@
             filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
 
             container.innerHTML = filtered.map(r => {
-                const s = r.summary || { totalOmzet: 0, labaBersih: 0 };
+                const s = r.summary || {};
+                const penguapan = s.totalPenguapan || 0;
                 return `
                     <div class="history-item">
                         <div>
                             <div class="date">${r.tanggal}</div>
-                            <div class="info">${r.shift || '-'} | ${r.operator || '-'}</div>
+                            <div class="info">${r.shift || '-'}</div>
+                        </div>
+                        <div class="info">
+                            <div>Pertalite: ${(s.totalPertalite || 0).toFixed(1)} L</div>
+                            <div>Pertamax: ${(s.totalPertamax || 0).toFixed(1)} L</div>
+                            <div>Penguapan: ${formatPenguapan(penguapan)} L</div>
                         </div>
                         <div class="info">
                             <div>Omzet: ${formatRupiah(s.totalOmzet || 0)}</div>
                             <div>Laba/Rugi: ${formatRupiah(s.labaBersih || 0)}</div>
+                            <div>Laba Margin: ${formatRupiah(r.labaHarian ? r.labaHarian.labaAkhir : 0)}</div>
                         </div>
                         <div class="actions">
-                            <button class="btn btn-primary btn-sm" onclick="loadReport(${r.id})"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-primary btn-sm" onclick="lihatDetail(${r.id})"><i class="fas fa-search"></i> Detail</button>
+                            <button class="btn btn-outline btn-sm" onclick="cetakLaporan(${r.id}, false)"><i class="fas fa-print"></i> Cetak Warna</button>
+                            <button class="btn btn-outline btn-sm" onclick="cetakLaporan(${r.id}, true)"><i class="fas fa-circle"></i> Cetak BW</button>
+                            <button class="btn btn-outline btn-sm" onclick="bagikanLaporan(${r.id})"><i class="fas fa-share-alt"></i> Bagikan</button>
+                            <button class="btn btn-outline btn-sm" onclick="loadReport(${r.id})"><i class="fas fa-pen"></i> Edit</button>
                             <button class="btn btn-outline btn-sm" onclick="duplikatLaporan(${r.id})"><i class="fas fa-copy"></i></button>
                             <button class="btn btn-danger btn-sm" onclick="hapusLaporan(${r.id})"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        // Tampilkan detail laporan tersimpan (modal)
+        function lihatDetail(id) {
+            const r = reports.find(x => x.id === id);
+            if (!r) return;
+            const s = r.summary || {};
+            const td = r.totalizerData || {};
+            const sd = r.stokData || {};
+            const ex = r.expenses || [];
+            const hj = r.hargaJual || { pertalite: 10000, pertamax: 16250 };
+
+            let rows = '';
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                nozzles.filter(n => n.product === p).forEach(n => {
+                    const t = td[n.id] || { awal: 0, akhir: 0 };
+                    const awal = t.awal || 0, akhir = t.akhir || 0;
+                    const penjualan = Math.max(0, akhir - awal);
+                    const harga = p === 'Pertalite' ? hj.pertalite : hj.pertamax;
+                    rows += `<tr><td>${p}</td><td>${n.label}</td><td>${awal.toFixed(1)}</td><td>${akhir.toFixed(1)}</td><td>${penjualan.toFixed(1)}</td><td>${formatRupiah(penjualan * harga)}</td></tr>`;
+                });
+                const d = sd[p] || {};
+                rows += `<tr style="background:#faf0f2;font-weight:700;"><td colspan="2">TOTAL ${p}</td><td></td><td></td><td>${(d.penjualan || 0).toFixed(1)} L</td><td></td></tr>`;
+            });
+
+            let exRows = '';
+            ex.forEach((e, i) => {
+                if (e.nominal > 0 || e.keterangan) {
+                    exRows += `<tr><td>${i+1}</td><td>${e.keterangan || '-'}</td><td>${formatRupiah(e.nominal || 0)}</td></tr>`;
+                }
+            });
+
+            const stokRows = ['Pertalite', 'Pertamax'].map(p => {
+                const d = sd[p] || {};
+                return `<tr><td>${p}</td><td>${(d.stokAwal||0).toFixed(1)}</td><td>${(d.pembelian||0).toFixed(1)}</td><td>${(d.stokAkhir||0).toFixed(1)}</td><td>${formatPenguapan(d.penguapan || 0)}</td></tr>`;
+            }).join('');
+
+            document.getElementById('detailContent').innerHTML = `
+                <h3 style="color:#c41e3a;margin-bottom:8px;">Laporan ${r.tanggal} — ${r.shift || '-'}</h3>
+                <h4 style="margin:12px 0 6px;color:#2d3436;">Penjualan BBM</h4>
+                <div class="table-responsive"><table style="min-width:480px;"><thead><tr><th>Produk</th><th>Mesin</th><th>Awal</th><th>Akhir</th><th>Penjualan (L)</th><th>Total</th></tr></thead><tbody>${rows}</tbody></table></div>
+                <h4 style="margin:12px 0 6px;color:#2d3436;">Stok & Penguapan</h4>
+                <table style="min-width:480px;"><thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Stok Akhir</th><th>Penguapan</th></tr></thead><tbody>${stokRows}</tbody></table>
+                <h4 style="margin:12px 0 6px;color:#2d3436;">Pengeluaran</h4>
+                ${exRows ? '<table style="min-width:480px;"><thead><tr><th>No</th><th>Keterangan</th><th>Nominal</th></tr></thead><tbody>' + exRows + '</tbody></table>' : '<p style="color:#b2bec3;">Tidak ada pengeluaran</p>'}
+                <div style="margin-top:14px;padding-top:12px;border-top:2px solid #c41e3a;">
+                    <div style="display:flex;justify-content:space-between;"><span>Omzet</span><strong>${formatRupiah(s.totalOmzet || 0)}</strong></div>
+                    <div style="display:flex;justify-content:space-between;"><span>Penguapan Total</span><strong>${formatPenguapan(s.totalPenguapan || 0)} L</strong></div>
+                    <div style="display:flex;justify-content:space-between;"><span>Pengeluaran</span><strong>${formatRupiah(s.totalPengeluaran || 0)}</strong></div>
+                    <div style="display:flex;justify-content:space-between;"><span>Setor Bank</span><strong>${formatRupiah(r.setorBank || 0)}</strong></div>
+                    <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:${(s.labaBersih||0) >= 0 ? '#00b894' : '#d63031'};"><span>LABA/RUGI BERSIH</span><span>${formatRupiah(s.labaBersih || 0)}</span></div>
+                    ${r.labaHarian ? `
+                    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #eee;">
+                        <div style="display:flex;justify-content:space-between;"><span>Keuntungan (margin)</span><strong>${formatRupiah(r.labaHarian.totalKeuntungan || 0)}</strong></div>
+                        <div style="display:flex;justify-content:space-between;"><span>Nilai Penguapan</span><strong>${formatRupiah(r.labaHarian.nilaiPenguapan || 0)}</strong></div>
+                        <div style="display:flex;justify-content:space-between;"><span>Hasil Keseluruhan</span><strong>${formatRupiah(r.labaHarian.hasilKeseluruhan || 0)}</strong></div>
+                        <div style="display:flex;justify-content:space-between;"><span>Pengeluaran</span><strong>${formatRupiah(r.labaHarian.pengeluaran || 0)}</strong></div>
+                        <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:${(r.labaHarian.labaAkhir||0) >= 0 ? '#00b894' : '#d63031'};"><span>LABA MARGIN AKHIR</span><span>${formatRupiah(r.labaHarian.labaAkhir || 0)}</span></div>
+                    </div>` : ''}
+                </div>
+            `;
+            document.getElementById('detailModal').classList.add('active');
         }
 
         // ===== EXPORT =====
@@ -1860,88 +2820,132 @@
 
         function generateReportHTML() {
             const s = getSummary();
+            const lh = getLabaHarian();
+            const pj = document.getElementById('penanggungJawab').value || 'Ricky Wahyudi';
             const hargaJual = getHargaJual();
             const tanggal = document.getElementById('tanggal').value || new Date().toISOString().split('T')[0];
             const shift = document.getElementById('shift').value || '-';
-            const operator = document.getElementById('operator').value || '-';
 
+            // PENJUALAN BBM: baris nozzle + baris TOTAL per produk
             let nozzleRows = '';
-            nozzles.forEach(n => {
-                const awal = totalizerData[n.id]?.awal || 0;
-                const akhir = totalizerData[n.id]?.akhir || 0;
-                const penjualan = Math.max(0, akhir - awal);
-                const harga = n.product === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                nozzles.filter(n => n.product === p).forEach(n => {
+                    const awal = totalizerData[n.id]?.awal || 0;
+                    const akhir = totalizerData[n.id]?.akhir || 0;
+                    const penjualan = Math.max(0, akhir - awal);
+                    const harga = p === 'Pertalite' ? hargaJual.pertalite : hargaJual.pertamax;
+                    nozzleRows +=
+                        `<tr><td>${p}</td><td>${n.label}</td><td class="num">${awal.toFixed(1)}</td><td class="num">${akhir.toFixed(1)}</td><td class="num">${penjualan.toFixed(1)}</td><td class="num">${formatRupiah(harga)}</td><td class="num">${formatRupiah(penjualan * harga)}</td></tr>`;
+                });
+                const d = stokData[p] || {};
+                const totAwal = nozzles.filter(n => n.product === p).reduce((sum, n) => sum + (totalizerData[n.id]?.awal || 0), 0);
+                const totAkhir = nozzles.filter(n => n.product === p).reduce((sum, n) => sum + (totalizerData[n.id]?.akhir || 0), 0);
+                const totPenjualan = d.penjualan || 0;
+                const totOmzet = p === 'Pertalite' ? (s.totalPenjualanPertalite || 0) : (s.totalPenjualanPertamax || 0);
                 nozzleRows +=
-                    `<tr><td>${n.product}</td><td>${n.label}</td><td>${awal.toFixed(2)}</td><td>${akhir.toFixed(2)}</td><td>${penjualan.toFixed(2)}</td><td>${formatRupiah(harga)}</td><td>${formatRupiah(penjualan * harga)}</td></tr>`;
+                    `<tr class="total-row"><td colspan="2"><strong>TOTAL ${p}</strong></td><td class="num">${totAwal.toFixed(1)}</td><td class="num">${totAkhir.toFixed(1)}</td><td class="num">${totPenjualan.toFixed(1)}</td><td></td><td class="num">${formatRupiah(totOmzet)}</td></tr>`;
             });
 
+            // TOTAL GLOBAL (Pertalite + Pertamax) — hasil akhir penjualan
+            const gAwal = ['Pertalite', 'Pertamax'].reduce((x, p) => x + nozzles.filter(n => n.product === p).reduce((y, n) => y + (totalizerData[n.id]?.awal || 0), 0), 0);
+            const gAkhir = ['Pertalite', 'Pertamax'].reduce((x, p) => x + nozzles.filter(n => n.product === p).reduce((y, n) => y + (totalizerData[n.id]?.akhir || 0), 0), 0);
+            const gPenjualan = (stokData.Pertalite?.penjualan || 0) + (stokData.Pertamax?.penjualan || 0);
+            nozzleRows +=
+                `<tr class="total-row"><td colspan="2"><strong>TOTAL GLOBAL</strong></td><td class="num">${gAwal.toFixed(1)}</td><td class="num">${gAkhir.toFixed(1)}</td><td class="num">${gPenjualan.toFixed(1)}</td><td></td><td class="num">${formatRupiah(s.totalOmzet || 0)}</td></tr>`;
+
+            // STOK BBM & PENGUAPAN
             let stokRows = '';
             ['Pertalite', 'Pertamax'].forEach(p => {
-                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-                const penguapanClass = d.penguapan === 0 ? '' : (d.penguapan > 0 ? 'style="color:#c41e3a;"' : 'style="color:#0984e3;"');
+                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penguapan: 0 };
+                const penguapanClass = d.penguapan === 0 ? '' : (d.penguapan < 0 ? 'style="color:#c41e3a;"' : 'style="color:#0984e3;"');
                 stokRows +=
-                    `<tr><td>${p}</td><td>${d.stokAwal.toFixed(2)}</td><td>${d.pembelian.toFixed(2)}</td><td style="font-weight:700;color:#e65100;">${d.stokAkhir.toFixed(2)}</td><td style="font-weight:600;color:#0984e3;">${d.penjualanStok.toFixed(2)}</td><td ${penguapanClass}>${d.penguapan.toFixed(2)}</td></tr>`;
+                    `<tr><td>${p}</td><td class="num">${d.stokAwal.toFixed(1)}</td><td class="num">${d.pembelian.toFixed(1)}</td><td class="num" style="font-weight:700;color:#e65100;">${d.stokAkhir.toFixed(1)}</td><td class="num" ${penguapanClass}>${formatPenguapan(d.penguapan)}</td></tr>`;
             });
 
+            // PENGELUARAN
             let expenseRows = '';
             let totalExp = 0;
             expenses.forEach((e, i) => {
                 if (e.nominal > 0 || e.keterangan) {
                     expenseRows +=
-                        `<tr><td>${i+1}</td><td>${e.keterangan || '-'}</td><td>${formatRupiah(e.nominal || 0)}</td></tr>`;
+                        `<tr><td>${i+1}</td><td>${e.keterangan || '-'}</td><td class="num">${formatRupiah(e.nominal || 0)}</td></tr>`;
                     totalExp += e.nominal || 0;
                 }
             });
+            // Setor Bank: baris di dalam tabel, TIDAK dihitung sebagai pengeluaran
+            if (setorBank > 0) {
+                expenseRows +=
+                    `<tr style="background:#eef5fd;"><td>—</td><td>Setor Bank <em style="color:#888;font-size:10px;font-weight:400;">(di luar pengeluaran)</em></td><td class="num">${formatRupiah(setorBank)}</td></tr>`;
+            }
 
             return `
                 <html><head><title>Laporan SPBU 34-17603</title>
                 <style>
                     *{font-family:Arial,sans-serif;margin:0;padding:0;box-sizing:border-box;}
-                    body{padding:30px;color:#333;}
-                    .header{background:#c41e3a;color:white;padding:20px;border-radius:8px;margin-bottom:20px;}
-                    .header h1{font-size:24px;}
-                    .header h2{font-size:18px;font-weight:400;}
-                    table{width:100%;border-collapse:collapse;margin:10px 0;}
-                    th{background:#f0f0f0;padding:8px;text-align:left;border:1px solid #ddd;font-size:12px;}
-                    td{padding:8px;border:1px solid #ddd;font-size:12px;}
-                    .section{margin:15px 0;}
-                    .section h3{color:#c41e3a;margin-bottom:8px;border-bottom:2px solid #f0f0f0;padding-bottom:5px;}
-                    .total{font-size:16px;font-weight:700;margin-top:10px;}
-                    .laba{color:#00b894;}
-                    .rugi{color:#d63031;}
-                    @media print{body{padding:15px;}}
+                    body{padding:22px;color:#333;font-size:12px;}
+                    .header{background:#c41e3a;color:white;padding:14px 18px;border-radius:8px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+                    .header h1{font-size:18px;margin:0;}
+                    .header h2{font-size:16px;font-weight:800;margin-top:3px;letter-spacing:.5px;}
+                    .badge{background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-weight:700;font-size:12px;}
+                    .info{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:2px;font-size:12px;}
+                    .section{margin:12px 0;page-break-inside:avoid;}
+                    .section h3{color:#c41e3a;margin-bottom:6px;border-bottom:2px solid #eee;padding-bottom:4px;font-size:14px;}
+                    table{width:100%;border-collapse:collapse;margin:6px 0;}
+                    th{background:#f5f5f5;padding:5px 8px;text-align:left;border:1px solid #ddd;font-size:10.5px;text-transform:uppercase;}
+                    td{padding:5px 8px;border:1px solid #ddd;font-size:11px;}
+                    td.num{text-align:right;white-space:nowrap;}
+                    tr.total-row td{background:#faf0f2;font-weight:700;border-top:2px solid #c41e3a;}
+                    .summary{display:grid;grid-template-columns:1fr 1fr;gap:0 30px;margin-top:4px;}
+                    .summary .sub{font-size:11px;font-weight:800;color:#c41e3a;text-transform:uppercase;border-bottom:2px solid #c41e3a;padding-bottom:3px;margin-bottom:4px;}
+                    .summary .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #ddd;font-size:12px;}
+                    .summary .row.total{font-size:14px;font-weight:700;border-bottom:2px solid #333;padding-top:6px;margin-top:3px;}
+                    .laba{color:#00b894;} .rugi{color:#d63031;}
+                    .foot{margin-top:18px;color:#888;font-size:10.5px;text-align:center;border-top:1px solid #eee;padding-top:6px;}
+                    @media print{body{padding:8px;}}
                 </style>
                 </head><body>
                 <div class="header">
-                    <h1>⛽ LAPORAN PENJUALAN & LABA/RUGI HARIAN</h1>
-                    <h2>SPBU 34-17603</h2>
+                    <div>
+                        <h1>⛽ LAPORAN PENJUALAN &amp; LABA/RUGI HARIAN</h1>
+                        <h2>SPBU 34-17603</h2>
+                    </div>
+                    <div class="badge">Laporan Harian</div>
                 </div>
-                <p><strong>Tanggal:</strong> ${tanggal} | <strong>Shift:</strong> ${shift} | <strong>Operator:</strong> ${operator}</p>
-                <div class="section">
-                    <h3>PENJUALAN BBM</h3>
-                    <table><thead><tr><th>Produk</th><th>Mesin</th><th>Totalisator Awal</th><th>Totalisator Akhir</th><th>Penjualan (L)</th><th>Harga/L</th><th>Total</th></tr></thead><tbody>${nozzleRows}</tbody></table>
+                <div class="info">
+                    <span><strong>Tanggal:</strong> ${tanggal}</span>
+                    <span><strong>Shift:</strong> ${shift}</span>
+                    <span><strong>Penanggung Jawab:</strong> ${pj}</span>
                 </div>
                 <div class="section">
-                    <h3>STOK BBM & PENGUAPAN</h3>
-                    <table><thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian</th><th>Stok Akhir</th><th>Penjualan Stok</th><th>Penguapan</th></tr></thead><tbody>${stokRows}</tbody></table>
-                    <div style="margin-top:8px;font-size:12px;color:#636e72;">
-                        <strong>Keterangan Penguapan:</strong> 0 = Ideal | Positif = Kehilangan | Negatif = Kelebihan Volume
+                    <h3>1. PENJUALAN BBM</h3>
+                    <table><thead><tr><th>Produk</th><th>Mesin</th><th>Totalisator Awal</th><th>Totalisator Akhir</th><th>Penjualan (L)</th><th>Harga/L</th><th>Total (Rp)</th></tr></thead><tbody>${nozzleRows}</tbody></table>
+                </div>
+                <div class="section">
+                    <h3>2. STOK BBM &amp; PENGUAPAN</h3>
+                    <table><thead><tr><th>Produk</th><th>Stok Awal</th><th>Pembelian (DO)</th><th>Stok Akhir</th><th>Penguapan</th></tr></thead><tbody>${stokRows}</tbody></table>
+                </div>
+                <div class="section">
+                    <h3>3. POTONGAN / PENGELUARAN</h3>
+                    <table><thead><tr><th>No</th><th>Keterangan</th><th class="num">Nominal</th></tr></thead><tbody>${expenseRows || '<tr><td colspan="3">Tidak ada pengeluaran</td></tr>'}</tbody></table>
+                    <div style="text-align:right;font-weight:700;margin-top:4px;">TOTAL PENGELUARAN: ${formatRupiah(totalExp)}</div>
+                </div>
+                <div class="section">
+                    <h3>4. LABA/RUGI HARIAN</h3>
+                    <div class="summary" style="grid-template-columns:1fr;max-width:560px;margin:0 auto;">
+                        <div>
+                            <div class="sub">Laba / Rugi Harian (Margin)</div>
+                            <div class="row"><span>Total Penjualan (omzet)</span><span>${formatRupiah(s.totalOmzet)}</span></div>
+                            <div class="row"><span>Pertalite ${lh.pP.toFixed(1)} L × ${formatRupiah(lh.marginP)}</span><span>${formatRupiah(lh.untungP)}</span></div>
+                            <div class="row"><span>Pertamax ${lh.pX.toFixed(1)} L × ${formatRupiah(lh.marginX)}</span><span>${formatRupiah(lh.untungX)}</span></div>
+                            <div class="row total"><span>Total Keuntungan (margin)</span><span>${formatRupiah(lh.totalKeuntungan)}</span></div>
+                            <div class="row"><span>Nilai Penguapan (− dikurangi / + ditambah)</span><span>${formatRupiah(lh.nilaiPenguapan)}</span></div>
+                            <div class="row total"><span>Hasil Keseluruhan</span><span>${formatRupiah(lh.hasilKeseluruhan)}</span></div>
+                            <div class="row"><span>Pengeluaran Harian</span><span>${formatRupiah(lh.pengeluaran)}</span></div>
+                            <div class="row total ${lh.labaAkhir >= 0 ? 'laba' : 'rugi'}"><span>LABA / RUGI HARIAN</span><span>${formatRupiah(lh.labaAkhir)} (${lh.labaAkhir >= 0 ? 'LABA' : 'RUGI'})</span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="section">
-                    <h3>POTONGAN / PENGELUARAN</h3>
-                    <table><thead><tr><th>No</th><th>Keterangan</th><th>Nominal</th></tr></thead><tbody>${expenseRows || '<tr><td colspan="3">Tidak ada pengeluaran</td></tr>'}</tbody></table>
-                    <div class="total"><strong>TOTAL PENGELUARAN:</strong> ${formatRupiah(totalExp)}</div>
-                </div>
-                <div class="section">
-                    <h3>LABA/RUGI HARIAN</h3>
-                    <div><strong>Laba Kotor Penjualan:</strong> ${formatRupiah(s.labaKotor)}</div>
-                    <div><strong>Pengeluaran:</strong> ${formatRupiah(s.totalPengeluaran)}</div>
-                    <div class="total ${s.labaBersih >= 0 ? 'laba' : 'rugi'}">
-                        <strong>LABA/RUGI BERSIH: ${formatRupiah(s.labaBersih)}</strong> (${s.labaBersih >= 0 ? 'LABA' : 'RUGI'})
-                    </div>
-                </div>
-                <p style="margin-top:20px;color:#888;font-size:11px;">Dicetak dari Laporan SPBU 34-17603</p>
+                <div class="foot">Dicetak: ${tanggal} — Laporan SPBU 34-17603 | Penanggung Jawab: ${pj}</div>
                 </body></html>
             `;
         }
@@ -1958,19 +2962,27 @@
                 const penjualan = Math.max(0, akhir - awal);
                 const harga = n.product === 'Pertalite' ? getHargaJual().pertalite : getHargaJual().pertamax;
                 csv +=
-                    `${n.id},${n.product},${n.label},${awal.toFixed(2)},${akhir.toFixed(2)},${penjualan.toFixed(2)},${harga},${(penjualan*harga).toFixed(2)}\n`;
+                    `${n.id},${n.product},${n.label},${awal.toFixed(1)},${akhir.toFixed(1)},${penjualan.toFixed(1)},${harga},${(penjualan*harga).toFixed(1)}\n`;
+            });
+            csv += '\nTOTAL PENJUALAN PER PRODUK\n';
+            csv += 'Produk,Penjualan (L),Omzet (Rp)\n';
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                const d = stokData[p] || {};
+                csv += `${p},${(d.penjualan || 0).toFixed(1)},${(p === 'Pertalite' ? s.totalPenjualanPertalite : s.totalPenjualanPertamax).toFixed(1)}\n`;
             });
             csv += '\nStok & Penguapan\n';
-            csv += 'Produk,Stok Awal,Pembelian,Stok Akhir,Penjualan Stok,Penguapan\n';
+            csv += 'Produk,Stok Awal,Pembelian,Stok Akhir,Penguapan\n';
             ['Pertalite', 'Pertamax'].forEach(p => {
-                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
+                const d = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penguapan: 0 };
                 csv +=
-                    `${p},${d.stokAwal.toFixed(2)},${d.pembelian.toFixed(2)},${d.stokAkhir.toFixed(2)},${d.penjualanStok.toFixed(2)},${d.penguapan.toFixed(2)}\n`;
+                    `${p},${d.stokAwal.toFixed(1)},${d.pembelian.toFixed(1)},${d.stokAkhir.toFixed(1)},${d.penguapan.toFixed(1)}\n`;
             });
-            csv += `\nTotal Omzet,${s.totalOmzet.toFixed(2)}\n`;
-            csv += `Laba Kotor,${s.labaKotor.toFixed(2)}\n`;
-            csv += `Total Pengeluaran,${s.totalPengeluaran.toFixed(2)}\n`;
-            csv += `Laba Bersih,${s.labaBersih.toFixed(2)}\n`;
+            csv += `\nPenjualan Pertalite,${s.totalPenjualanPertalite.toFixed(1)}\n`;
+            csv += `Penjualan Pertamax,${s.totalPenjualanPertamax.toFixed(1)}\n`;
+            csv += `Total Omzet,${s.totalOmzet.toFixed(1)}\n`;
+            csv += `Laba Kotor,${s.labaKotor.toFixed(1)}\n`;
+            csv += `Total Pengeluaran,${s.totalPengeluaran.toFixed(1)}\n`;
+            csv += `Laba Bersih,${s.labaBersih.toFixed(1)}\n`;
 
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
@@ -1988,6 +3000,139 @@
             readAllInputs();
             updateAll();
             showNotification('Perhitungan selesai', 'success');
+        }
+
+        // Sinkronisasi totalisator sekarang berjalan OTOMATIS di updateAll()
+        // (lihat sinkronkanProduk: Penjualan = Stok Awal + DO - Stok Akhir ->
+        //  Totalisator Akhir = Totalisator Awal + Penjualan per nozzle)
+
+        // Cetak PDF laporan tersimpan (dari Data Riwayat) — mode warna / hitam putih
+        function cetakLaporan(id, bw) {
+            const r = reports.find(x => x.id === id);
+            if (!r) return;
+            // Simpan state saat ini
+            const prev = {
+                tanggal: document.getElementById('tanggal').value,
+                shift: document.getElementById('shift').value,
+                penanggungJawab: document.getElementById('penanggungJawab').value,
+                setorBank,
+                totalizerData: JSON.parse(JSON.stringify(totalizerData)),
+                stokData: JSON.parse(JSON.stringify(stokData)),
+                expenses: JSON.parse(JSON.stringify(expenses)),
+                marginP: document.getElementById('marginPertalite').value,
+                marginX: document.getElementById('marginPertamax').value
+            };
+            // Muat data laporan ke state untuk dicetak
+            totalizerData = JSON.parse(JSON.stringify(r.totalizerData || {}));
+            stokData = JSON.parse(JSON.stringify(r.stokData || {}));
+            expenses = JSON.parse(JSON.stringify(r.expenses || []));
+            document.getElementById('tanggal').value = r.tanggal;
+            document.getElementById('shift').value = r.shift || 'Pagi';
+            document.getElementById('penanggungJawab').value = r.penanggungJawab || 'Ricky Wahyudi';
+            setorBank = r.setorBank || 0;
+            const sbCetak = document.getElementById('setorBank');
+            if (sbCetak) sbCetak.value = setorBank;
+            if (r.margin) {
+                document.getElementById('marginPertalite').value = r.margin.pertalite || 0;
+                document.getElementById('marginPertamax').value = r.margin.pertamax || 0;
+            }
+            ['Pertalite', 'Pertamax'].forEach(p => sinkronkanProduk(p));
+            let html = generateReportHTML();
+            // Mode cetak: hitam putih atau berwarna
+            if (bw) {
+                html = html.replace('</head>', `<style>
+                    *{color:#000!important;background:#fff!important;background-color:#fff!important;border-color:#000!important;}
+                    tr.total-row td{background:#fff!important;}
+                    .header{background:#fff!important;color:#000!important;border:2px solid #000!important;}
+                    .badge{border:1px solid #000!important;}
+                    .sub{color:#000!important;border-color:#000!important;}
+                    .laba,.rugi{color:#000!important;}
+                </style></head>`);
+            } else {
+                html = html.replace('</head>', '<style>@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}</style></head>');
+            }
+            // Pulihkan state
+            totalizerData = prev.totalizerData;
+            stokData = prev.stokData;
+            expenses = prev.expenses;
+            document.getElementById('tanggal').value = prev.tanggal;
+            document.getElementById('shift').value = prev.shift;
+            document.getElementById('penanggungJawab').value = prev.penanggungJawab;
+            setorBank = prev.setorBank;
+            document.getElementById('marginPertalite').value = prev.marginP;
+            document.getElementById('marginPertamax').value = prev.marginX;
+            const win = window.open('', '_blank');
+            if (!win) { showToast('Izinkan pop-up untuk mencetak'); return; }
+            win.document.write(html);
+            win.document.close();
+            win.print();
+        }
+
+        // Bagikan ringkasan laporan (Web Share API atau salin teks)
+        function bagikanLaporan(id) {
+            const r = reports.find(x => x.id === id);
+            if (!r) return;
+            const s = r.summary || {};
+            const lh = r.labaHarian || {};
+            const garis = '═'.repeat(34);
+            const tipis = '─'.repeat(34);
+            const teks = [
+                garis,
+                '  ⛽ LAPORAN SPBU 34-17603',
+                '  Tanggal : ' + r.tanggal + '  |  Shift : ' + (r.shift || '-'),
+                '  Penanggung Jawab : ' + (r.penanggungJawab || 'Ricky Wahyudi'),
+                tipis,
+                '  Pertalite : ' + (s.totalPertalite || 0).toFixed(1) + ' L  =  ' + formatRupiah(s.totalPenjualanPertalite || 0),
+                '  Pertamax : ' + (s.totalPertamax || 0).toFixed(1) + ' L  =  ' + formatRupiah(s.totalPenjualanPertamax || 0),
+                '  Penguapan : ' + formatPenguapan(s.totalPenguapan || 0) + ' L',
+                tipis,
+                '  Keuntungan (margin) : ' + formatRupiah(lh.totalKeuntungan || 0),
+                '  Nilai Penguapan     : ' + formatRupiah(lh.nilaiPenguapan || 0),
+                '  Hasil Keseluruhan   : ' + formatRupiah(lh.hasilKeseluruhan ?? 0),
+                '  Pengeluaran Harian  : ' + formatRupiah(lh.pengeluaran || 0),
+                '  LABA MARGIN AKHIR   : ' + formatRupiah(lh.labaAkhir ?? 0),
+                garis
+            ].join('\n');
+            if (navigator.share) {
+                navigator.share({ title: 'Laporan SPBU 34-17603 ' + r.tanggal, text: teks }).catch(() => {});
+                return;
+            }
+            const done = () => showToast('Ringkasan tersalin — tempel di WhatsApp / email');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(teks).then(done).catch(() => copyFallback(teks, done));
+            } else {
+                copyFallback(teks, done);
+            }
+        }
+
+        function copyFallback(text, done) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (done) done();
+            } catch (e) {
+                showToast('Gagal membagikan di perangkat ini');
+            }
+            document.body.removeChild(ta);
+        }
+
+        // Toast ringkas di bagian bawah layar
+        function showToast(msg, type) {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            if (type === 'error') t.style.background = '#d63031';
+            document.body.appendChild(t);
+            setTimeout(() => {
+                t.style.transition = 'opacity 0.3s';
+                t.style.opacity = '0';
+                setTimeout(() => t.remove(), 350);
+            }, 2600);
         }
 
         function closeDetail() {
