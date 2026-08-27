@@ -336,7 +336,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 11px;
-            min-width: 600px;
+            min-width: 0;
         }
 
         table th {
@@ -364,11 +364,11 @@
 
         table input {
             width: 100%;
-            padding: 6px 8px;
+            padding: 6px 5px;
             border: 1.5px solid #dfe6e9;
             border-radius: 6px;
             font-size: 13px;
-            min-width: 60px;
+            min-width: 46px;
             background: white;
             transition: border-color 0.3s;
             touch-action: manipulation;
@@ -703,9 +703,9 @@
             .form-section { padding: 12px; }
             .btn { min-height: 38px; }
             .btn-group { gap: 6px; }
-            table th { padding: 6px 4px; font-size: 9px; }
-            table td { padding: 5px 3px; }
-            table input { font-size: 16px; min-width: 54px; padding: 5px 6px; }
+            table th { padding: 5px 3px; font-size: 8.5px; }
+            table td { padding: 4px 2px; }
+            table input { font-size: 16px; min-width: 40px; padding: 4px 3px; }
             .form-group input, .form-group select { font-size: 16px; }
             .history-item { padding: 10px 12px; }
             #detailModal { padding: 6px; }
@@ -714,6 +714,17 @@
             .laba-grid { grid-template-columns: repeat(2, 1fr); }
             .lf-item { padding: 3px 6px; }
             .lf-value { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+            table { font-size: 10px; }
+            /* Sembunyikan kolom Harga/L di tabel Totalisator agar muat tanpa geser */
+            #tabelTotalisator th:nth-child(6),
+            #tabelTotalisator td:nth-child(6) { display: none; }
+            .mode-switch { gap: 3px; margin-top: 3px; }
+            .mode-btn { font-size: 8px; padding: 2px 5px; }
+            .param-badge { padding: 1px 6px; font-size: 8px; margin-left: 3px; }
+            .stok-badge { font-size: 8px; padding: 0 4px; }
+            .unlock-mini { font-size: 10px; padding: 1px 2px; }
         }
         @media (min-width: 1600px) {
             .container { max-width: 1400px; }
@@ -1597,14 +1608,14 @@
             <div class="form-section">
                 <h3><i class="fas fa-tachometer-alt"></i> Totalisator Nozzle</h3>
                 <div class="table-responsive" style="margin-top:4px;">
-                    <table>
+                    <table id="tabelTotalisator">
                         <thead>
                             <tr>
                                 <th>Produk</th>
                                 <th>Mesin</th>
-                                <th>Totalisator Awal</th>
-                                <th>Totalisator Akhir</th>
-                                <th>Penjualan (L)</th>
+                                <th>Tot. Awal</th>
+                                <th>Tot. Akhir</th>
+                                <th>Penjualan</th>
                                 <th>Harga/L</th>
                                 <th>Total</th>
                             </tr>
@@ -1618,7 +1629,7 @@
             <div class="form-section">
                 <h3><i class="fas fa-warehouse"></i> Stok BBM</h3>
                 <div class="table-responsive">
-                    <table>
+                    <table id="tabelStok">
                         <thead>
                             <tr>
                                 <th>Produk</th>
