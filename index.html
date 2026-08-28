@@ -364,11 +364,11 @@
 
         table input {
             width: 100%;
-            padding: 6px 5px;
+            padding: 7px 6px;
             border: 1.5px solid #dfe6e9;
             border-radius: 6px;
             font-size: 13px;
-            min-width: 46px;
+            min-width: 64px;
             background: white;
             transition: border-color 0.3s;
             touch-action: manipulation;
@@ -705,7 +705,7 @@
             .btn-group { gap: 6px; }
             table th { padding: 5px 3px; font-size: 8.5px; }
             table td { padding: 4px 2px; }
-            table input { font-size: 16px; min-width: 40px; padding: 4px 3px; }
+            table input { font-size: 16px; min-width: 56px; padding: 5px 5px; }
             .form-group input, .form-group select { font-size: 16px; }
             .history-item { padding: 10px 12px; }
             #detailModal { padding: 6px; }
@@ -721,7 +721,7 @@
             #tabelTotalisator th:nth-child(6),
             #tabelTotalisator td:nth-child(6) { display: none; }
             .mode-switch { gap: 3px; margin-top: 3px; }
-            .mode-btn { font-size: 8px; padding: 2px 5px; }
+            .mode-btn { font-size: 9px; padding: 2px 7px; }
             .param-badge { padding: 1px 6px; font-size: 8px; margin-left: 3px; }
             .stok-badge { font-size: 8px; padding: 0 4px; }
             .unlock-mini { font-size: 10px; padding: 1px 2px; }
@@ -1669,7 +1669,7 @@
                 <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
                 <div class="setor-bank">
                     <span class="setor-bank-label"><i class="fas fa-building-columns"></i> Setor Bank</span>
-                    <input type="number" step="0.1" id="setorBank" value="0" placeholder="0">
+                    <input type="number" step="0.1" id="setorBank" value="" placeholder="0">
                     <span class="setor-bank-note">tidak masuk pengeluaran harian</span>
                 </div>
                 <div id="expenseContainer"></div>
@@ -2281,6 +2281,13 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
         }
 
         // ===== RENDER FUNCTIONS =====
+        // Tampilkan nilai kosong (placeholder) bila 0 — placeholder sesuai konteks kolom
+        function valInput(v) {
+            if (v === undefined || v === null || v === '') return '';
+            const n = parseFloat(v);
+            return (isNaN(n) || n === 0) ? '' : v;
+        }
+
         function renderTotalisator() {
             const tbody = document.getElementById('totalisatorTable');
             const hargaJual = getHargaJual();
@@ -2320,11 +2327,11 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                     row.innerHTML = `
                         <td><strong>${n.product}</strong></td>
                         <td>${n.label}</td>
-                        <td><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${savedAwal}"></td>
-                        <td><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${savedAkhir}" style="font-weight:600;color:#6c5ce7;background:${modeAuto ? '#f5f3ff' : 'white'};"></td>
-                        <td><input type="number" step="0.1" readonly class="total-penjualan" value="${penjualan.toFixed(1)}" style="font-weight:600;color:#0984e3;"></td>
+                        <td><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${valInput(savedAwal)}" placeholder="Awal"></td>
+                        <td><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(savedAkhir)}" placeholder="Akhir" style="font-weight:600;color:#6c5ce7;background:${modeAuto ? '#f5f3ff' : 'white'};"></td>
+                        <td><input type="number" step="0.1" readonly class="total-penjualan" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#0984e3;"></td>
                         <td>${formatRupiah(harga)}</td>
-                        <td><input type="text" readonly class="total-omzet" value="${formatRupiah(total)}" style="font-weight:600;color:#c41e3a;"></td>
+                        <td><input type="text" readonly class="total-omzet" value="${total > 0 ? formatRupiah(total) : ''}" placeholder="Rp 0" style="font-weight:600;color:#c41e3a;"></td>
                     `;
                     tbody.appendChild(row);
                 });
@@ -2348,7 +2355,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                     <td></td>
                     <td></td>
                     <td>
-                        <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${savedPenjualan}" style="font-weight:700;color:#6c5ce7;background:${lockedPJ ? '#f5f6fa' : '#f5f3ff'};" ${lockedPJ ? 'disabled' : ''}>
+                        <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${valInput(savedPenjualan)}" placeholder="Otomatis" style="font-weight:700;color:#6c5ce7;background:${lockedPJ ? '#f5f6fa' : '#f5f3ff'};" ${lockedPJ ? 'disabled' : ''}>
                         <span class="stok-badge stok-penjualan-badge"${d.penjualanManual ? ' style="background:#e3f2fd;color:#0d47a1;border-color:#0984e3;"' : ''}>${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
                         <button class="unlock-mini" onclick="toggleLockKey('penjualan${p}')" title="Kunci / Buka"><i class="fas fa-${lockedPJ ? 'lock' : 'unlock'}"></i></button>
                     </td>
@@ -2385,7 +2392,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><input type="number" step="0.1" readonly class="sub-penjualan" value="${gPenjualan.toFixed(1)}" style="font-weight:700;background:#f8f9fa;color:#c41e3a;"></td>
+                <td><input type="number" step="0.1" readonly class="sub-penjualan" value="${valInput(gPenjualan)}" placeholder="0" style="font-weight:700;background:#f8f9fa;color:#c41e3a;"></td>
                 <td></td>
                 <td><strong class="sub-omzet">${formatRupiah(gOmzet)}</strong></td>
             `;
@@ -2490,13 +2497,13 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                     sumAwal += t.awal || 0; sumAkhir += t.akhir || 0; sumOmzet += penjualan * harga;
                     gAwal += t.awal || 0; gAkhir += t.akhir || 0; gOmzet += penjualan * harga;
                     const awalInput = row.querySelector('.total-awal');
-                    if (awalInput) awalInput.value = t.awal || 0;
+                    if (awalInput) awalInput.value = valInput(t.awal);
                     const akhirInput = row.querySelector('.total-akhir');
-                    if (akhirInput) akhirInput.value = t.akhir || 0;
+                    if (akhirInput) akhirInput.value = valInput(t.akhir);
                     const penjualanInput = row.querySelector('.total-penjualan');
-                    if (penjualanInput) penjualanInput.value = penjualan.toFixed(1);
+                    if (penjualanInput) penjualanInput.value = valInput(penjualan);
                     const omzetInput = row.querySelector('.total-omzet');
-                    if (omzetInput) omzetInput.value = formatRupiah(penjualan * harga);
+                    if (omzetInput) omzetInput.value = (penjualan * harga) ? formatRupiah(penjualan * harga) : '';
                 });
 
                 // Baris TOTAL per produk
@@ -2508,7 +2515,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                     const akhirSum = sub.querySelector('.sub-akhir');
                     if (akhirSum) akhirSum.value = sumAkhir.toFixed(1);
                     const totalPenjInput = sub.querySelector('.stok-penjualan-total');
-                    if (totalPenjInput && !d.penjualanManual) totalPenjInput.value = (d.penjualan || 0).toFixed(1);
+                    if (totalPenjInput && !d.penjualanManual) totalPenjInput.value = valInput(d.penjualan);
                     // (Total Totalisator Awal/Akhir tidak lagi ditampilkan di baris TOTAL)
                     const badgePenjualan = sub.querySelector('.stok-penjualan-badge');
                     if (badgePenjualan) {
@@ -2526,7 +2533,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                 if (row) {
                     const d = stokData[p] || {};
                     const akhirInput = row.querySelector('.stok-akhir');
-                    if (akhirInput && !d.stokAkhirManual) akhirInput.value = d.stokAkhir.toFixed(1);
+                    if (akhirInput && !d.stokAkhirManual) akhirInput.value = valInput(d.stokAkhir);
                     const badge = row.querySelector('.stok-badge');
                     if (badge) {
                         badge.textContent = d.stokAkhirManual ? 'MANUAL' : 'AUTO';
@@ -2536,7 +2543,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                     }
                     const pengInput = row.querySelector('.stok-penguapan');
                     if (pengInput) {
-                        pengInput.value = formatPenguapan(d.penguapan);
+                        pengInput.value = d.penguapan ? formatPenguapan(d.penguapan) : '';
                         pengInput.className = 'stok-penguapan highlight-penguapan ' + (d.penguapan === 0 ? 'zero' : (d.penguapan < 0 ? 'positive' : 'negative'));
                     }
                     const label = row.querySelector('.stok-penguapan-label');
@@ -2583,15 +2590,15 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                 row.setAttribute('data-produk', p);
                 row.innerHTML = `
                     <td><strong>${p}</strong></td>
-                    <td><input type="number" step="0.1" class="stok-awal" data-produk="${p}" value="${valAwal}"></td>
-                    <td><input type="number" step="0.1" class="stok-pembelian" data-produk="${p}" value="${valPembelian}"></td>
+                    <td><input type="number" step="0.1" class="stok-awal" data-produk="${p}" value="${valInput(valAwal)}" placeholder="Awal"></td>
+                    <td><input type="number" step="0.1" class="stok-pembelian" data-produk="${p}" value="${valInput(valPembelian)}" placeholder="DO"></td>
                     <td>
-                        <input type="number" step="0.1" class="stok-akhir" data-produk="${p}" value="${valAkhir}" style="font-weight:600;color:#e65100;background:${lockedSA ? '#f5f6fa' : '#fff8e1'};" ${lockedSA ? 'readonly' : ''}>
+                        <input type="number" step="0.1" class="stok-akhir" data-produk="${p}" value="${valInput(valAkhir)}" placeholder="Akhir" style="font-weight:600;color:#e65100;background:${lockedSA ? '#f5f6fa' : '#fff8e1'};" ${lockedSA ? 'readonly' : ''}>
                         <span class="stok-badge"${data.stokAkhirManual ? ' style="background:#e3f2fd;color:#0d47a1;border-color:#0984e3;"' : ''}>${data.stokAkhirManual ? 'MANUAL' : 'AUTO'}</span>
                         <button class="unlock-mini" onclick="toggleLockKey('stokAkhir${p}')" title="Kunci / Buka"><i class="fas fa-${lockedSA ? 'lock' : 'unlock'}"></i></button>
                     </td>
                     <td>
-                        <input type="text" readonly value="${formatPenguapan(data.penguapan)}" class="stok-penguapan highlight-penguapan ${penguapanClass}" style="font-weight:700;">
+                        <input type="text" readonly value="${data.penguapan ? formatPenguapan(data.penguapan) : ''}" placeholder="0" class="stok-penguapan highlight-penguapan ${penguapanClass}" style="font-weight:700;">
                         <span class="stok-penguapan-label" style="font-size:10px;margin-left:4px;color:#636e72;">${penguapanLabel}</span>
                     </td>
                 `;
@@ -2621,7 +2628,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
                 div.innerHTML = `
                     <span class="exp-number">${idx+1}</span>
                     <input type="text" value="${e.keterangan}" placeholder="Keterangan" onchange="updateExpense(${e.id},'keterangan',this.value)">
-                    <input type="number" step="0.1" value="${e.nominal}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
+                    <input type="number" step="0.1" value="${valInput(e.nominal)}" placeholder="0" onchange="updateExpense(${e.id},'nominal',this.value)">
                     <button class="btn btn-danger btn-sm" onclick="hapusExpense(${e.id})"><i class="fas fa-trash"></i></button>
                 `;
                 container.appendChild(div);
@@ -2984,7 +2991,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
             document.getElementById('penanggungJawab').value = 'Ricky Wahyudi';
             setorBank = 0;
             const sbInput = document.getElementById('setorBank');
-            if (sbInput) sbInput.value = 0;
+            if (sbInput) sbInput.value = '';
             document.getElementById('totalisatorTable').innerHTML = '';
             document.getElementById('stokTable').innerHTML = '';
             renderTotalisator();
@@ -3076,7 +3083,7 @@ create policy "allow_all" on laporan_spbu for all using (true) with check (true)
 
             setorBank = report.setorBank || 0;
             const sbInput = document.getElementById('setorBank');
-            if (sbInput) sbInput.value = setorBank;
+            if (sbInput) sbInput.value = setorBank > 0 ? setorBank : '';
 
             if (report.hargaJual) {
                 document.getElementById('hargaJualPertalite').value = report.hargaJual.pertalite || 10000;
