@@ -1275,6 +1275,13 @@
             return `${parts[2]}-${parts[1]}-${parts[0]}`;
         }
 
+        function formatHariTanggal(iso) {
+            if (!iso) return '';
+            const d = new Date(iso + 'T00:00:00');
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            return days[d.getDay()] + ', ' + formatTanggalIndo(iso);
+        }
+
         function tampilkanHari() {
             const val = document.getElementById('tanggal').value;
             const el = document.getElementById('hariTanggal');
@@ -1864,7 +1871,7 @@
                 item.className = 'history-item';
                 item.innerHTML = `
                     <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <span style="font-weight:700;color:#c41e3a;font-size:14px;">${formatTanggalIndo(r.tanggal)}</span>
+                        <span style="font-weight:700;color:#c41e3a;font-size:14px;">${formatHariTanggal(r.tanggal)}</span>
                         <span style="font-size:11px;background:#eef2f5;padding:2px 8px;border-radius:6px;font-weight:600;">${r.shift}</span>
                     </div>
                     <div style="font-size:12.5px;color:#2d3436;">
@@ -1902,7 +1909,7 @@
                     <i class="fas fa-file-invoice"></i> Detail Laporan (Read-Only)
                 </h3>
                 <div style="font-size:13px;line-height:1.6;color:#2d3436;">
-                    <p><strong>Tanggal:</strong> ${formatTanggalIndo(rep.tanggal)} | <strong>Shift:</strong> ${rep.shift}</p>
+                    <p><strong>Tanggal:</strong> ${formatHariTanggal(rep.tanggal)} | <strong>Shift:</strong> ${rep.shift}</p>
                     <p><strong>Penanggung Jawab:</strong> ${rep.penanggungJawab}</p>
                     <hr style="margin:8px 0;border:0;border-top:1px solid #eee;">
                     <p><strong>Penjualan Pertalite:</strong> ${Math.round(sd.Pertalite?.penjualan || 0)} L (${formatRupiah(s.omzetP)})</p>
@@ -2015,7 +2022,7 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — URUTAN BARU, MARGIN LEGA, TEXT BESAR, WARNA PRODUK
+        // GENERATE PDF — FINAL VERSION
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
@@ -2024,7 +2031,6 @@
             const textMuted = '#6b7280';
             const border = '#e5e7eb';
 
-            // Warna produk
             const colPertalite = isColor ? '#059669' : '#374151';
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
             const colPertamax = isColor ? '#2563eb' : '#374151';
@@ -2046,7 +2052,7 @@
 
                 nozRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:10px;padding:5px 8px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:12px;padding:7px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
@@ -2059,36 +2065,48 @@
                     sumOmz += Math.round(penj * harga);
                     nozRows += `
                         <tr>
-                            <td style="padding-left:14px;font-weight:600;">Mesin ${n.label}</td>
-                            <td style="text-align:right;">${(t.awal || 0).toFixed(1)}</td>
-                            <td style="text-align:right;">${(t.akhir || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-weight:700;color:${c};">${penj.toFixed(1)} L</td>
-                            <td style="text-align:right;font-weight:700;">${formatRupiah(Math.round(penj * harga))}</td>
+                            <td style="padding-left:16px;font-weight:600;font-size:12px;">Mesin ${n.label}</td>
+                            <td style="text-align:right;font-size:12px;">${(t.awal || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-size:12px;">${(t.akhir || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${penj.toFixed(1)} L</td>
+                            <td style="text-align:right;font-weight:700;font-size:12px;">${formatRupiah(Math.round(penj * harga))}</td>
                         </tr>
                     `;
                 });
 
                 nozRows += `
                     <tr style="background:${bg};">
-                        <td colspan="3" style="font-weight:700;color:${c};font-size:9px;padding:5px 8px;">TOTAL ${p.toUpperCase()}</td>
-                        <td style="text-align:right;font-weight:700;color:${c};">${Math.round(sd[p]?.penjualan || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${c};">${formatRupiah(sumOmz)}</td>
+                        <td colspan="3" style="font-weight:700;color:${c};font-size:11px;padding:7px 10px;">TOTAL ${p.toUpperCase()}</td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${Math.round(sd[p]?.penjualan || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${formatRupiah(sumOmz)}</td>
                     </tr>
                 `;
             });
 
-            // ---------- 2. PENGELUARAN ----------
-            let expList = '';
+            // ---------- 2. PENGELUARAN (Setor Bank di atas) ----------
             const expFiltered = (rep.expenses || []).filter(e => e.nominal > 0);
+            let expRows = '';
+            expRows += `
+                <tr style="background:#eff6ff;">
+                    <td style="padding-left:16px;font-weight:700;color:#1d4ed8;font-size:12px;">Setoran Bank</td>
+                    <td style="text-align:right;font-weight:700;color:#1d4ed8;font-size:12px;">${formatRupiah(rep.setorBank || 0)}</td>
+                </tr>
+            `;
             if (expFiltered.length > 0) {
-                expList = expFiltered.map(e => `
-                    <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #f0f0f0;font-size:10px;">
-                        <span style="color:#374151;">${e.keterangan || 'Tanpa keterangan'}</span>
-                        <strong style="color:${accent};">${formatRupiah(e.nominal)}</strong>
-                    </div>
-                `).join('');
+                expFiltered.forEach(e => {
+                    expRows += `
+                        <tr>
+                            <td style="padding-left:16px;font-size:12px;">${e.keterangan || 'Tanpa keterangan'}</td>
+                            <td style="text-align:right;font-weight:600;color:${accent};font-size:12px;">${formatRupiah(e.nominal)}</td>
+                        </tr>
+                    `;
+                });
             } else {
-                expList = '<div style="color:#9ca3af;text-align:center;padding:6px;font-size:9px;font-style:italic;">Tidak ada pengeluaran harian</div>';
+                expRows += `
+                    <tr>
+                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:11px;font-style:italic;padding:6px;">Tidak ada pengeluaran operasional</td>
+                    </tr>
+                `;
             }
 
             // ---------- 3. STOK ----------
@@ -2098,16 +2116,16 @@
                 const c = pColor(p), bg = pBg(p);
                 stokRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:10px;padding:5px 8px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:12px;padding:7px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:14px;font-weight:600;">Stok Awal</td>
-                        <td style="text-align:right;">${Math.round(d.stokAwal || 0)} L</td>
-                        <td style="text-align:right;">${Math.round(d.pembelian || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;">${Math.round(d.stokAkhir || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};">
+                        <td style="padding-left:16px;font-weight:600;font-size:12px;">Stok Awal</td>
+                        <td style="text-align:right;font-size:12px;">${Math.round(d.stokAwal || 0)} L</td>
+                        <td style="text-align:right;font-size:12px;">${Math.round(d.pembelian || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;font-size:12px;">${Math.round(d.stokAkhir || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};font-size:12px;">
                             ${formatPenguapan(d.penguapan || 0)}
                         </td>
                     </tr>
@@ -2120,37 +2138,37 @@
                 <head>
                     <meta charset="utf-8">
                     <style>
-                        @page { size: A4 portrait; margin: 12mm 14mm 12mm 14mm; }
+                        @page { size: A4 portrait; margin: 14mm 16mm 14mm 16mm; }
                         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin:0; padding:0; }
-                        body { color: #1f2937; font-size: 10px; line-height: 1.4; }
+                        body { color: #1f2937; font-size: 12px; line-height: 1.5; }
 
                         .hdr {
                             background: ${accent};
                             color: #fff;
-                            padding: 12px 16px;
+                            padding: 14px 18px;
                             border-radius: 6px;
-                            margin-bottom: 10px;
+                            margin-bottom: 12px;
                             position: relative;
                             overflow: hidden;
                         }
                         .hdr::after {
                             content: '⛽';
                             position: absolute;
-                            right: 10px;
-                            top: -10px;
-                            font-size: 60px;
+                            right: 12px;
+                            top: -12px;
+                            font-size: 70px;
                             opacity: 0.08;
                         }
-                        .hdr h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.4px; }
-                        .hdr .sub { font-size: 9px; opacity: 0.9; margin-top: 3px; }
+                        .hdr h1 { font-size: 17px; font-weight: 700; letter-spacing: 0.4px; }
+                        .hdr .sub { font-size: 11px; opacity: 0.95; margin-top: 4px; font-weight: 600; }
                         .hdr .badge {
                             display: inline-block;
                             background: rgba(255,255,255,0.22);
-                            padding: 3px 10px;
+                            padding: 4px 12px;
                             border-radius: 10px;
-                            font-size: 8px;
+                            font-size: 10px;
                             font-weight: 600;
-                            margin-top: 5px;
+                            margin-top: 6px;
                             letter-spacing: 0.3px;
                         }
 
@@ -2159,39 +2177,39 @@
                             justify-content: space-between;
                             background: #f9fafb;
                             border: 1px solid ${border};
-                            border-radius: 5px;
-                            padding: 7px 12px;
-                            margin-bottom: 10px;
-                            font-size: 10px;
+                            border-radius: 6px;
+                            padding: 9px 14px;
+                            margin-bottom: 12px;
+                            font-size: 11px;
                         }
                         .meta-item { display: flex; flex-direction: column; }
-                        .meta-item .lbl { font-size: 8px; color: ${textMuted}; text-transform: uppercase; letter-spacing: 0.3px; }
-                        .meta-item .val { font-weight: 700; color: #111827; margin-top: 2px; font-size: 11px; }
+                        .meta-item .lbl { font-size: 9px; color: ${textMuted}; text-transform: uppercase; letter-spacing: 0.3px; font-weight: 600; }
+                        .meta-item .val { font-weight: 700; color: #111827; margin-top: 3px; font-size: 12px; }
 
-                        .sec { margin-bottom: 10px; }
+                        .sec { margin-bottom: 12px; }
                         .sec-hdr {
                             display: flex;
                             align-items: center;
-                            gap: 6px;
-                            font-size: 11px;
+                            gap: 7px;
+                            font-size: 13px;
                             font-weight: 700;
                             color: ${accent};
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
-                            margin-bottom: 5px;
-                            padding-bottom: 4px;
+                            margin-bottom: 6px;
+                            padding-bottom: 5px;
                             border-bottom: 2px solid ${accent};
                         }
                         .sec-hdr .num {
                             display: inline-flex;
                             align-items: center;
                             justify-content: center;
-                            width: 18px;
-                            height: 18px;
+                            width: 20px;
+                            height: 20px;
                             background: ${accent};
                             color: #fff;
                             border-radius: 50%;
-                            font-size: 9px;
+                            font-size: 10px;
                             font-weight: 700;
                         }
 
@@ -2199,25 +2217,25 @@
                         th {
                             background: #f3f4f6;
                             color: #374151;
-                            font-size: 9px;
+                            font-size: 11px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.3px;
-                            padding: 6px 8px;
+                            padding: 8px 10px;
                             border: 1px solid ${border};
                             text-align: left;
                         }
                         td {
-                            padding: 5px 8px;
+                            padding: 7px 10px;
                             border: 1px solid ${border};
-                            font-size: 10px;
+                            font-size: 12px;
                         }
                         th.right, td.right { text-align: right; }
 
                         .box {
                             border: 1px solid ${border};
-                            border-radius: 5px;
-                            padding: 8px 12px;
+                            border-radius: 6px;
+                            padding: 10px 14px;
                             background: #fafafa;
                         }
 
@@ -2225,8 +2243,8 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 5px 0;
-                            font-size: 10px;
+                            padding: 6px 0;
+                            font-size: 12px;
                             border-bottom: 1px dashed #e5e7eb;
                         }
                         .li:last-child { border-bottom: none; }
@@ -2235,36 +2253,26 @@
                         .li.total {
                             border-top: 2px solid #111827;
                             border-bottom: none;
-                            margin-top: 4px;
-                            padding-top: 7px;
-                            font-size: 13px;
-                        }
-
-                        .footer {
-                            margin-top: 10px;
-                            padding-top: 6px;
-                            border-top: 1px solid ${border};
-                            display: flex;
-                            justify-content: space-between;
-                            font-size: 8px;
-                            color: ${textMuted};
+                            margin-top: 5px;
+                            padding-top: 9px;
+                            font-size: 15px;
                         }
                     </style>
                 </head>
                 <body>
 
-                    <!-- HEADER -->
+                    <!-- HEADER (tanpa alamat, dengan hari) -->
                     <div class="hdr">
                         <h1>LAPORAN PENJUALAN &amp; LABA/RUGI HARIAN</h1>
-                        <div class="sub">SPBU 34-17603 &nbsp;•&nbsp; Jl. Raya Rengasbandung, Cikarang Timur, Bekasi</div>
+                        <div class="sub">SPBU 34-17603 &nbsp;•&nbsp; ${formatHariTanggal(rep.tanggal)} &nbsp;•&nbsp; Shift ${rep.shift}</div>
                         <div class="badge">REKAP HARIAN</div>
                     </div>
 
                     <!-- META -->
                     <div class="meta">
                         <div class="meta-item">
-                            <span class="lbl">Tanggal</span>
-                            <span class="val">${formatTanggalIndo(rep.tanggal)}</span>
+                            <span class="lbl">Hari / Tanggal</span>
+                            <span class="val">${formatHariTanggal(rep.tanggal)}</span>
                         </div>
                         <div class="meta-item">
                             <span class="lbl">Shift</span>
@@ -2293,20 +2301,24 @@
                         </table>
                     </div>
 
-                    <!-- 2. PENGELUARAN -->
+                    <!-- 2. PENGELUARAN (Setor Bank di atas) -->
                     <div class="sec">
                         <div class="sec-hdr"><span class="num">2</span> Pengeluaran / Potongan Harian</div>
-                        <div class="box">
-                            ${expList}
-                            <div class="li total" style="color:${accent};">
-                                <span class="lbl" style="color:${accent};font-weight:700;">TOTAL PENGELUARAN</span>
-                                <span class="val" style="color:${accent};">${formatRupiah(s.totalPengeluaran)}</span>
-                            </div>
-                            <div class="li" style="border-top:1px solid #cbd5e1;margin-top:4px;padding-top:5px;">
-                                <span class="lbl">Setoran Bank <span style="font-size:8px;color:#9ca3af;">(di luar pengeluaran)</span></span>
-                                <span class="val" style="color:#2563eb;">${formatRupiah(rep.setorBank || 0)}</span>
-                            </div>
-                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:60%;">Keterangan</th>
+                                    <th class="right" style="width:40%;">Nominal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${expRows}
+                                <tr style="background:${isColor ? '#fef2f2' : '#f3f4f6'};">
+                                    <td style="font-weight:700;color:${accent};font-size:12px;padding-left:16px;">TOTAL PENGELUARAN</td>
+                                    <td style="text-align:right;font-weight:700;color:${accent};font-size:13px;">${formatRupiah(s.totalPengeluaran)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <!-- 3. STOK -->
@@ -2357,11 +2369,6 @@
                         </div>
                     </div>
 
-                    <!-- FOOTER -->
-                    <div class="footer">
-                        <span>SPBU 34-17603 — Sistem Laporan Harian</span>
-                        <span>Dicetak: ${new Date().toLocaleString('id-ID')}</span>
-                    </div>
                 </body>
                 </html>
             `;
