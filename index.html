@@ -106,9 +106,7 @@
             scrollbar-width: none;
         }
 
-        .nav-tabs::-webkit-scrollbar {
-            display: none;
-        }
+        .nav-tabs::-webkit-scrollbar { display: none; }
 
         .nav-tabs button {
             flex: 0 0 auto;
@@ -130,24 +128,12 @@
             font-size: 13px;
         }
 
-        .nav-tabs button:hover {
-            background: #f0f0f0;
-        }
-
-        .nav-tabs button.active {
-            background: var(--primary);
-            color: white;
-        }
+        .nav-tabs button:hover { background: #f0f0f0; }
+        .nav-tabs button.active { background: var(--primary); color: white; }
 
         @media (min-width: 768px) {
-            .nav-tabs {
-                gap: 8px;
-                padding: 12px 20px;
-            }
-            .nav-tabs button {
-                padding: 10px 22px;
-                font-size: 14px;
-            }
+            .nav-tabs { gap: 8px; padding: 12px 20px; }
+            .nav-tabs button { padding: 10px 22px; font-size: 14px; }
         }
 
         .dashboard-grid {
@@ -158,17 +144,11 @@
         }
 
         @media (min-width: 480px) {
-            .dashboard-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
+            .dashboard-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
         }
 
         @media (min-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 16px;
-            }
+            .dashboard-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
         }
 
         .card {
@@ -229,21 +209,13 @@
             gap: 10px;
         }
 
-        @media (min-width: 480px) {
-            .form-grid { grid-template-columns: 1fr 1fr; }
-        }
+        @media (min-width: 480px) { .form-grid { grid-template-columns: 1fr 1fr; } }
 
         @media (min-width: 768px) {
-            .form-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 15px;
-            }
+            .form-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+        .form-group { display: flex; flex-direction: column; }
 
         .form-group label {
             font-size: 12px;
@@ -264,10 +236,7 @@
         }
 
         .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
+        .form-group select:focus { outline: none; border-color: var(--primary); }
 
         .form-group input[readonly],
         .form-group select[disabled] {
@@ -315,26 +284,14 @@
 
         table tr:hover { background: #fafafa; }
 
-        .th-produk, .td-produk {
-            width: 75px !important;
-            max-width: 80px !important;
-            padding-right: 2px !important;
-        }
-
+        .th-produk, .td-produk { width: 75px !important; max-width: 80px !important; padding-right: 2px !important; }
         .th-mesin, .td-mesin {
-            width: 42px !important;
-            max-width: 45px !important;
-            padding-left: 2px !important;
-            padding-right: 6px !important;
-            text-align: center;
-            font-weight: 700;
-            color: #636e72;
+            width: 42px !important; max-width: 45px !important;
+            padding-left: 2px !important; padding-right: 6px !important;
+            text-align: center; font-weight: 700; color: #636e72;
         }
 
-        .th-tot, .td-tot {
-            width: 120px !important;
-            min-width: 115px !important;
-        }
+        .th-tot, .td-tot { width: 120px !important; min-width: 115px !important; }
 
         .td-tot input {
             min-width: 105px !important;
@@ -363,10 +320,7 @@
             box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
         }
 
-        table input[readonly] {
-            background: #f5f6fa;
-            cursor: not-allowed;
-        }
+        table input[readonly] { background: #f5f6fa; cursor: not-allowed; }
 
         .penguapan-cell-wrapper {
             display: flex;
@@ -464,11 +418,7 @@
         .toggle-switch input:checked + .slider { background: var(--primary); }
         .toggle-switch input:checked + .slider::after { left: 23px; }
 
-        .toggle-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: #2d3436;
-        }
+        .toggle-label { font-size: 13px; font-weight: 700; color: #2d3436; }
 
         .toggle-panel {
             display: none;
@@ -479,15 +429,9 @@
             margin-bottom: 16px;
         }
 
-        .toggle-panel.open {
-            display: block;
-            animation: panelIn 0.25s ease;
-        }
+        .toggle-panel.open { display: block; animation: panelIn 0.25s ease; }
 
-        @keyframes panelIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: none; }
-        }
+        @keyframes panelIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
         .laba-grid {
             display: grid;
@@ -504,29 +448,15 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .laba-card-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #b2bec3;
-            text-transform: uppercase;
-        }
-
-        .laba-card-value {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 4px 0 2px;
-            color: #2d3436;
-        }
+        .laba-card-label { font-size: 10px; font-weight: 700; color: #b2bec3; text-transform: uppercase; }
+        .laba-card-value { font-size: 16px; font-weight: 700; margin: 4px 0 2px; color: #2d3436; }
 
         .laba-card-main {
             border: 2px solid var(--primary);
             background: var(--primary-bg);
         }
 
-        .laba-card-main .laba-card-value {
-            color: var(--primary);
-            font-size: 18px;
-        }
+        .laba-card-main .laba-card-value { color: var(--primary); font-size: 18px; }
 
         @media (min-width: 768px) {
             .laba-grid { grid-template-columns: repeat(3, 1fr); }
@@ -551,12 +481,7 @@
             flex-direction: column;
         }
 
-        .laba-produk-title {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
+        .laba-produk-title { font-size: 12px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
 
         .laba-formula {
             display: flex;
@@ -567,10 +492,7 @@
             border-top: 1px dashed #e5e7eb;
         }
 
-        .laba-formula:first-of-type {
-            border-top: none;
-            padding-top: 0;
-        }
+        .laba-formula:first-of-type { border-top: none; padding-top: 0; }
 
         .lf-item {
             display: flex;
@@ -584,25 +506,9 @@
             min-width: 0;
         }
 
-        .lf-label {
-            font-size: 9px;
-            color: #b2bec3;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .lf-value {
-            font-size: 13px;
-            font-weight: 700;
-            color: #2d3436;
-            white-space: nowrap;
-        }
-
-        .lf-op {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--primary);
-        }
+        .lf-label { font-size: 9px; color: #b2bec3; font-weight: 700; text-transform: uppercase; }
+        .lf-value { font-size: 13px; font-weight: 700; color: #2d3436; white-space: nowrap; }
+        .lf-op { font-size: 16px; font-weight: 800; color: var(--primary); }
 
         .lf-item input {
             width: 68px;
@@ -614,19 +520,10 @@
             background: white;
         }
 
-        .lf-hasil {
-            background: var(--primary-bg);
-            border: 1px solid var(--primary-border);
-        }
+        .lf-hasil { background: var(--primary-bg); border: 1px solid var(--primary-border); }
+        .lf-hasil .lf-value { color: var(--primary); font-size: 14px; }
 
-        .lf-hasil .lf-value {
-            color: var(--primary);
-            font-size: 14px;
-        }
-
-        @media (min-width: 768px) {
-            .laba-produk-grid { grid-template-columns: 1fr 1fr; }
-        }
+        @media (min-width: 768px) { .laba-produk-grid { grid-template-columns: 1fr 1fr; } }
 
         .btn {
             padding: 8px 16px;
@@ -662,10 +559,7 @@
             margin-top: 14px;
         }
 
-        .btn-group .btn {
-            flex: 1 1 auto;
-            min-width: 90px;
-        }
+        .btn-group .btn { flex: 1 1 auto; min-width: 90px; }
 
         .setor-bank {
             display: flex;
@@ -678,11 +572,7 @@
             flex-wrap: wrap;
         }
 
-        .setor-bank-label {
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--primary);
-        }
+        .setor-bank-label { font-weight: 700; font-size: 13px; color: var(--primary); }
 
         .setor-bank input {
             width: 140px;
@@ -773,11 +663,7 @@
             vertical-align: middle;
         }
 
-        .mode-switch {
-            display: inline-flex;
-            gap: 4px;
-            margin-top: 4px;
-        }
+        .mode-switch { display: inline-flex; gap: 4px; margin-top: 4px; }
 
         .mode-btn {
             border: 1.5px solid #dfe6e9;
@@ -2064,7 +1950,7 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — CLEAN + GARIS TABEL + FORMULA PROPORSIONAL
+        // GENERATE PDF — FIX HALAMAN KOSONG
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
@@ -2203,40 +2089,46 @@
                 <head>
                     <meta charset="utf-8">
                     <style>
+                        /* KUNCI UTAMA: cegah halaman kedua */
                         @page { size: A4 portrait; margin: 0; }
                         * { box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; margin:0; padding:0; }
                         html, body {
                             width: 210mm;
                             height: 297mm;
                             overflow: hidden;
+                            margin: 0;
+                            padding: 0;
                         }
                         body { color: ${textDark}; }
 
+                        /* Tinggi 296mm (bukan 297mm) untuk mencegah overflow 1px */
                         .pdf-page {
                             width: 210mm;
-                            height: 297mm;
-                            padding: 8mm 12mm 8mm 12mm;
+                            height: 296mm;
+                            max-height: 296mm;
+                            padding: 6mm 11mm 5mm 11mm;
                             display: flex;
                             flex-direction: column;
-                            gap: 6px;
+                            gap: 4px;
+                            overflow: hidden;
                         }
 
                         /* ===== HEADER ===== */
                         .hdr-wrap {
                             border-bottom: 3px solid ${blueModern};
-                            padding-bottom: 8px;
-                            margin-bottom: 4px;
+                            padding-bottom: 6px;
+                            margin-bottom: 2px;
                             flex-shrink: 0;
                         }
                         .hdr-wrap h1 {
-                            font-size: 15px;
+                            font-size: 14px;
                             font-weight: 700;
                             letter-spacing: 0.3px;
                             color: ${blueModern};
-                            margin-bottom: 3px;
+                            margin-bottom: 2px;
                         }
                         .hdr-wrap .sub {
-                            font-size: 10px;
+                            font-size: 9.5px;
                             color: ${textMuted};
                             font-weight: 500;
                             letter-spacing: 0.3px;
@@ -2246,36 +2138,36 @@
                         .meta {
                             display: flex;
                             justify-content: space-between;
-                            padding: 6px 0 8px;
+                            padding: 4px 0 6px;
                             border-bottom: 1px solid ${borderLight};
-                            margin-bottom: 6px;
+                            margin-bottom: 4px;
                             flex-shrink: 0;
                         }
                         .meta-item { display: flex; flex-direction: column; }
                         .meta-lbl {
-                            font-size: 7px;
+                            font-size: 6.5px;
                             color: ${textMuted};
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
                             font-weight: 600;
                         }
                         .meta-val {
-                            font-size: 10px;
+                            font-size: 9.5px;
                             font-weight: 700;
                             color: ${textDark};
                             margin-top: 1px;
                         }
 
                         /* ===== SECTION ===== */
-                        .sec { flex-shrink: 0; page-break-inside: avoid; margin-bottom: 2px; }
+                        .sec { flex-shrink: 0; page-break-inside: avoid; margin-bottom: 1px; }
                         .sec-hdr {
                             display: flex;
                             align-items: center;
                             gap: 5px;
                             border-bottom: 2px solid ${blueModern};
-                            padding-bottom: 4px;
-                            margin-bottom: 4px;
-                            font-size: 10px;
+                            padding-bottom: 3px;
+                            margin-bottom: 3px;
+                            font-size: 9.5px;
                             font-weight: 700;
                             color: ${blueModern};
                             text-transform: uppercase;
@@ -2285,12 +2177,12 @@
                             display: inline-flex;
                             align-items: center;
                             justify-content: center;
-                            width: 16px;
-                            height: 16px;
+                            width: 15px;
+                            height: 15px;
                             background: ${blueModern};
                             color: #fff;
                             border-radius: 3px;
-                            font-size: 9px;
+                            font-size: 8.5px;
                             font-weight: 700;
                             flex-shrink: 0;
                         }
@@ -2298,11 +2190,11 @@
                         /* ===== TABLE ===== */
                         table { width: 100%; border-collapse: collapse; }
                         th {
-                            font-size: 8px;
+                            font-size: 7.5px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.3px;
-                            padding: 5px 6px;
+                            padding: 3.5px 5px;
                             color: ${textMuted};
                             text-align: left;
                             border: 1px solid ${borderRow};
@@ -2310,14 +2202,14 @@
                         }
                         th.right, td.right { text-align: right; }
                         td {
-                            padding: 4px 6px;
-                            font-size: 9px;
+                            padding: 2.5px 5px;
+                            font-size: 8.5px;
                             border: 1px solid ${borderRow};
                         }
 
                         /* ===== REKAP ===== */
                         .rekap-item {
-                            padding: 6px 0;
+                            padding: 4px 0;
                             border-bottom: 1px solid ${borderLight};
                         }
                         .rekap-item:last-child { border-bottom: none; }
@@ -2325,32 +2217,32 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            font-size: 10px;
-                            margin-bottom: 4px;
+                            font-size: 9px;
+                            margin-bottom: 3px;
                         }
                         .rekap-head .lbl { color: ${textMuted}; font-weight: 600; }
                         .rekap-head .val { font-weight: 700; color: ${textDark}; }
 
-                        /* ===== FORMULA GRID 3 KOLOM PROPORSIONAL ===== */
+                        /* Formula row 3 kolom proporsional */
                         .rekap-formula-row {
                             display: grid;
-                            grid-template-columns: 90px 1fr 120px;
+                            grid-template-columns: 85px 1fr 115px;
                             align-items: center;
-                            gap: 8px;
-                            padding: 2px 0 2px 14px;
-                            font-size: 8.5px;
+                            gap: 6px;
+                            padding: 1px 0 1px 12px;
+                            font-size: 8px;
                         }
                         .rekap-formula-row .name {
                             display: inline-flex;
                             align-items: center;
-                            gap: 4px;
+                            gap: 3px;
                             font-weight: 600;
                             color: ${textDark};
                             white-space: nowrap;
                         }
                         .rekap-formula-row .name .dot {
-                            width: 5px;
-                            height: 5px;
+                            width: 4.5px;
+                            height: 4.5px;
                             border-radius: 50%;
                             display: inline-block;
                             flex-shrink: 0;
@@ -2360,7 +2252,7 @@
                         .rekap-formula-row .formula {
                             font-style: italic;
                             color: ${textMuted};
-                            font-size: 8.5px;
+                            font-size: 8px;
                             text-align: center;
                             white-space: nowrap;
                         }
@@ -2372,7 +2264,7 @@
                         .rekap-formula-row .result {
                             font-weight: 700;
                             color: ${textDark};
-                            font-size: 9.5px;
+                            font-size: 9px;
                             text-align: right;
                             white-space: nowrap;
                         }
@@ -2381,12 +2273,12 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            margin-top: 6px;
-                            padding: 8px 12px;
+                            margin-top: 4px;
+                            padding: 6px 10px;
                             background: ${blueModern};
                             color: #fff;
                             border-radius: 3px;
-                            font-size: 11px;
+                            font-size: 10px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
@@ -2449,8 +2341,8 @@
                                 <tbody>
                                     ${expRows}
                                     <tr>
-                                        <td style="font-weight:700;font-size:10px;padding-left:14px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">Total Pengeluaran</td>
-                                        <td style="text-align:right;font-weight:700;font-size:10px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">${formatRupiah(s.totalPengeluaran)}</td>
+                                        <td style="font-weight:700;font-size:9.5px;padding-left:14px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">Total Pengeluaran</td>
+                                        <td style="text-align:right;font-weight:700;font-size:9.5px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">${formatRupiah(s.totalPengeluaran)}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -2478,7 +2370,6 @@
                             <div class="sec-hdr"><span class="sec-num">4</span> Rekapitulasi Laba / Rugi</div>
                             <div style="padding: 0 2px;">
 
-                                <!-- MARGIN -->
                                 <div class="rekap-item">
                                     <div class="rekap-head">
                                         <span class="lbl">Keuntungan Margin Penjualan</span>
@@ -2496,7 +2387,6 @@
                                     </div>
                                 </div>
 
-                                <!-- PENGUAPAN -->
                                 <div class="rekap-item">
                                     <div class="rekap-head">
                                         <span class="lbl">Nilai Penguapan BBM</span>
@@ -2514,7 +2404,6 @@
                                     </div>
                                 </div>
 
-                                <!-- POTONGAN -->
                                 <div class="rekap-item">
                                     <div class="rekap-head">
                                         <span class="lbl">Potongan Pengeluaran Harian</span>
@@ -2522,7 +2411,6 @@
                                     </div>
                                 </div>
 
-                                <!-- LABA BERSIH -->
                                 <div class="rekap-total">
                                     <span>Hasil Laba Bersih Real</span>
                                     <span>${formatRupiah(s.labaBersih)}</span>
@@ -2538,7 +2426,15 @@
 
         async function renderPdfBlob(rep, format) {
             const html = generatePdfHtml(rep, format);
+
+            // Buat container tersembunyi dengan dimensi A4 pasti
             const container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            container.style.top = '0';
+            container.style.width = '794px';   // 210mm @ 96dpi
+            container.style.height = '1123px'; // 297mm @ 96dpi
+            container.style.overflow = 'hidden';
             container.innerHTML = html;
             document.body.appendChild(container);
 
@@ -2549,16 +2445,34 @@
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
+                    scrollX: 0,
+                    scrollY: 0,
                     windowWidth: 794,
-                    windowHeight: 1123
+                    windowHeight: 1123,
+                    width: 794,
+                    height: 1123
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['avoid-all'] }
+                // Kunci: gunakan mode 'css' + 'legacy' agar tidak menambah halaman
+                pagebreak: { mode: ['css', 'legacy'], avoid: '.sec' }
             };
 
-            const blob = await html2pdf().from(container).set(opt).output('blob');
-            document.body.removeChild(container);
-            return blob;
+            try {
+                const pdf = await html2pdf().from(container.firstElementChild).set(opt).toPdf().get('pdf');
+                // Hapus halaman kosong jika ada (jaga-jaga)
+                const totalPages = pdf.internal.getNumberOfPages();
+                if (totalPages > 1) {
+                    for (let i = totalPages; i > 1; i--) {
+                        pdf.deletePage(i);
+                    }
+                }
+                const blob = pdf.output('blob');
+                document.body.removeChild(container);
+                return blob;
+            } catch (err) {
+                document.body.removeChild(container);
+                throw err;
+            }
         }
 
         async function eksekusiBagikanPDF(format) {
