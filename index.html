@@ -35,12 +35,12 @@
         }
 
         .header {
-            background: #c41e3a;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             padding: 16px 20px;
             border-radius: 12px;
             margin-bottom: 16px;
-            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.25);
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.25);
             position: relative;
             overflow: hidden;
         }
@@ -69,7 +69,7 @@
         }
 
         .header .spbu-id {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.22);
             padding: 2px 12px;
             border-radius: 20px;
             display: inline-block;
@@ -640,6 +640,8 @@
         .btn-success { background: #00b894; color: white; }
         .btn-danger { background: #d63031; color: white; }
         .btn-outline { background: transparent; border: 2px solid #c41e3a; color: #c41e3a; }
+        .btn-blue { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; }
+        .btn-blue:hover { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
         .btn-dark { background: #2d3436; color: white; }
         .btn-dark:hover { background: #1a1e1f; }
         .btn-sm { padding: 4px 10px; font-size: 11px; min-height: 28px; }
@@ -1198,20 +1200,20 @@
             </div>
         </div>
 
-        <!-- MODAL BAGIKAN — 4 OPSI (Warna/BW × Bagikan/Unduh) -->
+        <!-- MODAL BAGIKAN — 4 OPSI -->
         <div id="shareModal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeShare()">&times;</button>
-                <h3 style="color:#c41e3a;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan / Unduh Laporan PDF</h3>
+                <h3 style="color:#1e40af;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan / Unduh Laporan PDF</h3>
                 <p style="font-size:12px;color:#636e72;margin-bottom:12px;">Pilih format PDF lalu bagikan langsung atau unduh ke perangkat:</p>
                 
                 <div class="share-btn-list">
                     <div class="share-section-title">📤 Bagikan ke Aplikasi Lain</div>
-                    <button type="button" class="btn btn-primary" onclick="eksekusiBagikanPDF('warna')"><i class="fas fa-file-pdf"></i> Bagikan PDF Berwarna</button>
+                    <button type="button" class="btn btn-blue" onclick="eksekusiBagikanPDF('warna')"><i class="fas fa-file-pdf"></i> Bagikan PDF Berwarna</button>
                     <button type="button" class="btn btn-dark" onclick="eksekusiBagikanPDF('bw')"><i class="fas fa-print"></i> Bagikan PDF Hitam Putih</button>
 
                     <div class="share-section-title" style="margin-top:12px;">💾 Unduh ke Perangkat</div>
-                    <button type="button" class="btn btn-primary" onclick="unduhPDFLangsung('warna')"><i class="fas fa-download"></i> Unduh PDF Berwarna</button>
+                    <button type="button" class="btn btn-blue" onclick="unduhPDFLangsung('warna')"><i class="fas fa-download"></i> Unduh PDF Berwarna</button>
                     <button type="button" class="btn btn-dark" onclick="unduhPDFLangsung('bw')"><i class="fas fa-download"></i> Unduh PDF Hitam Putih</button>
                 </div>
             </div>
@@ -1437,7 +1439,7 @@
                         <td class="td-mesin">${n.label}</td>
                         <td class="td-tot"><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${valInput(awal)}" placeholder="Awal"></td>
                         <td class="td-tot"><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(akhir)}" placeholder="Akhir" style="${modeAuto ? 'background:#f5f3ff;color:#6c5ce7;' : ''}"></td>
-                        <td><input type="number" step="0.1" readonly class="total-penjualan" data-id="${n.id}" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#0984e3;"></td>
+                        <td><input type="number" step="0.1" readonly class="total-penjualan" data-id="${n.id}" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#1e40af;"></td>
                         <td>${formatRupiah(harga)}</td>
                         <td><input type="text" readonly class="total-omzet" data-id="${n.id}" value="${penjualan > 0 ? formatRupiah(Math.round(penjualan * harga)) : ''}" placeholder="Rp 0"></td>
                     `;
@@ -1472,13 +1474,12 @@
                 grandTotalOmzet += sumOmzet;
             });
 
-            // Baris Grand Total Omset
             const grandRow = document.createElement('tr');
-            grandRow.style.background = '#0b3c8c';
+            grandRow.style.background = 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)';
             grandRow.style.color = '#fff';
             grandRow.innerHTML = `
-                <td colspan="6" style="font-weight:700;font-size:13px;padding:8px 12px;border:1px solid #0b3c8c;text-align:right;">TOTAL OMSET PENJUALAN</td>
-                <td style="text-align:right;font-weight:700;font-size:14px;border:1px solid #0b3c8c;">${formatRupiah(grandTotalOmzet)}</td>
+                <td colspan="6" style="font-weight:700;font-size:13px;padding:8px 12px;border:1px solid #1e40af;text-align:right;">TOTAL OMSET PENJUALAN</td>
+                <td style="text-align:right;font-weight:700;font-size:14px;border:1px solid #1e40af;">${formatRupiah(grandTotalOmzet)}</td>
             `;
             tbody.appendChild(grandRow);
         }
@@ -1953,7 +1954,7 @@
                     <p><strong>Setor Bank:</strong> ${formatRupiah(rep.setorBank || 0)}</p>
                     <hr style="margin:8px 0;border:0;border-top:1px solid #eee;">
                     <p style="font-size:14px;color:${s.labaBersih >= 0 ? '#00b894' : '#d63031'};"><strong>LABA BERSIH REAL:</strong> ${formatRupiah(s.labaBersih)}</p>
-                    <p style="font-size:14px;color:#0984e3;"><strong>SISA KAS REAL:</strong> ${formatRupiah(s.sisaKas)}</p>
+                    <p style="font-size:14px;color:#1e40af;"><strong>SISA KAS REAL:</strong> ${formatRupiah(s.sisaKas)}</p>
                 </div>
             `;
             document.getElementById('viewDetailContent').innerHTML = content;
@@ -2050,13 +2051,16 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — PAS 1 HALAMAN A4 + TOTAL OMSET + OPSI WARNA/BW
+        // GENERATE PDF — DETAIL MINUS PER PRODUK + MODERN BLUE
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
             const isColor = format === 'warna';
 
-            const blueDark = isColor ? '#0b3c8c' : '#1f2937';
+            // Nuansa biru modern
+            const blueModern = isColor ? '#1e40af' : '#1f2937';       // biru utama
+            const blueAccent = isColor ? '#3b82f6' : '#374151';        // aksen biru terang
+            const blueBg = isColor ? '#eff6ff' : '#f3f4f6';             // bg biru muda
             const redMain = isColor ? '#c41e3a' : '#1f2937';
             const colPertalite = isColor ? '#059669' : '#374151';
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
@@ -2071,6 +2075,30 @@
 
             const pColor = (p) => p === 'Pertalite' ? colPertalite : colPertamax;
             const pBg = (p) => p === 'Pertalite' ? bgPertalite : bgPertamax;
+
+            // Perhitungan per produk untuk rekapitulasi detail
+            const mP = rep.margin?.pertalite || 0;
+            const mX = rep.margin?.pertamax || 0;
+            const pP = Math.round(sd.Pertalite?.penjualan || 0);
+            const pX = Math.round(sd.Pertamax?.penjualan || 0);
+            const untungP = pP * mP;
+            const untungX = pX * mX;
+            const pengP = Math.round(sd.Pertalite?.penguapan || 0);
+            const pengX = Math.round(sd.Pertamax?.penguapan || 0);
+            const nilPengP = pengP * hj.pertalite;
+            const nilPengX = pengX * hj.pertamax;
+            const hasilP = untungP + nilPengP;
+            const hasilX = untungX + nilPengX;
+            // Alokasi pengeluaran proporsional terhadap omzet
+            const omzetP = pP * hj.pertalite;
+            const omzetX = pX * hj.pertamax;
+            const totalOmz = omzetP + omzetX || 1;
+            const ratioP = omzetP / totalOmz;
+            const ratioX = omzetX / totalOmz;
+            const potonganP = Math.round(s.totalPengeluaran * ratioP);
+            const potonganX = Math.round(s.totalPengeluaran * ratioX);
+            const labaBersihP = hasilP - potonganP;
+            const labaBersihX = hasilX - potonganX;
 
             // ---------- 1. TOTALISATOR ----------
             let nozRows = '';
@@ -2115,11 +2143,10 @@
                 grandTotalOmzet += sumOmz;
             });
 
-            // Baris Total Omset Keseluruhan
             nozRows += `
-                <tr style="background:${blueDark};color:#fff;">
-                    <td colspan="5" style="font-weight:700;font-size:11px;padding:6px 10px;text-align:right;border:1px solid ${blueDark};letter-spacing:0.3px;">TOTAL OMSET PENJUALAN</td>
-                    <td style="text-align:right;font-weight:700;font-size:12px;border:1px solid ${blueDark};">${formatRupiah(grandTotalOmzet)}</td>
+                <tr style="background:linear-gradient(135deg, ${blueModern} 0%, ${blueAccent} 100%);color:#fff;">
+                    <td colspan="5" style="font-weight:700;font-size:11px;padding:6px 10px;text-align:right;border:1px solid ${blueModern};letter-spacing:0.3px;">TOTAL OMSET PENJUALAN</td>
+                    <td style="text-align:right;font-weight:700;font-size:12px;border:1px solid ${blueModern};">${formatRupiah(grandTotalOmzet)}</td>
                 </tr>
             `;
 
@@ -2127,9 +2154,9 @@
             const expFiltered = (rep.expenses || []).filter(e => e.nominal > 0);
             let expRows = '';
             expRows += `
-                <tr style="background:${isColor ? '#eff6ff' : '#f3f4f6'};">
-                    <td style="padding-left:14px;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:10px;border:1px solid ${borderLight};">Setoran Bank</td>
-                    <td style="text-align:right;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:10px;border:1px solid ${borderLight};">${formatRupiah(rep.setorBank || 0)}</td>
+                <tr style="background:${blueBg};">
+                    <td style="padding-left:14px;font-weight:700;color:${blueModern};font-size:10px;border:1px solid ${borderLight};">Setoran Bank</td>
+                    <td style="text-align:right;font-weight:700;color:${blueModern};font-size:10px;border:1px solid ${borderLight};">${formatRupiah(rep.setorBank || 0)}</td>
                 </tr>
             `;
             if (expFiltered.length > 0) {
@@ -2194,17 +2221,18 @@
                         .pdf-page {
                             width: 210mm;
                             height: 297mm;
-                            padding: 8mm 11mm 8mm 11mm;
+                            padding: 7mm 10mm 7mm 10mm;
                             display: flex;
                             flex-direction: column;
-                            gap: 5px;
+                            gap: 4px;
                         }
 
+                        /* HEADER — MODERN BLUE GRADIENT */
                         .hdr-wrap {
-                            background: ${blueDark};
+                            background: linear-gradient(135deg, ${blueModern} 0%, ${blueAccent} 100%);
                             color: #fff;
                             padding: 10px 14px;
-                            border-radius: 5px;
+                            border-radius: 6px;
                             position: relative;
                             overflow: hidden;
                             flex-shrink: 0;
@@ -2216,7 +2244,7 @@
                             top: -25px;
                             width: 90px;
                             height: 90px;
-                            background: rgba(255,255,255,0.08);
+                            background: rgba(255,255,255,0.12);
                             border-radius: 50%;
                         }
                         .hdr-wrap h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.2px; margin-bottom: 2px; }
@@ -2235,18 +2263,18 @@
                             display: flex;
                             align-items: center;
                             gap: 6px;
-                            padding: 6px 10px;
+                            padding: 5px 10px;
                             border-right: 1px solid ${border};
                         }
                         .meta-item:last-child { border-right: none; }
                         .meta-icon {
-                            font-size: 14px;
-                            color: ${blueDark};
+                            font-size: 13px;
+                            color: ${blueModern};
                             flex-shrink: 0;
                         }
                         .meta-content { display: flex; flex-direction: column; }
                         .meta-lbl {
-                            font-size: 8px;
+                            font-size: 7px;
                             color: #6b7280;
                             font-weight: 700;
                             text-transform: uppercase;
@@ -2301,30 +2329,49 @@
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.2px;
-                            padding: 5px 7px;
+                            padding: 4px 6px;
                             border: 1px solid ${borderLight};
                             text-align: left;
                         }
                         th.right, td.right { text-align: right; }
                         td {
-                            padding: 4px 7px;
+                            padding: 3px 6px;
                             border: 1px solid ${borderLight};
                             font-size: 10px;
                         }
 
+                        /* REKAP dengan detail minus per produk */
                         .rekap-row {
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 5px 12px;
+                            padding: 4px 12px;
                             border-bottom: 1px solid ${borderLight};
                             font-size: 10px;
                         }
                         .rekap-row:last-child { border-bottom: none; }
                         .rekap-row .lbl { color: #4b5563; }
                         .rekap-row .val { font-weight: 700; color: #1f2937; }
+
+                        /* Sub-baris detail per produk */
+                        .rekap-detail {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 2px 12px 3px 24px;
+                            background: #fafafa;
+                            font-size: 9px;
+                            border-bottom: 1px dashed #e5e7eb;
+                            color: #6b7280;
+                        }
+                        .rekap-detail:last-child { border-bottom: 1px solid ${borderLight}; }
+                        .rekap-detail .lbl-sub { display: inline-flex; align-items: center; gap: 4px; }
+                        .rekap-detail .dot-pt { color: ${colPertalite}; font-weight: 700; }
+                        .rekap-detail .dot-px { color: ${colPertamax}; font-weight: 700; }
+                        .rekap-detail .val-sub { font-weight: 600; color: #4b5563; }
+
                         .rekap-row.highlight {
-                            background: ${blueDark};
+                            background: linear-gradient(135deg, ${blueModern} 0%, ${blueAccent} 100%);
                             color: #fff;
                             font-size: 13px;
                             font-weight: 700;
@@ -2431,26 +2478,68 @@
                             </div>
                         </div>
 
-                        <!-- 4. REKAPITULASI (TANPA OMSET) -->
+                        <!-- 4. REKAPITULASI — DENGAN DETAIL MINUS PER PRODUK -->
                         <div class="sec">
                             <div class="sec-hdr"><span class="sec-num">4</span> Rekapitulasi Laba / Rugi</div>
                             <div class="sec-body">
+
+                                <!-- Keuntungan Margin -->
                                 <div class="rekap-row">
                                     <span class="lbl">Keuntungan Margin Penjualan</span>
                                     <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
                                 </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-pt">●</span> Pertalite</span>
+                                    <span class="val-sub">${formatRupiah(untungP)}</span>
+                                </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-px">●</span> Pertamax</span>
+                                    <span class="val-sub">${formatRupiah(untungX)}</span>
+                                </div>
+
+                                <!-- Nilai Penguapan -->
                                 <div class="rekap-row">
                                     <span class="lbl">Nilai Penguapan BBM</span>
                                     <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
                                 </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-pt">●</span> Pertalite</span>
+                                    <span class="val-sub">${formatRupiah(nilPengP)}</span>
+                                </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-px">●</span> Pertamax</span>
+                                    <span class="val-sub">${formatRupiah(nilPengX)}</span>
+                                </div>
+
+                                <!-- Hasil Keseluruhan -->
                                 <div class="rekap-row">
                                     <span class="lbl">Hasil Keseluruhan</span>
                                     <span class="val">${formatRupiah(s.hasilKeseluruhan)}</span>
                                 </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-pt">●</span> Pertalite</span>
+                                    <span class="val-sub">${formatRupiah(hasilP)}</span>
+                                </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-px">●</span> Pertamax</span>
+                                    <span class="val-sub">${formatRupiah(hasilX)}</span>
+                                </div>
+
+                                <!-- Potongan Pengeluaran -->
                                 <div class="rekap-row">
                                     <span class="lbl">Potongan Pengeluaran Harian</span>
                                     <span class="val" style="color:#dc2626;">− ${formatRupiah(s.totalPengeluaran)}</span>
                                 </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-pt">●</span> Porsi Pertalite</span>
+                                    <span class="val-sub" style="color:#dc2626;">− ${formatRupiah(potonganP)}</span>
+                                </div>
+                                <div class="rekap-detail">
+                                    <span class="lbl-sub"><span class="dot-px">●</span> Porsi Pertamax</span>
+                                    <span class="val-sub" style="color:#dc2626;">− ${formatRupiah(potonganX)}</span>
+                                </div>
+
+                                <!-- Laba Bersih Real -->
                                 <div class="rekap-row highlight">
                                     <span>HASIL LABA BERSIH REAL</span>
                                     <span>${formatRupiah(s.labaBersih)}</span>
