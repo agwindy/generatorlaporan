@@ -266,7 +266,6 @@
             color: #2d3436;
         }
 
-        /* ===== TABEL TOTALISATOR & STOK: PROPORSI PAS & LEBAR ===== */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -282,7 +281,7 @@
         }
 
         #tabelTotalisator {
-            min-width: 680px; /* Menjaga ruang geser horizontal saat di HP */
+            min-width: 680px;
         }
 
         #tabelStok {
@@ -313,7 +312,6 @@
             background: #fafafa;
         }
 
-        /* 1. PRODUK & MESIN DIRAPATKAN */
         .th-produk, .td-produk {
             width: 75px !important;
             max-width: 80px !important;
@@ -330,7 +328,6 @@
             color: #636e72;
         }
 
-        /* 2. KOLOM TOTALISATOR LEBAR (ANTI-TERPOTONG) */
         .th-tot, .td-tot {
             width: 120px !important;
             min-width: 115px !important;
@@ -368,7 +365,6 @@
             cursor: not-allowed;
         }
 
-        /* Wadah Kolom Penguapan agar tidak bertumpukan */
         .penguapan-cell-wrapper {
             display: flex;
             align-items: center;
@@ -902,11 +898,11 @@
                 </div>
                 <div class="card">
                     <div class="label">Pertalite</div>
-                    <div class="value" id="dashPertalite">0 L</div>
+                    <div class="value" id="dashPertalite">0,0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Pertamax</div>
-                    <div class="value" id="dashPertamax">0 L</div>
+                    <div class="value" id="dashPertamax">0,0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Penjualan Pertalite</div>
@@ -930,11 +926,11 @@
                 </div>
                 <div class="card">
                     <div class="label">Total Stok</div>
-                    <div class="value" id="dashStok">0 L</div>
+                    <div class="value" id="dashStok">0,0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Total Penguapan</div>
-                    <div class="value neutral" id="dashPenguapan">0 L</div>
+                    <div class="value neutral" id="dashPenguapan">0,0 L</div>
                 </div>
             </div>
 
@@ -1005,7 +1001,7 @@
                                     <th class="th-mesin">Mesin</th>
                                     <th class="th-tot">Tot. Awal</th>
                                     <th class="th-tot">Tot. Akhir</th>
-                                    <th style="min-width: 95px;">Penjualan</th>
+                                    <th style="min-width: 105px;">Penjualan</th>
                                     <th style="min-width: 85px;">Harga/L</th>
                                     <th style="min-width: 110px;">Total</th>
                                 </tr>
@@ -1074,7 +1070,7 @@
                         <div class="laba-produk-card">
                             <div class="laba-produk-title">⛽ PERTALITE</div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertalite">0.0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertalite">0,0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item">
                                     <span class="lf-label">Margin/L</span>
@@ -1085,7 +1081,7 @@
                                 <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertalite">Rp 0</strong></span>
                             </div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertalite">0.0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertalite">0,0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item"><span class="lf-label">Harga/L</span><strong class="lf-value" id="labaHargaJualPertaliteTxt">Rp 10.000</strong></span>
                                 <span class="lf-op">=</span>
@@ -1095,7 +1091,7 @@
                         <div class="laba-produk-card">
                             <div class="laba-produk-title">⛽ PERTAMAX</div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertamax">0.0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertamax">0,0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item">
                                     <span class="lf-label">Margin/L</span>
@@ -1106,7 +1102,7 @@
                                 <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertamax">Rp 0</strong></span>
                             </div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertamax">0.0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertamax">0,0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item"><span class="lf-label">Harga/L</span><strong class="lf-value" id="labaHargaJualPertamaxTxt">Rp 15.950</strong></span>
                                 <span class="lf-op">=</span>
@@ -1259,10 +1255,12 @@
             };
         }
 
+        // FORMAT 1 ANGKA DI BELAKANG KOMA TANPA GLITCH DESIMAL
         function valInput(v) {
             if (v === undefined || v === null || v === '') return '';
             const n = parseFloat(v);
-            return (isNaN(n) || n === 0) ? '' : v;
+            if (isNaN(n) || n === 0) return '';
+            return (Math.round(n * 10) / 10).toFixed(1);
         }
 
         function formatRupiah(num) {
@@ -1271,8 +1269,8 @@
 
         function formatPenguapan(val) {
             const n = parseFloat(val) || 0;
-            if (Math.abs(n) < 0.05) return '0.0 L';
-            return (n > 0 ? '+' : '') + n.toFixed(1) + ' L';
+            if (Math.abs(n) < 0.05) return '0,0 L';
+            return (n > 0 ? '+' : '') + (Math.round(n * 10) / 10).toFixed(1).replace('.', ',') + ' L';
         }
 
         function formatTanggalIndo(iso) {
@@ -1386,7 +1384,7 @@
                     if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
                     const awal = totalizerData[n.id].awal || 0;
                     const akhir = totalizerData[n.id].akhir || 0;
-                    const penjualan = Math.max(0, akhir - awal);
+                    const penjualan = Math.max(0, Math.round((akhir - awal) * 10) / 10);
                     const harga = p === 'Pertalite' ? hj.pertalite : hj.pertamax;
                     sumOmzet += penjualan * harga;
 
@@ -1466,6 +1464,7 @@
             });
         }
 
+        // GENERATE PENJUALAN RANDOM SESUAI TOTAL PENJUALAN
         function sinkronkanProduk(p) {
             const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0, modeTotalizer: 'auto' };
             const nozz = nozzles.filter(n => n.product === p);
@@ -1482,20 +1481,36 @@
                 S = nozz.reduce((s, n) => s + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)), 0);
             }
 
+            S = Math.round(S * 10) / 10;
+
+            // Alokasi acak saat mode auto agar penjualan tidak sama rata
             if (!modeManual && (data.penjualanManual || data.stokAkhirManual) && S >= 0 && nozz.length > 0) {
-                let share = S / nozz.length;
-                nozz.forEach(n => {
+                const rndFactors = nozz.map(() => 0.6 + Math.random() * 0.8);
+                const sumRnd = rndFactors.reduce((a, b) => a + b, 0);
+
+                let allocatedSum = 0;
+                nozz.forEach((n, idx) => {
                     if (!totalizerData[n.id]) totalizerData[n.id] = { awal: 0, akhir: 0 };
-                    totalizerData[n.id].akhir = Math.round((totalizerData[n.id].awal + share) * 10) / 10;
+                    const awal = Math.round((totalizerData[n.id].awal || 0) * 10) / 10;
+
+                    if (idx < nozz.length - 1) {
+                        const nozzleSales = Math.round((S * (rndFactors[idx] / sumRnd)) * 10) / 10;
+                        totalizerData[n.id].akhir = Math.round((awal + nozzleSales) * 10) / 10;
+                        allocatedSum += nozzleSales;
+                    } else {
+                        // Sisa penjualan dialokasikan ke nozzle terakhir agar totalnya 100% presisi
+                        const remainingSales = Math.round((S - allocatedSum) * 10) / 10;
+                        totalizerData[n.id].akhir = Math.round((awal + remainingSales) * 10) / 10;
+                    }
                 });
             }
 
             if (!data.stokAkhirManual) {
-                data.stokAkhir = data.stokAwal + data.pembelian - S;
+                data.stokAkhir = Math.round((data.stokAwal + data.pembelian - S) * 10) / 10;
             }
 
-            data.penjualanStok = data.stokAwal + data.pembelian - data.stokAkhir;
-            data.penguapan = Math.floor(S) - data.penjualanStok;
+            data.penjualanStok = Math.round((data.stokAwal + data.pembelian - data.stokAkhir) * 10) / 10;
+            data.penguapan = Math.round((Math.floor(S) - data.penjualanStok) * 10) / 10;
             if (!data.penjualanManual) data.penjualan = S;
             stokData[p] = data;
             return data;
@@ -1563,18 +1578,18 @@
                 const id = inp.dataset.id;
                 const v = parseFloat(inp.value) || 0;
                 if (!totalizerData[id]) totalizerData[id] = { awal: 0, akhir: 0 };
-                if (inp.classList.contains('total-awal')) totalizerData[id].awal = v;
-                else totalizerData[id].akhir = v;
+                if (inp.classList.contains('total-awal')) totalizerData[id].awal = Math.round(v * 10) / 10;
+                else totalizerData[id].akhir = Math.round(v * 10) / 10;
             });
 
             document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-pembelian, #stokTable .stok-akhir').forEach(inp => {
                 const p = inp.dataset.produk;
                 const v = parseFloat(inp.value) || 0;
                 if (!stokData[p]) stokData[p] = { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-                if (inp.classList.contains('stok-awal')) stokData[p].stokAwal = v;
-                if (inp.classList.contains('stok-pembelian')) stokData[p].pembelian = v;
+                if (inp.classList.contains('stok-awal')) stokData[p].stokAwal = Math.round(v * 10) / 10;
+                if (inp.classList.contains('stok-pembelian')) stokData[p].pembelian = Math.round(v * 10) / 10;
                 if (inp.classList.contains('stok-akhir')) {
-                    stokData[p].stokAkhir = v;
+                    stokData[p].stokAkhir = Math.round(v * 10) / 10;
                     stokData[p].stokAkhirManual = true;
                 }
             });
@@ -1582,7 +1597,7 @@
             document.querySelectorAll('.stok-penjualan-total').forEach(inp => {
                 const p = inp.dataset.produk;
                 if (inp.value !== '') {
-                    stokData[p].penjualan = parseFloat(inp.value) || 0;
+                    stokData[p].penjualan = Math.round((parseFloat(inp.value) || 0) * 10) / 10;
                     stokData[p].penjualanManual = true;
                 }
             });
@@ -1592,8 +1607,8 @@
 
         function getSummary() {
             const hj = getHargaJual();
-            const pP = stokData.Pertalite?.penjualan || 0;
-            const pX = stokData.Pertamax?.penjualan || 0;
+            const pP = Math.round((stokData.Pertalite?.penjualan || 0) * 10) / 10;
+            const pX = Math.round((stokData.Pertamax?.penjualan || 0) * 10) / 10;
             const omzetP = pP * hj.pertalite;
             const omzetX = pX * hj.pertamax;
             const totalOmzet = omzetP + omzetX;
@@ -1604,8 +1619,8 @@
             const untungX = pX * mX;
             const totalKeuntungan = untungP + untungX;
 
-            const pengP = stokData.Pertalite?.penguapan || 0;
-            const pengX = stokData.Pertamax?.penguapan || 0;
+            const pengP = Math.round((stokData.Pertalite?.penguapan || 0) * 10) / 10;
+            const pengX = Math.round((stokData.Pertamax?.penguapan || 0) * 10) / 10;
             const nilPengP = pengP * hj.pertalite;
             const nilPengX = pengX * hj.pertamax;
             const totalNilPeng = nilPengP + nilPengX;
@@ -1630,8 +1645,8 @@
             const s = getSummary();
 
             document.getElementById('dashPenjualan').textContent = formatRupiah(s.totalOmzet);
-            document.getElementById('dashPertalite').textContent = s.pP.toFixed(1) + ' L';
-            document.getElementById('dashPertamax').textContent = s.pX.toFixed(1) + ' L';
+            document.getElementById('dashPertalite').textContent = s.pP.toFixed(1).replace('.', ',') + ' L';
+            document.getElementById('dashPertamax').textContent = s.pX.toFixed(1).replace('.', ',') + ' L';
             document.getElementById('dashPenjualanPertalite').textContent = formatRupiah(s.omzetP);
             document.getElementById('dashPenjualanPertamax').textContent = formatRupiah(s.omzetX);
             document.getElementById('dashLabaKotor').textContent = formatRupiah(s.totalKeuntungan);
@@ -1642,11 +1657,11 @@
             dLaba.className = 'value ' + (s.labaBersih >= 0 ? 'positive' : 'negative');
 
             const totStok = (stokData.Pertalite?.stokAkhir || 0) + (stokData.Pertamax?.stokAkhir || 0);
-            document.getElementById('dashStok').textContent = totStok.toFixed(1) + ' L';
+            document.getElementById('dashStok').textContent = totStok.toFixed(1).replace('.', ',') + ' L';
             document.getElementById('dashPenguapan').textContent = formatPenguapan(s.pengP + s.pengX);
 
-            document.getElementById('labaPenjualanPertalite').textContent = s.pP.toFixed(1) + ' L';
-            document.getElementById('labaPenjualanPertamax').textContent = s.pX.toFixed(1) + ' L';
+            document.getElementById('labaPenjualanPertalite').textContent = s.pP.toFixed(1).replace('.', ',') + ' L';
+            document.getElementById('labaPenjualanPertamax').textContent = s.pX.toFixed(1).replace('.', ',') + ' L';
             document.getElementById('labaKeuntunganPertalite').textContent = formatRupiah(s.untungP);
             document.getElementById('labaKeuntunganPertamax').textContent = formatRupiah(s.untungX);
             document.getElementById('labaPenguapanPertalite').textContent = formatPenguapan(s.pengP);
@@ -1793,7 +1808,7 @@
             showToast('Laporan telah dihapus');
         }
 
-        // ===== BACKUP & RESTORE =====
+        // BACKUP & RESTORE
         function eksporDataLokal() {
             if (!reports || reports.length === 0) {
                 alert('Belum ada data laporan untuk dicadangkan.');
@@ -1868,7 +1883,7 @@
         function closeShare() { document.getElementById('shareModal').classList.remove('active'); }
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
-        // ===== OPSIONAL BAGIKAN =====
+        // FITUR BAGIKAN
         function susunRingkasanTeks(rep) {
             const s = rep.summary || {};
             return `*LAPORAN HARIAN SPBU 34-17603*
@@ -1877,8 +1892,8 @@ Shift   : ${rep.shift}
 Pengawas: ${rep.penanggungJawab}
 
 *1. PENJUALAN BBM*
-- Pertalite : ${(s.pP || 0).toFixed(1)} L (${formatRupiah(s.omzetP || 0)})
-- Pertamax  : ${(s.pX || 0).toFixed(1)} L (${formatRupiah(s.omzetX || 0)})
+- Pertalite : ${(s.pP || 0).toFixed(1).replace('.', ',')} L (${formatRupiah(s.omzetP || 0)})
+- Pertamax  : ${(s.pX || 0).toFixed(1).replace('.', ',')} L (${formatRupiah(s.omzetX || 0)})
 - Total Omzet: ${formatRupiah(s.totalOmzet || 0)}
 
 *2. PENGUAPAN & SUSUT*
@@ -1942,8 +1957,8 @@ Pengawas: ${rep.penanggungJawab}
                     <p>Tanggal: ${formatTanggalIndo(rep.tanggal)} | Shift: ${rep.shift} | PJ: ${rep.penanggungJawab}</p>
                     <table>
                         <tr><th>Item</th><th>Hasil Perhitungan</th></tr>
-                        <tr><td>Penjualan Pertalite</td><td>${s.pP ? s.pP.toFixed(1) : 0} L (${formatRupiah(s.omzetP)})</td></tr>
-                        <tr><td>Penjualan Pertamax</td><td>${s.pX ? s.pX.toFixed(1) : 0} L (${formatRupiah(s.omzetX)})</td></tr>
+                        <tr><td>Penjualan Pertalite</td><td>${(s.pP ? s.pP.toFixed(1) : '0,0').replace('.', ',')} L (${formatRupiah(s.omzetP)})</td></tr>
+                        <tr><td>Penjualan Pertamax</td><td>${(s.pX ? s.pX.toFixed(1) : '0,0').replace('.', ',')} L (${formatRupiah(s.omzetX)})</td></tr>
                         <tr><td>Total Omzet</td><td>${formatRupiah(s.totalOmzet)}</td></tr>
                         <tr><td>Total Pengeluaran</td><td>${formatRupiah(s.totalPengeluaran)}</td></tr>
                         <tr><td>Setor Bank</td><td>${formatRupiah(rep.setorBank || 0)}</td></tr>
