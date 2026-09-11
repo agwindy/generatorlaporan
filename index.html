@@ -2022,19 +2022,20 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — FINAL VERSION
+        // GENERATE PDF — DESAIN MENGIKUTI CONTOH GAMBAR
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
             const isColor = format === 'warna';
-            const accent = isColor ? '#c41e3a' : '#111827';
-            const textMuted = '#6b7280';
-            const border = '#e5e7eb';
 
+            // Warna utama
+            const blueDark = isColor ? '#0b3c8c' : '#1f2937';
+            const redMain = isColor ? '#c41e3a' : '#1f2937';
             const colPertalite = isColor ? '#059669' : '#374151';
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
             const colPertamax = isColor ? '#2563eb' : '#374151';
             const bgPertamax = isColor ? '#eff6ff' : '#f3f4f6';
+            const border = '#d1d5db';
 
             const td = rep.totalizerData || {};
             const sd = rep.stokData || {};
@@ -2052,7 +2053,7 @@
 
                 nozRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:12px;padding:7px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:11px;padding:6px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
@@ -2065,46 +2066,46 @@
                     sumOmz += Math.round(penj * harga);
                     nozRows += `
                         <tr>
-                            <td style="padding-left:16px;font-weight:600;font-size:12px;">Mesin ${n.label}</td>
-                            <td style="text-align:right;font-size:12px;">${(t.awal || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-size:12px;">${(t.akhir || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${penj.toFixed(1)} L</td>
-                            <td style="text-align:right;font-weight:700;font-size:12px;">${formatRupiah(Math.round(penj * harga))}</td>
+                            <td style="padding-left:16px;font-weight:600;font-size:11px;">Mesin ${n.label}</td>
+                            <td style="text-align:right;font-size:11px;">${(t.awal || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-size:11px;">${(t.akhir || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${penj.toFixed(1)} L</td>
+                            <td style="text-align:right;font-weight:700;font-size:11px;">${formatRupiah(Math.round(penj * harga))}</td>
                         </tr>
                     `;
                 });
 
                 nozRows += `
                     <tr style="background:${bg};">
-                        <td colspan="3" style="font-weight:700;color:${c};font-size:11px;padding:7px 10px;">TOTAL ${p.toUpperCase()}</td>
-                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${Math.round(sd[p]?.penjualan || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;">${formatRupiah(sumOmz)}</td>
+                        <td colspan="3" style="font-weight:700;color:${c};font-size:11px;padding:6px 10px;">TOTAL ${p.toUpperCase()}</td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${Math.round(sd[p]?.penjualan || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${formatRupiah(sumOmz)}</td>
                     </tr>
                 `;
             });
 
-            // ---------- 2. PENGELUARAN (Setor Bank di atas) ----------
+            // ---------- 2. PENGELUARAN ----------
             const expFiltered = (rep.expenses || []).filter(e => e.nominal > 0);
             let expRows = '';
             expRows += `
                 <tr style="background:#eff6ff;">
-                    <td style="padding-left:16px;font-weight:700;color:#1d4ed8;font-size:12px;">Setoran Bank</td>
-                    <td style="text-align:right;font-weight:700;color:#1d4ed8;font-size:12px;">${formatRupiah(rep.setorBank || 0)}</td>
+                    <td style="padding-left:16px;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:11px;">Setoran Bank</td>
+                    <td style="text-align:right;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:11px;">${formatRupiah(rep.setorBank || 0)}</td>
                 </tr>
             `;
             if (expFiltered.length > 0) {
                 expFiltered.forEach(e => {
                     expRows += `
                         <tr>
-                            <td style="padding-left:16px;font-size:12px;">${e.keterangan || 'Tanpa keterangan'}</td>
-                            <td style="text-align:right;font-weight:600;color:${accent};font-size:12px;">${formatRupiah(e.nominal)}</td>
+                            <td style="padding-left:16px;font-size:11px;">${e.keterangan || 'Tanpa keterangan'}</td>
+                            <td style="text-align:right;font-weight:600;color:${isColor ? '#dc2626' : '#1f2937'};font-size:11px;">${formatRupiah(e.nominal)}</td>
                         </tr>
                     `;
                 });
             } else {
                 expRows += `
                     <tr>
-                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:11px;font-style:italic;padding:6px;">Tidak ada pengeluaran operasional</td>
+                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:10px;font-style:italic;padding:5px;">Tidak ada pengeluaran operasional</td>
                     </tr>
                 `;
             }
@@ -2116,16 +2117,16 @@
                 const c = pColor(p), bg = pBg(p);
                 stokRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:12px;padding:7px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:11px;padding:6px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:16px;font-weight:600;font-size:12px;">Stok Awal</td>
-                        <td style="text-align:right;font-size:12px;">${Math.round(d.stokAwal || 0)} L</td>
-                        <td style="text-align:right;font-size:12px;">${Math.round(d.pembelian || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;font-size:12px;">${Math.round(d.stokAkhir || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};font-size:12px;">
+                        <td style="padding-left:16px;font-weight:600;font-size:11px;">Stok Awal</td>
+                        <td style="text-align:right;font-size:11px;">${Math.round(d.stokAwal || 0)} L</td>
+                        <td style="text-align:right;font-size:11px;">${Math.round(d.pembelian || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;font-size:11px;">${Math.round(d.stokAkhir || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};font-size:11px;">
                             ${formatPenguapan(d.penguapan || 0)}
                         </td>
                     </tr>
@@ -2138,233 +2139,273 @@
                 <head>
                     <meta charset="utf-8">
                     <style>
-                        @page { size: A4 portrait; margin: 14mm 16mm 14mm 16mm; }
-                        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin:0; padding:0; }
-                        body { color: #1f2937; font-size: 12px; line-height: 1.5; }
+                        @page { size: A4 portrait; margin: 10mm 12mm 10mm 12mm; }
+                        * { box-sizing: border-box; font-family: Arial, sans-serif; margin:0; padding:0; }
+                        body { color: #1f2937; font-size: 11px; line-height: 1.4; }
 
-                        .hdr {
-                            background: ${accent};
+                        /* ===== HEADER BIRU DENGAN SUDUT KANAN ===== */
+                        .hdr-wrap {
+                            background: ${blueDark};
                             color: #fff;
                             padding: 14px 18px;
-                            border-radius: 6px;
-                            margin-bottom: 12px;
+                            border-radius: 8px 8px 8px 8px;
+                            margin-bottom: 10px;
                             position: relative;
                             overflow: hidden;
                         }
-                        .hdr::after {
-                            content: '⛽';
+                        .hdr-wrap::after {
+                            content: '';
                             position: absolute;
-                            right: 12px;
-                            top: -12px;
-                            font-size: 70px;
-                            opacity: 0.08;
+                            right: -30px;
+                            top: -30px;
+                            width: 120px;
+                            height: 120px;
+                            background: rgba(255,255,255,0.08);
+                            border-radius: 50%;
                         }
-                        .hdr h1 { font-size: 17px; font-weight: 700; letter-spacing: 0.4px; }
-                        .hdr .sub { font-size: 11px; opacity: 0.95; margin-top: 4px; font-weight: 600; }
-                        .hdr .badge {
-                            display: inline-block;
-                            background: rgba(255,255,255,0.22);
-                            padding: 4px 12px;
-                            border-radius: 10px;
-                            font-size: 10px;
-                            font-weight: 600;
-                            margin-top: 6px;
-                            letter-spacing: 0.3px;
-                        }
+                        .hdr-wrap h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 3px; }
+                        .hdr-wrap .sub { font-size: 12px; font-weight: 600; opacity: 0.95; }
 
+                        /* ===== META BAR ===== */
                         .meta {
                             display: flex;
-                            justify-content: space-between;
-                            background: #f9fafb;
+                            background: #fff;
                             border: 1px solid ${border};
                             border-radius: 6px;
-                            padding: 9px 14px;
-                            margin-bottom: 12px;
-                            font-size: 11px;
+                            margin-bottom: 10px;
+                            overflow: hidden;
                         }
-                        .meta-item { display: flex; flex-direction: column; }
-                        .meta-item .lbl { font-size: 9px; color: ${textMuted}; text-transform: uppercase; letter-spacing: 0.3px; font-weight: 600; }
-                        .meta-item .val { font-weight: 700; color: #111827; margin-top: 3px; font-size: 12px; }
+                        .meta-item {
+                            flex: 1;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 9px 12px;
+                            border-right: 1px solid ${border};
+                        }
+                        .meta-item:last-child { border-right: none; }
+                        .meta-icon {
+                            font-size: 16px;
+                            color: ${blueDark};
+                            flex-shrink: 0;
+                        }
+                        .meta-content { display: flex; flex-direction: column; }
+                        .meta-lbl {
+                            font-size: 8px;
+                            color: #6b7280;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            letter-spacing: 0.4px;
+                        }
+                        .meta-val {
+                            font-size: 11px;
+                            font-weight: 700;
+                            color: #1f2937;
+                            margin-top: 1px;
+                        }
 
-                        .sec { margin-bottom: 12px; }
+                        /* ===== SECTION ===== */
+                        .sec { margin-bottom: 10px; }
                         .sec-hdr {
                             display: flex;
                             align-items: center;
-                            gap: 7px;
-                            font-size: 13px;
+                            gap: 8px;
+                            background: ${redMain};
+                            color: #fff;
+                            padding: 6px 12px;
+                            border-radius: 6px 6px 0 0;
+                            font-size: 12px;
                             font-weight: 700;
-                            color: ${accent};
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
-                            margin-bottom: 6px;
-                            padding-bottom: 5px;
-                            border-bottom: 2px solid ${accent};
                         }
-                        .sec-hdr .num {
+                        .sec-num {
                             display: inline-flex;
                             align-items: center;
                             justify-content: center;
-                            width: 20px;
-                            height: 20px;
-                            background: ${accent};
-                            color: #fff;
+                            width: 22px;
+                            height: 22px;
+                            background: #fff;
+                            color: ${redMain};
                             border-radius: 50%;
-                            font-size: 10px;
+                            font-size: 11px;
                             font-weight: 700;
+                            flex-shrink: 0;
+                        }
+                        .sec-body {
+                            border: 1px solid ${border};
+                            border-top: none;
+                            border-radius: 0 0 6px 6px;
+                            overflow: hidden;
+                            background: #fff;
                         }
 
+                        /* ===== TABLE ===== */
                         table { width: 100%; border-collapse: collapse; }
                         th {
                             background: #f3f4f6;
                             color: #374151;
-                            font-size: 11px;
+                            font-size: 10px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.3px;
-                            padding: 8px 10px;
-                            border: 1px solid ${border};
+                            padding: 7px 10px;
+                            border-bottom: 1px solid ${border};
                             text-align: left;
                         }
-                        td {
-                            padding: 7px 10px;
-                            border: 1px solid ${border};
-                            font-size: 12px;
-                        }
                         th.right, td.right { text-align: right; }
-
-                        .box {
-                            border: 1px solid ${border};
-                            border-radius: 6px;
-                            padding: 10px 14px;
-                            background: #fafafa;
+                        td {
+                            padding: 6px 10px;
+                            border-bottom: 1px solid #f0f0f0;
+                            font-size: 11px;
                         }
+                        tr:last-child td { border-bottom: none; }
 
-                        .li {
+                        /* ===== REKAP ===== */
+                        .rekap-row {
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 6px 0;
-                            font-size: 12px;
-                            border-bottom: 1px dashed #e5e7eb;
+                            padding: 6px 14px;
+                            border-bottom: 1px solid #f0f0f0;
+                            font-size: 11px;
                         }
-                        .li:last-child { border-bottom: none; }
-                        .li .lbl { color: ${textMuted}; }
-                        .li .val { font-weight: 700; color: #111827; }
-                        .li.total {
-                            border-top: 2px solid #111827;
-                            border-bottom: none;
-                            margin-top: 5px;
-                            padding-top: 9px;
-                            font-size: 15px;
+                        .rekap-row:last-child { border-bottom: none; }
+                        .rekap-row .lbl { color: #4b5563; }
+                        .rekap-row .val { font-weight: 700; color: #1f2937; }
+                        .rekap-row.highlight {
+                            background: ${blueDark};
+                            color: #fff;
+                            font-size: 14px;
+                            font-weight: 700;
+                            padding: 10px 14px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
                         }
+                        .rekap-row.highlight .lbl,
+                        .rekap-row.highlight .val { color: #fff; }
                     </style>
                 </head>
                 <body>
 
-                    <!-- HEADER (tanpa alamat, dengan hari) -->
-                    <div class="hdr">
+                    <!-- HEADER -->
+                    <div class="hdr-wrap">
                         <h1>LAPORAN PENJUALAN &amp; LABA/RUGI HARIAN</h1>
-                        <div class="sub">SPBU 34-17603 &nbsp;•&nbsp; ${formatHariTanggal(rep.tanggal)} &nbsp;•&nbsp; Shift ${rep.shift}</div>
-                        <div class="badge">REKAP HARIAN</div>
+                        <div class="sub">SPBU 34.17603</div>
                     </div>
 
                     <!-- META -->
                     <div class="meta">
                         <div class="meta-item">
-                            <span class="lbl">Hari / Tanggal</span>
-                            <span class="val">${formatHariTanggal(rep.tanggal)}</span>
+                            <div class="meta-icon">📅</div>
+                            <div class="meta-content">
+                                <span class="meta-lbl">Hari / Tanggal</span>
+                                <span class="meta-val">${formatHariTanggal(rep.tanggal)}</span>
+                            </div>
                         </div>
                         <div class="meta-item">
-                            <span class="lbl">Shift</span>
-                            <span class="val">${rep.shift}</span>
+                            <div class="meta-icon">🕐</div>
+                            <div class="meta-content">
+                                <span class="meta-lbl">Shift</span>
+                                <span class="meta-val">${rep.shift}</span>
+                            </div>
                         </div>
                         <div class="meta-item">
-                            <span class="lbl">Penanggung Jawab</span>
-                            <span class="val">${rep.penanggungJawab}</span>
+                            <div class="meta-icon">👤</div>
+                            <div class="meta-content">
+                                <span class="meta-lbl">Penanggung Jawab</span>
+                                <span class="meta-val">${rep.penanggungJawab}</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 1. TOTALISATOR -->
                     <div class="sec">
-                        <div class="sec-hdr"><span class="num">1</span> Totalisator Nozzle Dispenser</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="width:26%;">Mesin</th>
-                                    <th class="right" style="width:17%;">Tot. Awal</th>
-                                    <th class="right" style="width:17%;">Tot. Akhir</th>
-                                    <th class="right" style="width:18%;">Penjualan</th>
-                                    <th class="right" style="width:22%;">Total Omzet</th>
-                                </tr>
-                            </thead>
-                            <tbody>${nozRows}</tbody>
-                        </table>
+                        <div class="sec-hdr"><span class="sec-num">1</span> Totalisator Nozzle Dispenser</div>
+                        <div class="sec-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width:28%;">Mesin</th>
+                                        <th class="right" style="width:16%;">Tot. Awal</th>
+                                        <th class="right" style="width:16%;">Tot. Akhir</th>
+                                        <th class="right" style="width:18%;">Penjualan</th>
+                                        <th class="right" style="width:22%;">Total Omzet</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${nozRows}</tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <!-- 2. PENGELUARAN (Setor Bank di atas) -->
+                    <!-- 2. PENGELUARAN -->
                     <div class="sec">
-                        <div class="sec-hdr"><span class="num">2</span> Pengeluaran / Potongan Harian</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="width:60%;">Keterangan</th>
-                                    <th class="right" style="width:40%;">Nominal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${expRows}
-                                <tr style="background:${isColor ? '#fef2f2' : '#f3f4f6'};">
-                                    <td style="font-weight:700;color:${accent};font-size:12px;padding-left:16px;">TOTAL PENGELUARAN</td>
-                                    <td style="text-align:right;font-weight:700;color:${accent};font-size:13px;">${formatRupiah(s.totalPengeluaran)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="sec-hdr"><span class="sec-num">2</span> Pengeluaran / Potongan Harian</div>
+                        <div class="sec-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width:60%;">Keterangan</th>
+                                        <th class="right" style="width:40%;">Nominal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${expRows}
+                                    <tr style="background:${isColor ? '#fef2f2' : '#f3f4f6'};">
+                                        <td style="font-weight:700;color:${redMain};font-size:11px;padding-left:16px;">TOTAL PENGELUARAN</td>
+                                        <td style="text-align:right;font-weight:700;color:${redMain};font-size:12px;">${formatRupiah(s.totalPengeluaran)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!-- 3. STOK -->
                     <div class="sec">
-                        <div class="sec-hdr"><span class="num">3</span> Stok BBM &amp; Penguapan</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="width:24%;">Keterangan</th>
-                                    <th class="right" style="width:19%;">Stok Awal</th>
-                                    <th class="right" style="width:19%;">Penerimaan</th>
-                                    <th class="right" style="width:19%;">Stok Akhir</th>
-                                    <th class="right" style="width:19%;">Susut/Penguapan</th>
-                                </tr>
-                            </thead>
-                            <tbody>${stokRows}</tbody>
-                        </table>
+                        <div class="sec-hdr"><span class="sec-num">3</span> Stok BBM &amp; Penguapan</div>
+                        <div class="sec-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width:24%;">Keterangan</th>
+                                        <th class="right" style="width:19%;">Stok Awal</th>
+                                        <th class="right" style="width:19%;">Penerimaan</th>
+                                        <th class="right" style="width:19%;">Stok Akhir</th>
+                                        <th class="right" style="width:19%;">Susut/Penguapan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${stokRows}</tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!-- 4. REKAPITULASI -->
                     <div class="sec">
-                        <div class="sec-hdr"><span class="num">4</span> Rekapitulasi Laba / Rugi</div>
-                        <div class="box">
-                            <div class="li">
+                        <div class="sec-hdr"><span class="sec-num">4</span> Rekapitulasi Laba / Rugi</div>
+                        <div class="sec-body">
+                            <div class="rekap-row">
                                 <span class="lbl">Total Omzet Penjualan BBM</span>
                                 <span class="val">${formatRupiah(s.totalOmzet)}</span>
                             </div>
-                            <div class="li">
+                            <div class="rekap-row">
                                 <span class="lbl">Keuntungan Margin Penjualan</span>
                                 <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
                             </div>
-                            <div class="li">
+                            <div class="rekap-row">
                                 <span class="lbl">Nilai Penguapan BBM</span>
                                 <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
                             </div>
-                            <div class="li">
+                            <div class="rekap-row">
                                 <span class="lbl">Hasil Keseluruhan</span>
                                 <span class="val">${formatRupiah(s.hasilKeseluruhan)}</span>
                             </div>
-                            <div class="li">
+                            <div class="rekap-row">
                                 <span class="lbl">Potongan Pengeluaran Harian</span>
                                 <span class="val" style="color:#dc2626;">− ${formatRupiah(s.totalPengeluaran)}</span>
                             </div>
-                            <div class="li total" style="color:${s.labaBersih >= 0 ? '#059669' : '#dc2626'};">
-                                <span class="lbl" style="color:inherit;font-weight:700;">HASIL LABA BERSIH REAL</span>
-                                <span class="val" style="color:inherit;">${formatRupiah(s.labaBersih)}</span>
+                            <div class="rekap-row highlight">
+                                <span>HASIL LABA BERSIH REAL</span>
+                                <span>${formatRupiah(s.labaBersih)}</span>
                             </div>
                         </div>
                     </div>
