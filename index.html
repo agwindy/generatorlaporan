@@ -2060,7 +2060,7 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — FIXED: REKAPITULASI MUNCUL + BLUE THEME
+        // GENERATE PDF — REKAP DIPERBAIKI
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
@@ -2095,13 +2095,6 @@
             const nilPengX = pengX * hj.pertamax;
             const hasilP = untungP + nilPengP;
             const hasilX = untungX + nilPengX;
-            const omzetP = pP * hj.pertalite;
-            const omzetX = pX * hj.pertamax;
-            const totalOmz = omzetP + omzetX || 1;
-            const ratioP = omzetP / totalOmz;
-            const ratioX = omzetX / totalOmz;
-            const potonganP = Math.round(s.totalPengeluaran * ratioP);
-            const potonganX = Math.round(s.totalPengeluaran * ratioX);
 
             // ---------- 1. TOTALISATOR ----------
             let nozRows = '';
@@ -2478,11 +2471,12 @@
                             </div>
                         </div>
 
-                        <!-- 4. REKAPITULASI -->
+                        <!-- 4. REKAPITULASI (TANPA PORSI PENGELUARAN PER PRODUK) -->
                         <div class="sec">
                             <div class="sec-hdr"><span class="sec-num">4</span> Rekapitulasi Laba / Rugi</div>
                             <div class="sec-body">
 
+                                <!-- Margin dengan detail per produk -->
                                 <div class="rekap-row">
                                     <span class="lbl">Keuntungan Margin Penjualan</span>
                                     <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
@@ -2496,6 +2490,7 @@
                                     <span class="val-sub">${formatRupiah(untungX)}</span>
                                 </div>
 
+                                <!-- Penguapan dengan detail per produk -->
                                 <div class="rekap-row">
                                     <span class="lbl">Nilai Penguapan BBM</span>
                                     <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
@@ -2509,6 +2504,7 @@
                                     <span class="val-sub">${formatRupiah(nilPengX)}</span>
                                 </div>
 
+                                <!-- Hasil Keseluruhan dengan detail per produk -->
                                 <div class="rekap-row">
                                     <span class="lbl">Hasil Keseluruhan</span>
                                     <span class="val">${formatRupiah(s.hasilKeseluruhan)}</span>
@@ -2522,19 +2518,13 @@
                                     <span class="val-sub">${formatRupiah(hasilX)}</span>
                                 </div>
 
+                                <!-- Potongan Pengeluaran (TANPA detail per produk) -->
                                 <div class="rekap-row">
                                     <span class="lbl">Potongan Pengeluaran Harian</span>
                                     <span class="val" style="color:#dc2626;">− ${formatRupiah(s.totalPengeluaran)}</span>
                                 </div>
-                                <div class="rekap-detail">
-                                    <span class="lbl-sub"><span class="dot-pt">●</span> Porsi Pertalite</span>
-                                    <span class="val-sub" style="color:#dc2626;">− ${formatRupiah(potonganP)}</span>
-                                </div>
-                                <div class="rekap-detail">
-                                    <span class="lbl-sub"><span class="dot-px">●</span> Porsi Pertamax</span>
-                                    <span class="val-sub" style="color:#dc2626;">− ${formatRupiah(potonganX)}</span>
-                                </div>
 
+                                <!-- Laba Bersih Real -->
                                 <div class="rekap-row highlight">
                                     <span>HASIL LABA BERSIH REAL</span>
                                     <span>${formatRupiah(s.labaBersih)}</span>
