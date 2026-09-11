@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --primary-bg: #eff6ff;
+            --primary-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -35,7 +43,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            background: var(--primary-gradient);
             color: white;
             padding: 16px 20px;
             border-radius: 12px;
@@ -126,7 +134,7 @@
         }
 
         .nav-tabs button.active {
-            background: #c41e3a;
+            background: var(--primary);
             color: white;
         }
 
@@ -206,7 +214,7 @@
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 14px;
-            color: #c41e3a;
+            color: var(--primary);
             border-bottom: 2px solid #dfe6e9;
             padding-bottom: 8px;
             display: flex;
@@ -257,7 +265,7 @@
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #c41e3a;
+            border-color: var(--primary);
         }
 
         .form-group input[readonly],
@@ -348,10 +356,10 @@
         }
 
         table input:focus {
-            border-color: #c41e3a;
+            border-color: var(--primary);
             outline: none;
             background: #fff;
-            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1);
+            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
         }
 
         table input[readonly] {
@@ -408,7 +416,7 @@
 
         .subtotal-row td {
             background: #f8f9fa !important;
-            border-top: 2px solid #c41e3a;
+            border-top: 2px solid var(--primary);
             font-weight: 700;
         }
 
@@ -452,7 +460,7 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
-        .toggle-switch input:checked + .slider { background: #c41e3a; }
+        .toggle-switch input:checked + .slider { background: var(--primary); }
         .toggle-switch input:checked + .slider::after { left: 23px; }
 
         .toggle-label {
@@ -510,12 +518,12 @@
         }
 
         .laba-card-main {
-            border: 2px solid #c41e3a;
-            background: #fff8f8;
+            border: 2px solid var(--primary);
+            background: var(--primary-bg);
         }
 
         .laba-card-main .laba-card-value {
-            color: #c41e3a;
+            color: var(--primary);
             font-size: 18px;
         }
 
@@ -545,7 +553,7 @@
         .laba-produk-title {
             font-size: 12px;
             font-weight: 800;
-            color: #c41e3a;
+            color: var(--primary);
             margin-bottom: 8px;
         }
 
@@ -592,7 +600,7 @@
         .lf-op {
             font-size: 16px;
             font-weight: 800;
-            color: #c41e3a;
+            color: var(--primary);
         }
 
         .lf-item input {
@@ -606,12 +614,12 @@
         }
 
         .lf-hasil {
-            background: #fff8f8;
-            border: 1px solid #f5c6cf;
+            background: var(--primary-bg);
+            border: 1px solid #bfdbfe;
         }
 
         .lf-hasil .lf-value {
-            color: #c41e3a;
+            color: var(--primary);
             font-size: 14px;
         }
 
@@ -635,13 +643,13 @@
         }
 
         .btn:active { transform: scale(0.97); }
-        .btn-primary { background: #c41e3a; color: white; }
-        .btn-primary:hover { background: #a01830; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
         .btn-success { background: #00b894; color: white; }
         .btn-danger { background: #d63031; color: white; }
-        .btn-outline { background: transparent; border: 2px solid #c41e3a; color: #c41e3a; }
-        .btn-blue { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; }
-        .btn-blue:hover { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-blue { background: var(--primary-gradient); color: white; }
+        .btn-blue:hover { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); }
         .btn-dark { background: #2d3436; color: white; }
         .btn-dark:hover { background: #1a1e1f; }
         .btn-sm { padding: 4px 10px; font-size: 11px; min-height: 28px; }
@@ -663,7 +671,7 @@
             align-items: center;
             gap: 8px;
             padding: 8px 12px;
-            background: #e3f2fd;
+            background: var(--primary-bg);
             border-radius: 8px;
             margin-bottom: 8px;
             flex-wrap: wrap;
@@ -672,7 +680,7 @@
         .setor-bank-label {
             font-weight: 700;
             font-size: 13px;
-            color: #0d47a1;
+            color: var(--primary);
         }
 
         .setor-bank input {
@@ -689,8 +697,8 @@
             margin-top: 4px;
             font-size: 11px;
             font-weight: 700;
-            color: #c41e3a;
-            background: #fff0f0;
+            color: var(--primary);
+            background: var(--primary-bg);
             padding: 2px 10px;
             border-radius: 10px;
             align-self: flex-start;
@@ -743,7 +751,7 @@
         .unlock-btn {
             background: none;
             border: none;
-            color: #c41e3a;
+            color: var(--primary);
             cursor: pointer;
             font-size: 12px;
             font-weight: 600;
@@ -782,8 +790,8 @@
         }
 
         .mode-btn.on {
-            background: #c41e3a;
-            border-color: #c41e3a;
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
         }
 
@@ -1049,7 +1057,7 @@
 
                 <!-- PANEL PENGELUARAN -->
                 <div id="panelPengeluaran" class="toggle-panel">
-                    <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
+                    <h3 style="color:var(--primary);font-size:14px;margin-bottom:10px;"><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
                     <div class="setor-bank">
                         <span class="setor-bank-label"><i class="fas fa-building-columns"></i> Setor Bank</span>
                         <input type="number" step="1" id="setorBank" placeholder="0">
@@ -1057,12 +1065,12 @@
                     </div>
                     <div id="expenseContainer"></div>
                     <button class="btn btn-primary btn-sm" onclick="tambahPengeluaran()"><i class="fas fa-plus"></i> Tambah Pengeluaran</button>
-                    <div style="font-weight:700;margin-top:10px;">TOTAL PENGELUARAN: <span id="totalPengeluaranDisplay" style="color:#c41e3a;">Rp 0</span></div>
+                    <div style="font-weight:700;margin-top:10px;">TOTAL PENGELUARAN: <span id="totalPengeluaranDisplay" style="color:var(--primary);">Rp 0</span></div>
                 </div>
 
                 <!-- PANEL LABA -->
                 <div id="panelLaba" class="toggle-panel">
-                    <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-chart-line"></i> Perhitungan Keuntungan Laba Harian</h3>
+                    <h3 style="color:var(--primary);font-size:14px;margin-bottom:10px;"><i class="fas fa-chart-line"></i> Perhitungan Keuntungan Laba Harian</h3>
                     <div class="laba-produk-grid">
                         <div class="laba-produk-card">
                             <div class="laba-produk-title">⛽ PERTALITE</div>
@@ -1200,11 +1208,11 @@
             </div>
         </div>
 
-        <!-- MODAL BAGIKAN — 4 OPSI -->
+        <!-- MODAL BAGIKAN -->
         <div id="shareModal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeShare()">&times;</button>
-                <h3 style="color:#1e40af;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan / Unduh Laporan PDF</h3>
+                <h3 style="color:var(--primary);margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan / Unduh Laporan PDF</h3>
                 <p style="font-size:12px;color:#636e72;margin-bottom:12px;">Pilih format PDF lalu bagikan langsung atau unduh ke perangkat:</p>
                 
                 <div class="share-btn-list">
@@ -1438,7 +1446,7 @@
                         <td class="td-produk"><strong>${n.product}</strong></td>
                         <td class="td-mesin">${n.label}</td>
                         <td class="td-tot"><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${valInput(awal)}" placeholder="Awal"></td>
-                        <td class="td-tot"><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(akhir)}" placeholder="Akhir" style="${modeAuto ? 'background:#f5f3ff;color:#6c5ce7;' : ''}"></td>
+                        <td class="td-tot"><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(akhir)}" placeholder="Akhir" style="${modeAuto ? 'background:#eff6ff;color:#1e40af;' : ''}"></td>
                         <td><input type="number" step="0.1" readonly class="total-penjualan" data-id="${n.id}" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#1e40af;"></td>
                         <td>${formatRupiah(harga)}</td>
                         <td><input type="text" readonly class="total-omzet" data-id="${n.id}" value="${penjualan > 0 ? formatRupiah(Math.round(penjualan * harga)) : ''}" placeholder="Rp 0"></td>
@@ -1494,7 +1502,7 @@
                 const lockedSA = !!isLocked['stokAkhir' + p];
                 const row = document.createElement('tr');
 
-                const statusColor = data.penguapan < 0 ? '#c41e3a' : '#00b894';
+                const statusColor = data.penguapan < 0 ? '#dc2626' : '#00b894';
                 const statusKet = data.penguapan === 0 ? '✓ Ideal' : (data.penguapan < 0 ? 'Kehilangan (−)' : 'Kelebihan (+)');
 
                 row.innerHTML = `
@@ -1740,7 +1748,7 @@
 
                 const elPengVal = document.querySelector(`.stok-penguapan-val[data-produk="${p}"]`);
                 const elPengKet = document.querySelector(`.penguapan-keterangan[data-produk="${p}"]`);
-                const statusColor = d.penguapan < 0 ? '#c41e3a' : '#00b894';
+                const statusColor = d.penguapan < 0 ? '#dc2626' : '#00b894';
                 const statusKet = d.penguapan === 0 ? '✓ Ideal' : (d.penguapan < 0 ? 'Kehilangan (−)' : 'Kelebihan (+)');
 
                 if (elPengVal) {
@@ -1900,7 +1908,7 @@
                 item.className = 'history-item';
                 item.innerHTML = `
                     <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <span style="font-weight:700;color:#c41e3a;font-size:14px;">${formatHariTanggal(r.tanggal)}</span>
+                        <span style="font-weight:700;color:var(--primary);font-size:14px;">${formatHariTanggal(r.tanggal)}</span>
                         <span style="font-size:11px;background:#eef2f5;padding:2px 8px;border-radius:6px;font-weight:600;">${r.shift}</span>
                     </div>
                     <div style="font-size:12.5px;color:#2d3436;">
@@ -1934,7 +1942,7 @@
             }
 
             const content = `
-                <h3 style="color:#c41e3a;border-bottom:2px solid #dfe6e9;padding-bottom:8px;margin-bottom:12px;">
+                <h3 style="color:var(--primary);border-bottom:2px solid #dfe6e9;padding-bottom:8px;margin-bottom:12px;">
                     <i class="fas fa-file-invoice"></i> Detail Laporan (Read-Only)
                 </h3>
                 <div style="font-size:13px;line-height:1.6;color:#2d3436;">
@@ -1954,7 +1962,7 @@
                     <p><strong>Setor Bank:</strong> ${formatRupiah(rep.setorBank || 0)}</p>
                     <hr style="margin:8px 0;border:0;border-top:1px solid #eee;">
                     <p style="font-size:14px;color:${s.labaBersih >= 0 ? '#00b894' : '#d63031'};"><strong>LABA BERSIH REAL:</strong> ${formatRupiah(s.labaBersih)}</p>
-                    <p style="font-size:14px;color:#1e40af;"><strong>SISA KAS REAL:</strong> ${formatRupiah(s.sisaKas)}</p>
+                    <p style="font-size:14px;color:var(--primary);"><strong>SISA KAS REAL:</strong> ${formatRupiah(s.sisaKas)}</p>
                 </div>
             `;
             document.getElementById('viewDetailContent').innerHTML = content;
@@ -2051,17 +2059,15 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — DETAIL MINUS PER PRODUK + MODERN BLUE
+        // GENERATE PDF — SECTION HEADER BIRU MODERN (1,2,3,4)
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
             const isColor = format === 'warna';
 
-            // Nuansa biru modern
-            const blueModern = isColor ? '#1e40af' : '#1f2937';       // biru utama
-            const blueAccent = isColor ? '#3b82f6' : '#374151';        // aksen biru terang
-            const blueBg = isColor ? '#eff6ff' : '#f3f4f6';             // bg biru muda
-            const redMain = isColor ? '#c41e3a' : '#1f2937';
+            const blueModern = isColor ? '#1e40af' : '#1f2937';
+            const blueAccent = isColor ? '#3b82f6' : '#374151';
+            const blueBg = isColor ? '#eff6ff' : '#f3f4f6';
             const colPertalite = isColor ? '#059669' : '#374151';
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
             const colPertamax = isColor ? '#2563eb' : '#374151';
@@ -2076,7 +2082,6 @@
             const pColor = (p) => p === 'Pertalite' ? colPertalite : colPertamax;
             const pBg = (p) => p === 'Pertalite' ? bgPertalite : bgPertamax;
 
-            // Perhitungan per produk untuk rekapitulasi detail
             const mP = rep.margin?.pertalite || 0;
             const mX = rep.margin?.pertamax || 0;
             const pP = Math.round(sd.Pertalite?.penjualan || 0);
@@ -2089,7 +2094,6 @@
             const nilPengX = pengX * hj.pertamax;
             const hasilP = untungP + nilPengP;
             const hasilX = untungX + nilPengX;
-            // Alokasi pengeluaran proporsional terhadap omzet
             const omzetP = pP * hj.pertalite;
             const omzetX = pX * hj.pertamax;
             const totalOmz = omzetP + omzetX || 1;
@@ -2097,8 +2101,6 @@
             const ratioX = omzetX / totalOmz;
             const potonganP = Math.round(s.totalPengeluaran * ratioP);
             const potonganX = Math.round(s.totalPengeluaran * ratioX);
-            const labaBersihP = hasilP - potonganP;
-            const labaBersihX = hasilX - potonganX;
 
             // ---------- 1. TOTALISATOR ----------
             let nozRows = '';
@@ -2287,11 +2289,12 @@
                         }
 
                         .sec { flex-shrink: 0; page-break-inside: avoid; }
+                        /* SECTION HEADER — BIRU MODERN (1,2,3,4) */
                         .sec-hdr {
                             display: flex;
                             align-items: center;
                             gap: 5px;
-                            background: ${redMain};
+                            background: linear-gradient(135deg, ${blueModern} 0%, ${blueAccent} 100%);
                             color: #fff;
                             padding: 5px 12px;
                             border-radius: 4px 4px 0 0;
@@ -2307,7 +2310,7 @@
                             width: 18px;
                             height: 18px;
                             background: #fff;
-                            color: ${redMain};
+                            color: ${blueModern};
                             border-radius: 50%;
                             font-size: 10px;
                             font-weight: 700;
@@ -2340,7 +2343,6 @@
                             font-size: 10px;
                         }
 
-                        /* REKAP dengan detail minus per produk */
                         .rekap-row {
                             display: flex;
                             justify-content: space-between;
@@ -2353,7 +2355,6 @@
                         .rekap-row .lbl { color: #4b5563; }
                         .rekap-row .val { font-weight: 700; color: #1f2937; }
 
-                        /* Sub-baris detail per produk */
                         .rekap-detail {
                             display: flex;
                             justify-content: space-between;
@@ -2450,9 +2451,9 @@
                                     </thead>
                                     <tbody>
                                         ${expRows}
-                                        <tr style="background:${isColor ? '#fef2f2' : '#f3f4f6'};">
-                                            <td style="font-weight:700;color:${redMain};font-size:10px;padding-left:14px;border:1px solid ${borderLight};">TOTAL PENGELUARAN</td>
-                                            <td style="text-align:right;font-weight:700;color:${redMain};font-size:11px;border:1px solid ${borderLight};">${formatRupiah(s.totalPengeluaran)}</td>
+                                        <tr style="background:${blueBg};">
+                                            <td style="font-weight:700;color:${blueModern};font-size:10px;padding-left:14px;border:1px solid ${borderLight};">TOTAL PENGELUARAN</td>
+                                            <td style="text-align:right;font-weight:700;color:${blueModern};font-size:11px;border:1px solid ${borderLight};">${formatRupiah(s.totalPengeluaran)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2478,12 +2479,11 @@
                             </div>
                         </div>
 
-                        <!-- 4. REKAPITULASI — DENGAN DETAIL MINUS PER PRODUK -->
+                        <!-- 4. REKAPITULASI -->
                         <div class="sec">
                             <div class="sec-hdr"><span class="sec-num">4</span> Rekapitulasi Laba / Rugi</div>
                             <div class="sec-body">
 
-                                <!-- Keuntungan Margin -->
                                 <div class="rekap-row">
                                     <span class="lbl">Keuntungan Margin Penjualan</span>
                                     <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
@@ -2497,7 +2497,6 @@
                                     <span class="val-sub">${formatRupiah(untungX)}</span>
                                 </div>
 
-                                <!-- Nilai Penguapan -->
                                 <div class="rekap-row">
                                     <span class="lbl">Nilai Penguapan BBM</span>
                                     <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
@@ -2511,7 +2510,6 @@
                                     <span class="val-sub">${formatRupiah(nilPengX)}</span>
                                 </div>
 
-                                <!-- Hasil Keseluruhan -->
                                 <div class="rekap-row">
                                     <span class="lbl">Hasil Keseluruhan</span>
                                     <span class="val">${formatRupiah(s.hasilKeseluruhan)}</span>
@@ -2525,7 +2523,6 @@
                                     <span class="val-sub">${formatRupiah(hasilX)}</span>
                                 </div>
 
-                                <!-- Potongan Pengeluaran -->
                                 <div class="rekap-row">
                                     <span class="lbl">Potongan Pengeluaran Harian</span>
                                     <span class="val" style="color:#dc2626;">− ${formatRupiah(s.totalPengeluaran)}</span>
@@ -2539,7 +2536,6 @@
                                     <span class="val-sub" style="color:#dc2626;">− ${formatRupiah(potonganX)}</span>
                                 </div>
 
-                                <!-- Laba Bersih Real -->
                                 <div class="rekap-row highlight">
                                     <span>HASIL LABA BERSIH REAL</span>
                                     <span>${formatRupiah(s.labaBersih)}</span>
