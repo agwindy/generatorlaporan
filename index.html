@@ -2022,7 +2022,7 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — TABEL PERMESIN + GARIS JELAS + FONT BESAR
+        // GENERATE PDF — JUDUL PRODUK DI ATAS TABEL (HEADER GRUP)
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
@@ -2034,7 +2034,7 @@
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
             const colPertamax = isColor ? '#2563eb' : '#374151';
             const bgPertamax = isColor ? '#eff6ff' : '#f3f4f6';
-            const border = '#9ca3af';       // garis tabel lebih tegas
+            const border = '#9ca3af';
             const borderLight = '#d1d5db';
 
             const td = rep.totalizerData || {};
@@ -2044,23 +2044,23 @@
             const pColor = (p) => p === 'Pertalite' ? colPertalite : colPertamax;
             const pBg = (p) => p === 'Pertalite' ? bgPertalite : bgPertamax;
 
-            // ---------- 1. TOTALISATOR (baris per mesin) ----------
+            // ---------- 1. TOTALISATOR: HEADER GRUP DI ATAS ----------
             let nozRows = '';
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const pNozz = nozzles.filter(n => n.product === p);
                 let sumOmz = 0;
                 const c = pColor(p), bg = pBg(p);
 
-                // Baris header produk
+                // Baris header grup produk DI ATAS (judul produk)
                 nozRows += `
                     <tr>
-                        <td colspan="7" style="background:${bg};color:${c};font-weight:700;font-size:13px;padding:8px 12px;border-left:5px solid ${c};letter-spacing:0.4px;border-bottom:1px solid ${border};">
+                        <td colspan="6" style="background:${bg};color:${c};font-weight:700;font-size:13px;padding:8px 12px;border-left:5px solid ${c};letter-spacing:0.4px;border:1px solid ${borderLight};">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
                 `;
 
-                // Baris per mesin — dengan kolom lengkap
+                // Baris-baris mesin SETELAH header
                 pNozz.forEach(n => {
                     const t = td[n.id] || { awal: 0, akhir: 0 };
                     const penj = Math.max(0, Math.round((t.akhir - t.awal) * 10) / 10);
@@ -2078,6 +2078,7 @@
                     `;
                 });
 
+                // Baris TOTAL di bawah mesin
                 nozRows += `
                     <tr style="background:${bg};">
                         <td colspan="4" style="font-weight:700;color:${c};font-size:12px;padding:7px 12px;border:1px solid ${borderLight};">TOTAL ${p.toUpperCase()}</td>
@@ -2113,17 +2114,23 @@
                 `;
             }
 
-            // ---------- 3. STOK ----------
+            // ---------- 3. STOK: HEADER GRUP DI ATAS ----------
             let stokRows = '';
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const d = sd[p] || {};
                 const c = pColor(p), bg = pBg(p);
+
+                // Header grup produk DI ATAS
                 stokRows += `
                     <tr>
                         <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:13px;padding:8px 12px;border-left:5px solid ${c};letter-spacing:0.4px;border:1px solid ${borderLight};">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
+                `;
+
+                // Baris data stok
+                stokRows += `
                     <tr>
                         <td style="padding-left:18px;font-weight:600;font-size:12px;border:1px solid ${borderLight};">Stok Awal</td>
                         <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${Math.round(d.stokAwal || 0)} L</td>
@@ -2146,7 +2153,6 @@
                         * { box-sizing: border-box; font-family: Arial, sans-serif; margin:0; padding:0; }
                         body { color: #1f2937; font-size: 12px; line-height: 1.4; }
 
-                        /* ===== HEADER ===== */
                         .hdr-wrap {
                             background: ${blueDark};
                             color: #fff;
@@ -2169,7 +2175,6 @@
                         .hdr-wrap h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 3px; }
                         .hdr-wrap .sub { font-size: 13px; font-weight: 600; opacity: 0.95; }
 
-                        /* ===== META ===== */
                         .meta {
                             display: flex;
                             background: #fff;
@@ -2207,7 +2212,6 @@
                             margin-top: 1px;
                         }
 
-                        /* ===== SECTION ===== */
                         .sec { margin-bottom: 10px; }
                         .sec-hdr {
                             display: flex;
@@ -2243,7 +2247,6 @@
                             background: #fff;
                         }
 
-                        /* ===== TABLE ===== */
                         table { width: 100%; border-collapse: collapse; }
                         th {
                             background: #f3f4f6;
@@ -2263,7 +2266,6 @@
                             font-size: 12px;
                         }
 
-                        /* ===== REKAP ===== */
                         .rekap-row {
                             display: flex;
                             justify-content: space-between;
@@ -2321,14 +2323,14 @@
                         </div>
                     </div>
 
-                    <!-- 1. TOTALISATOR — TABEL PERMESIN -->
+                    <!-- 1. TOTALISATOR — HEADER GRUP DI ATAS -->
                     <div class="sec">
                         <div class="sec-hdr"><span class="sec-num">1</span> Totalisator Nozzle Dispenser</div>
                         <div class="sec-body">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th style="width:26%;">Mesin</th>
+                                        <th style="width:26%;">Produk / Mesin</th>
                                         <th class="right" style="width:15%;">Tot. Awal</th>
                                         <th class="right" style="width:15%;">Tot. Akhir</th>
                                         <th class="right" style="width:15%;">Penjualan</th>
@@ -2363,7 +2365,7 @@
                         </div>
                     </div>
 
-                    <!-- 3. STOK -->
+                    <!-- 3. STOK — HEADER GRUP DI ATAS -->
                     <div class="sec">
                         <div class="sec-hdr"><span class="sec-num">3</span> Stok BBM &amp; Penguapan</div>
                         <div class="sec-body">
