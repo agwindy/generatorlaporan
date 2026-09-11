@@ -2064,7 +2064,7 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — CLEAN & MINIMALIS
+        // GENERATE PDF — CLEAN + GARIS TABEL + FORMULA PROPORSIONAL
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
@@ -2076,6 +2076,7 @@
             const colPertamax = isColor ? '#2563eb' : '#374151';
             const border = '#9ca3af';
             const borderLight = '#e5e7eb';
+            const borderRow = '#e5e7eb';
             const textMuted = '#6b7280';
             const textDark = '#1f2937';
 
@@ -2085,7 +2086,6 @@
 
             const pColor = (p) => p === 'Pertalite' ? colPertalite : colPertamax;
 
-            // Data per produk
             const mP = rep.margin?.pertalite || 0;
             const mX = rep.margin?.pertamax || 0;
             const pP = Math.round(sd.Pertalite?.penjualan || 0);
@@ -2097,7 +2097,7 @@
             const nilPengP = pengP * hj.pertalite;
             const nilPengX = pengX * hj.pertamax;
 
-            // ---------- 1. TOTALISATOR (clean rows) ----------
+            // ---------- 1. TOTALISATOR ----------
             let nozRows = '';
             let grandTotalOmzet = 0;
             ['Pertalite', 'Pertamax'].forEach(p => {
@@ -2105,10 +2105,9 @@
                 let sumOmz = 0;
                 const c = pColor(p);
 
-                // Sub-header produk
                 nozRows += `
                     <tr>
-                        <td colspan="6" style="background:#f9fafb;color:${c};font-weight:700;font-size:9px;padding:4px 10px;letter-spacing:0.4px;border-bottom:1px solid ${border};">
+                        <td colspan="6" style="background:#f9fafb;color:${c};font-weight:700;font-size:9px;padding:4px 10px;letter-spacing:0.4px;border:1px solid ${borderRow};border-left:3px solid ${c};">
                             ${p.toUpperCase()}
                         </td>
                     </tr>
@@ -2121,21 +2120,21 @@
                     sumOmz += Math.round(penj * harga);
                     nozRows += `
                         <tr>
-                            <td style="padding-left:14px;font-size:9px;color:${textMuted};">Mesin ${n.label}</td>
-                            <td style="text-align:right;font-size:9px;">${(t.awal || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-size:9px;">${(t.akhir || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-weight:600;font-size:9px;">${penj.toFixed(1)} L</td>
-                            <td style="text-align:right;font-size:9px;color:${textMuted};">${formatRupiah(harga)}</td>
-                            <td style="text-align:right;font-weight:600;font-size:9px;">${formatRupiah(Math.round(penj * harga))}</td>
+                            <td style="padding-left:14px;font-size:9px;color:${textMuted};border:1px solid ${borderRow};">Mesin ${n.label}</td>
+                            <td style="text-align:right;font-size:9px;border:1px solid ${borderRow};">${(t.awal || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-size:9px;border:1px solid ${borderRow};">${(t.akhir || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-weight:600;font-size:9px;border:1px solid ${borderRow};">${penj.toFixed(1)} L</td>
+                            <td style="text-align:right;font-size:9px;color:${textMuted};border:1px solid ${borderRow};">${formatRupiah(harga)}</td>
+                            <td style="text-align:right;font-weight:600;font-size:9px;border:1px solid ${borderRow};">${formatRupiah(Math.round(penj * harga))}</td>
                         </tr>
                     `;
                 });
 
                 nozRows += `
                     <tr style="background:#f9fafb;">
-                        <td colspan="4" style="font-weight:700;font-size:9px;padding:4px 10px;color:${c};">Subtotal ${p}</td>
-                        <td style="text-align:right;font-weight:700;font-size:9px;color:${c};"></td>
-                        <td style="text-align:right;font-weight:700;font-size:9px;color:${c};">${formatRupiah(sumOmz)}</td>
+                        <td colspan="4" style="font-weight:700;font-size:9px;padding:4px 10px;color:${c};border:1px solid ${borderRow};">Subtotal ${p}</td>
+                        <td style="text-align:right;font-weight:700;font-size:9px;color:${c};border:1px solid ${borderRow};"></td>
+                        <td style="text-align:right;font-weight:700;font-size:9px;color:${c};border:1px solid ${borderRow};">${formatRupiah(sumOmz)}</td>
                     </tr>
                 `;
                 grandTotalOmzet += sumOmz;
@@ -2143,8 +2142,8 @@
 
             nozRows += `
                 <tr>
-                    <td colspan="5" style="font-weight:700;font-size:10px;padding:6px 10px;text-align:right;color:${blueModern};border-top:2px solid ${blueModern};">TOTAL OMSET PENJUALAN</td>
-                    <td style="text-align:right;font-weight:700;font-size:11px;color:${blueModern};border-top:2px solid ${blueModern};">${formatRupiah(grandTotalOmzet)}</td>
+                    <td colspan="5" style="font-weight:700;font-size:10px;padding:6px 10px;text-align:right;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">TOTAL OMSET PENJUALAN</td>
+                    <td style="text-align:right;font-weight:700;font-size:11px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">${formatRupiah(grandTotalOmzet)}</td>
                 </tr>
             `;
 
@@ -2153,23 +2152,23 @@
             let expRows = '';
             expRows += `
                 <tr>
-                    <td style="padding-left:14px;font-size:9px;color:${textMuted};font-style:italic;">Setoran Bank <span style="font-size:7.5px;">(di luar pengeluaran)</span></td>
-                    <td style="text-align:right;font-weight:600;font-size:9px;color:${textDark};">${formatRupiah(rep.setorBank || 0)}</td>
+                    <td style="padding-left:14px;font-size:9px;color:${textMuted};font-style:italic;border:1px solid ${borderRow};">Setoran Bank <span style="font-size:7.5px;">(di luar pengeluaran)</span></td>
+                    <td style="text-align:right;font-weight:600;font-size:9px;color:${textDark};border:1px solid ${borderRow};">${formatRupiah(rep.setorBank || 0)}</td>
                 </tr>
             `;
             if (expFiltered.length > 0) {
                 expFiltered.forEach(e => {
                     expRows += `
                         <tr>
-                            <td style="padding-left:14px;font-size:9px;color:${textDark};">${e.keterangan || 'Tanpa keterangan'}</td>
-                            <td style="text-align:right;font-weight:600;font-size:9px;color:${textDark};">${formatRupiah(e.nominal)}</td>
+                            <td style="padding-left:14px;font-size:9px;color:${textDark};border:1px solid ${borderRow};">${e.keterangan || 'Tanpa keterangan'}</td>
+                            <td style="text-align:right;font-weight:600;font-size:9px;color:${textDark};border:1px solid ${borderRow};">${formatRupiah(e.nominal)}</td>
                         </tr>
                     `;
                 });
             } else {
                 expRows += `
                     <tr>
-                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:8px;font-style:italic;padding:5px;">Tidak ada pengeluaran operasional</td>
+                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:8px;font-style:italic;padding:5px;border:1px solid ${borderRow};">Tidak ada pengeluaran operasional</td>
                     </tr>
                 `;
             }
@@ -2182,16 +2181,16 @@
 
                 stokRows += `
                     <tr>
-                        <td colspan="5" style="background:#f9fafb;color:${c};font-weight:700;font-size:9px;padding:4px 10px;letter-spacing:0.4px;border-bottom:1px solid ${border};">
+                        <td colspan="5" style="background:#f9fafb;color:${c};font-weight:700;font-size:9px;padding:4px 10px;letter-spacing:0.4px;border:1px solid ${borderRow};border-left:3px solid ${c};">
                             ${p.toUpperCase()}
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:14px;font-size:9px;color:${textMuted};">Stok Awal</td>
-                        <td style="text-align:right;font-size:9px;">${Math.round(d.stokAwal || 0)} L</td>
-                        <td style="text-align:right;font-size:9px;">${Math.round(d.pembelian || 0)} L</td>
-                        <td style="text-align:right;font-weight:600;font-size:9px;">${Math.round(d.stokAkhir || 0)} L</td>
-                        <td style="text-align:right;font-weight:600;font-size:9px;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};">
+                        <td style="padding-left:14px;font-size:9px;color:${textMuted};border:1px solid ${borderRow};">Stok Awal</td>
+                        <td style="text-align:right;font-size:9px;border:1px solid ${borderRow};">${Math.round(d.stokAwal || 0)} L</td>
+                        <td style="text-align:right;font-size:9px;border:1px solid ${borderRow};">${Math.round(d.pembelian || 0)} L</td>
+                        <td style="text-align:right;font-weight:600;font-size:9px;border:1px solid ${borderRow};">${Math.round(d.stokAkhir || 0)} L</td>
+                        <td style="text-align:right;font-weight:600;font-size:9px;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};border:1px solid ${borderRow};">
                             ${formatPenguapan(d.penguapan || 0)}
                         </td>
                     </tr>
@@ -2222,7 +2221,7 @@
                             gap: 6px;
                         }
 
-                        /* ===== HEADER MINIMALIS ===== */
+                        /* ===== HEADER ===== */
                         .hdr-wrap {
                             border-bottom: 3px solid ${blueModern};
                             padding-bottom: 8px;
@@ -2243,7 +2242,7 @@
                             letter-spacing: 0.3px;
                         }
 
-                        /* ===== META SEDERHANA ===== */
+                        /* ===== META ===== */
                         .meta {
                             display: flex;
                             justify-content: space-between;
@@ -2252,10 +2251,7 @@
                             margin-bottom: 6px;
                             flex-shrink: 0;
                         }
-                        .meta-item {
-                            display: flex;
-                            flex-direction: column;
-                        }
+                        .meta-item { display: flex; flex-direction: column; }
                         .meta-lbl {
                             font-size: 7px;
                             color: ${textMuted};
@@ -2299,26 +2295,27 @@
                             flex-shrink: 0;
                         }
 
-                        /* ===== TABLE CLEAN ===== */
+                        /* ===== TABLE ===== */
                         table { width: 100%; border-collapse: collapse; }
                         th {
                             font-size: 8px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.3px;
-                            padding: 4px 6px;
+                            padding: 5px 6px;
                             color: ${textMuted};
                             text-align: left;
-                            border-bottom: 1px solid ${border};
+                            border: 1px solid ${borderRow};
+                            background: #f9fafb;
                         }
                         th.right, td.right { text-align: right; }
                         td {
-                            padding: 3px 6px;
+                            padding: 4px 6px;
                             font-size: 9px;
-                            border-bottom: 1px solid ${borderLight};
+                            border: 1px solid ${borderRow};
                         }
 
-                        /* ===== REKAP CLEAN ===== */
+                        /* ===== REKAP ===== */
                         .rekap-item {
                             padding: 6px 0;
                             border-bottom: 1px solid ${borderLight};
@@ -2329,43 +2326,55 @@
                             justify-content: space-between;
                             align-items: center;
                             font-size: 10px;
-                            margin-bottom: 3px;
+                            margin-bottom: 4px;
                         }
                         .rekap-head .lbl { color: ${textMuted}; font-weight: 600; }
                         .rekap-head .val { font-weight: 700; color: ${textDark}; }
 
-                        .rekap-prod {
-                            display: flex;
-                            justify-content: space-between;
+                        /* ===== FORMULA GRID 3 KOLOM PROPORSIONAL ===== */
+                        .rekap-formula-row {
+                            display: grid;
+                            grid-template-columns: 90px 1fr 120px;
                             align-items: center;
+                            gap: 8px;
                             padding: 2px 0 2px 14px;
                             font-size: 8.5px;
-                            color: ${textMuted};
                         }
-                        .rekap-prod .name {
+                        .rekap-formula-row .name {
                             display: inline-flex;
                             align-items: center;
                             gap: 4px;
                             font-weight: 600;
+                            color: ${textDark};
+                            white-space: nowrap;
                         }
-                        .rekap-prod .dot {
+                        .rekap-formula-row .name .dot {
                             width: 5px;
                             height: 5px;
                             border-radius: 50%;
                             display: inline-block;
+                            flex-shrink: 0;
                         }
-                        .rekap-prod .dot.pt { background: ${colPertalite}; }
-                        .rekap-prod .dot.px { background: ${colPertamax}; }
-                        .rekap-prod .formula {
+                        .rekap-formula-row .name .dot.pt { background: ${colPertalite}; }
+                        .rekap-formula-row .name .dot.px { background: ${colPertamax}; }
+                        .rekap-formula-row .formula {
                             font-style: italic;
                             color: ${textMuted};
-                            font-size: 8px;
+                            font-size: 8.5px;
+                            text-align: center;
+                            white-space: nowrap;
                         }
-                        .rekap-prod .formula strong { color: ${textDark}; font-style: normal; font-weight: 600; }
-                        .rekap-prod .result {
+                        .rekap-formula-row .formula strong {
+                            color: ${textDark};
+                            font-style: normal;
+                            font-weight: 700;
+                        }
+                        .rekap-formula-row .result {
                             font-weight: 700;
                             color: ${textDark};
-                            font-size: 9px;
+                            font-size: 9.5px;
+                            text-align: right;
+                            white-space: nowrap;
                         }
 
                         .rekap-total {
@@ -2440,8 +2449,8 @@
                                 <tbody>
                                     ${expRows}
                                     <tr>
-                                        <td style="font-weight:700;font-size:10px;padding-left:14px;color:${blueModern};border-top:1px solid ${border};">Total Pengeluaran</td>
-                                        <td style="text-align:right;font-weight:700;font-size:10px;color:${blueModern};border-top:1px solid ${border};">${formatRupiah(s.totalPengeluaran)}</td>
+                                        <td style="font-weight:700;font-size:10px;padding-left:14px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">Total Pengeluaran</td>
+                                        <td style="text-align:right;font-weight:700;font-size:10px;color:${blueModern};border:1px solid ${borderRow};background:#eff6ff;">${formatRupiah(s.totalPengeluaran)}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -2475,12 +2484,12 @@
                                         <span class="lbl">Keuntungan Margin Penjualan</span>
                                         <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
                                     </div>
-                                    <div class="rekap-prod">
+                                    <div class="rekap-formula-row">
                                         <span class="name"><span class="dot pt"></span> Pertalite</span>
                                         <span class="formula"><strong>${formatAngka(pP)} L</strong> × <strong>${formatRupiah(mP)}/L</strong></span>
                                         <span class="result">${formatRupiah(untungP)}</span>
                                     </div>
-                                    <div class="rekap-prod">
+                                    <div class="rekap-formula-row">
                                         <span class="name"><span class="dot px"></span> Pertamax</span>
                                         <span class="formula"><strong>${formatAngka(pX)} L</strong> × <strong>${formatRupiah(mX)}/L</strong></span>
                                         <span class="result">${formatRupiah(untungX)}</span>
@@ -2493,12 +2502,12 @@
                                         <span class="lbl">Nilai Penguapan BBM</span>
                                         <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
                                     </div>
-                                    <div class="rekap-prod">
+                                    <div class="rekap-formula-row">
                                         <span class="name"><span class="dot pt"></span> Pertalite</span>
                                         <span class="formula"><strong>${formatAngka(pengP)} L</strong> × <strong>${formatRupiah(hj.pertalite)}/L</strong></span>
                                         <span class="result">${formatRupiah(nilPengP)}</span>
                                     </div>
-                                    <div class="rekap-prod">
+                                    <div class="rekap-formula-row">
                                         <span class="name"><span class="dot px"></span> Pertamax</span>
                                         <span class="formula"><strong>${formatAngka(pengX)} L</strong> × <strong>${formatRupiah(hj.pertamax)}/L</strong></span>
                                         <span class="result">${formatRupiah(nilPengX)}</span>
