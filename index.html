@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Laporan Penjualan & Laba/Rugi Harian SPBU 34-17603</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -280,13 +281,8 @@
             table-layout: auto;
         }
 
-        #tabelTotalisator {
-            min-width: 680px;
-        }
-
-        #tabelStok {
-            min-width: 660px;
-        }
+        #tabelTotalisator { min-width: 680px; }
+        #tabelStok { min-width: 660px; }
 
         table th {
             background: #f4f6f9;
@@ -308,9 +304,7 @@
             white-space: nowrap;
         }
 
-        table tr:hover {
-            background: #fafafa;
-        }
+        table tr:hover { background: #fafafa; }
 
         .th-produk, .td-produk {
             width: 75px !important;
@@ -433,9 +427,7 @@
             user-select: none;
         }
 
-        .toggle-switch input {
-            display: none;
-        }
+        .toggle-switch input { display: none; }
 
         .toggle-switch .slider {
             width: 44px;
@@ -460,13 +452,8 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
-        .toggle-switch input:checked + .slider {
-            background: #c41e3a;
-        }
-
-        .toggle-switch input:checked + .slider::after {
-            left: 23px;
-        }
+        .toggle-switch input:checked + .slider { background: #c41e3a; }
+        .toggle-switch input:checked + .slider::after { left: 23px; }
 
         .toggle-label {
             font-size: 13px;
@@ -843,7 +830,7 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             position: relative;
             max-height: 90vh;
@@ -864,14 +851,9 @@
         .share-btn-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 14px;
         }
-
-        .btn-wa { background: #25D366; color: white; }
-        .btn-wa:hover { background: #1ebc59; }
-        .btn-email { background: #ea4335; color: white; }
-        .btn-email:hover { background: #d33828; }
     </style>
 </head>
 <body>
@@ -898,11 +880,11 @@
                 </div>
                 <div class="card">
                     <div class="label">Pertalite</div>
-                    <div class="value" id="dashPertalite">0,0 L</div>
+                    <div class="value" id="dashPertalite">0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Pertamax</div>
-                    <div class="value" id="dashPertamax">0,0 L</div>
+                    <div class="value" id="dashPertamax">0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Penjualan Pertalite</div>
@@ -926,11 +908,11 @@
                 </div>
                 <div class="card">
                     <div class="label">Total Stok</div>
-                    <div class="value" id="dashStok">0,0 L</div>
+                    <div class="value" id="dashStok">0 L</div>
                 </div>
                 <div class="card">
                     <div class="label">Total Penguapan</div>
-                    <div class="value neutral" id="dashPenguapan">0,0 L</div>
+                    <div class="value neutral" id="dashPenguapan">0 L</div>
                 </div>
             </div>
 
@@ -1055,7 +1037,7 @@
                     <h3 style="color:#c41e3a;font-size:14px;margin-bottom:10px;"><i class="fas fa-receipt"></i> Potongan / Pengeluaran Harian</h3>
                     <div class="setor-bank">
                         <span class="setor-bank-label"><i class="fas fa-building-columns"></i> Setor Bank</span>
-                        <input type="number" step="0.1" id="setorBank" placeholder="0">
+                        <input type="number" step="1" id="setorBank" placeholder="0">
                         <span style="font-size:11px;color:#636e72;">(di luar pengeluaran harian)</span>
                     </div>
                     <div id="expenseContainer"></div>
@@ -1070,18 +1052,18 @@
                         <div class="laba-produk-card">
                             <div class="laba-produk-title">⛽ PERTALITE</div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertalite">0,0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertalite">0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item">
                                     <span class="lf-label">Margin/L</span>
-                                    <input type="number" step="0.1" id="marginPertalite" value="500" readonly style="background:#f0f0f0;">
+                                    <input type="number" step="1" id="marginPertalite" value="500" readonly style="background:#f0f0f0;">
                                     <button class="unlock-btn" style="font-size:9px;" onclick="toggleLockMargin('marginPertalite')"><i class="fas fa-unlock"></i> Buka</button>
                                 </span>
                                 <span class="lf-op">=</span>
                                 <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertalite">Rp 0</strong></span>
                             </div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertalite">0,0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertalite">0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item"><span class="lf-label">Harga/L</span><strong class="lf-value" id="labaHargaJualPertaliteTxt">Rp 10.000</strong></span>
                                 <span class="lf-op">=</span>
@@ -1091,18 +1073,18 @@
                         <div class="laba-produk-card">
                             <div class="laba-produk-title">⛽ PERTAMAX</div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertamax">0,0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penjualan</span><strong class="lf-value" id="labaPenjualanPertamax">0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item">
                                     <span class="lf-label">Margin/L</span>
-                                    <input type="number" step="0.1" id="marginPertamax" value="800" readonly style="background:#f0f0f0;">
+                                    <input type="number" step="1" id="marginPertamax" value="800" readonly style="background:#f0f0f0;">
                                     <button class="unlock-btn" style="font-size:9px;" onclick="toggleLockMargin('marginPertamax')"><i class="fas fa-unlock"></i> Buka</button>
                                 </span>
                                 <span class="lf-op">=</span>
                                 <span class="lf-item lf-hasil"><span class="lf-label">Keuntungan</span><strong class="lf-value" id="labaKeuntunganPertamax">Rp 0</strong></span>
                             </div>
                             <div class="laba-formula">
-                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertamax">0,0 L</strong></span>
+                                <span class="lf-item"><span class="lf-label">Penguapan</span><strong class="lf-value" id="labaPenguapanPertamax">0 L</strong></span>
                                 <span class="lf-op">×</span>
                                 <span class="lf-item"><span class="lf-label">Harga/L</span><strong class="lf-value" id="labaHargaJualPertamaxTxt">Rp 15.950</strong></span>
                                 <span class="lf-op">=</span>
@@ -1189,25 +1171,23 @@
 
         <!-- MODAL PREVIEW -->
         <div id="previewModal">
-            <div class="modal-content" style="max-width:800px;">
+            <div class="modal-content" style="max-width:850px;">
                 <button class="close-btn" onclick="closePreview()">&times;</button>
-                <iframe id="previewFrame" style="width:100%;height:70vh;border:1px solid #eee;border-radius:8px;"></iframe>
+                <iframe id="previewFrame" style="width:100%;height:75vh;border:1px solid #eee;border-radius:8px;"></iframe>
             </div>
         </div>
 
-        <!-- MODAL BAGIKAN -->
+        <!-- MODAL BAGIKAN (FILE PDF LANGSUNG) -->
         <div id="shareModal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeShare()">&times;</button>
-                <h3 style="color:#c41e3a;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan Laporan</h3>
-                <p style="font-size:12px;color:#636e72;margin-bottom:12px;">Pilih jalur pengiriman laporan:</p>
+                <h3 style="color:#c41e3a;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan Laporan (PDF)</h3>
+                <p style="font-size:12px;color:#636e72;margin-bottom:12px;">Kirim langsung berkas PDF 1 halaman A4 ke aplikasi lain atau simpan:</p>
                 
                 <div class="share-btn-list">
-                    <button type="button" class="btn btn-wa" onclick="bagikanWA()"><i class="fab fa-whatsapp"></i> Kirim ke WhatsApp</button>
-                    <button type="button" class="btn btn-email" onclick="bagikanEmail()"><i class="fas fa-envelope"></i> Kirim via Email</button>
-                    <button type="button" class="btn btn-outline" onclick="simpanKeFileTeks()"><i class="fas fa-file-download"></i> Simpan File Ringkasan (.txt)</button>
-                    <button type="button" class="btn btn-primary" onclick="bagikanLaporan(currentShareId, 'warna')"><i class="fas fa-print"></i> Cetak PDF Berwarna</button>
-                    <button type="button" class="btn btn-outline" onclick="bagikanLaporan(currentShareId, 'bw')"><i class="fas fa-file"></i> Cetak PDF Hitam Putih</button>
+                    <button type="button" class="btn btn-primary" onclick="eksekusiBagikanPDF('warna')"><i class="fas fa-file-pdf"></i> Bagikan PDF Berwarna</button>
+                    <button type="button" class="btn btn-outline" onclick="eksekusiBagikanPDF('bw')"><i class="fas fa-print"></i> Bagikan PDF Hitam Putih</button>
+                    <button type="button" class="btn btn-outline" onclick="unduhPDFLangsung()"><i class="fas fa-download"></i> Unduh File PDF</button>
                 </div>
             </div>
         </div>
@@ -1255,7 +1235,7 @@
             };
         }
 
-        // FORMAT 1 ANGKA DI BELAKANG KOMA TANPA GLITCH DESIMAL
+        // HANYA TOTALISATOR YANG MENGGUNAKAN 1 ANGKA DI BELAKANG KOMA
         function valInput(v) {
             if (v === undefined || v === null || v === '') return '';
             const n = parseFloat(v);
@@ -1263,14 +1243,22 @@
             return (Math.round(n * 10) / 10).toFixed(1);
         }
 
+        // SEMUA SELAIN TOTALISATOR (STOK, PENJUALAN TOTAL, DLL) BULAT PENUH
+        function valInt(v) {
+            if (v === undefined || v === null || v === '') return '';
+            const n = parseFloat(v);
+            if (isNaN(n) || n === 0) return '';
+            return Math.round(n).toString();
+        }
+
         function formatRupiah(num) {
             return 'Rp ' + Math.round(num || 0).toLocaleString('id-ID');
         }
 
         function formatPenguapan(val) {
-            const n = parseFloat(val) || 0;
-            if (Math.abs(n) < 0.05) return '0,0 L';
-            return (n > 0 ? '+' : '') + (Math.round(n * 10) / 10).toFixed(1).replace('.', ',') + ' L';
+            const n = Math.round(parseFloat(val) || 0);
+            if (n === 0) return '0 L';
+            return (n > 0 ? '+' : '') + n + ' L';
         }
 
         function formatTanggalIndo(iso) {
@@ -1340,8 +1328,32 @@
 
         function toggleLockKey(key) {
             isLocked[key] = !isLocked[key];
-            renderTotalisator();
-            renderStok();
+            const p = key.replace('penjualan', '').replace('stokAkhir', '');
+            if (key.startsWith('penjualan')) {
+                const el = document.querySelector(`.stok-penjualan-total[data-produk="${p}"]`);
+                if (el) {
+                    if (isLocked[key]) {
+                        el.setAttribute('readonly', 'readonly');
+                        el.style.background = '#f5f6fa';
+                    } else {
+                        el.removeAttribute('readonly');
+                        el.style.background = '#fff';
+                    }
+                }
+            } else if (key.startsWith('stokAkhir')) {
+                const el = document.querySelector(`.stok-akhir[data-produk="${p}"]`);
+                if (el) {
+                    if (isLocked[key]) {
+                        el.setAttribute('readonly', 'readonly');
+                        el.style.background = '#f5f6fa';
+                    } else {
+                        el.removeAttribute('readonly');
+                        el.style.background = '#fff8e1';
+                    }
+                }
+            }
+            const btn = event?.currentTarget;
+            if (btn) btn.innerHTML = `<i class="fas fa-${isLocked[key] ? 'lock' : 'unlock'}"></i>`;
             updateAll();
         }
 
@@ -1386,7 +1398,7 @@
                     const akhir = totalizerData[n.id].akhir || 0;
                     const penjualan = Math.max(0, Math.round((akhir - awal) * 10) / 10);
                     const harga = p === 'Pertalite' ? hj.pertalite : hj.pertamax;
-                    sumOmzet += penjualan * harga;
+                    sumOmzet += Math.round(penjualan * harga);
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -1394,9 +1406,9 @@
                         <td class="td-mesin">${n.label}</td>
                         <td class="td-tot"><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${valInput(awal)}" placeholder="Awal"></td>
                         <td class="td-tot"><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(akhir)}" placeholder="Akhir" style="${modeAuto ? 'background:#f5f3ff;color:#6c5ce7;' : ''}"></td>
-                        <td><input type="number" step="0.1" readonly class="total-penjualan" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#0984e3;"></td>
+                        <td><input type="number" step="0.1" readonly class="total-penjualan" data-id="${n.id}" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#0984e3;"></td>
                         <td>${formatRupiah(harga)}</td>
-                        <td><input type="text" readonly class="total-omzet" value="${penjualan > 0 ? formatRupiah(penjualan * harga) : ''}" placeholder="Rp 0"></td>
+                        <td><input type="text" readonly class="total-omzet" data-id="${n.id}" value="${penjualan > 0 ? formatRupiah(Math.round(penjualan * harga)) : ''}" placeholder="Rp 0"></td>
                     `;
                     tbody.appendChild(row);
                 });
@@ -1417,13 +1429,13 @@
                     <td></td>
                     <td>
                         <div style="display:flex;align-items:center;gap:2px;">
-                            <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${valInput(d.penjualan)}" placeholder="Otomatis" style="${lockedPJ ? 'background:#f5f6fa;' : 'background:#fff;'}" ${lockedPJ ? 'readonly' : ''}>
-                            <span class="stok-badge">${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
+                            <input type="number" step="1" class="stok-penjualan-total" data-produk="${p}" value="${valInt(d.penjualan)}" placeholder="Otomatis" style="${lockedPJ ? 'background:#f5f6fa;' : 'background:#fff;'}" ${lockedPJ ? 'readonly' : ''}>
+                            <span class="stok-badge badge-penjualan" data-produk="${p}">${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
                             <button class="unlock-mini" onclick="toggleLockKey('penjualan${p}')"><i class="fas fa-${lockedPJ ? 'lock' : 'unlock'}"></i></button>
                         </div>
                     </td>
                     <td></td>
-                    <td><strong class="sub-omzet">${formatRupiah(sumOmzet)}</strong></td>
+                    <td><strong class="sub-omzet" data-produk="${p}">${formatRupiah(sumOmzet)}</strong></td>
                 `;
                 tbody.appendChild(sub);
             });
@@ -1444,19 +1456,19 @@
 
                 row.innerHTML = `
                     <td><strong>${p}</strong></td>
-                    <td><input type="number" step="0.1" class="stok-awal" data-produk="${p}" value="${valInput(data.stokAwal)}" placeholder="Awal"></td>
-                    <td><input type="number" step="0.1" class="stok-pembelian" data-produk="${p}" value="${valInput(data.pembelian)}" placeholder="DO"></td>
+                    <td><input type="number" step="1" class="stok-awal" data-produk="${p}" value="${valInt(data.stokAwal)}" placeholder="Awal"></td>
+                    <td><input type="number" step="1" class="stok-pembelian" data-produk="${p}" value="${valInt(data.pembelian)}" placeholder="DO"></td>
                     <td>
                         <div style="display:flex;align-items:center;gap:2px;">
-                            <input type="number" step="0.1" class="stok-akhir" data-produk="${p}" value="${valInput(data.stokAkhir)}" placeholder="Akhir" style="${lockedSA ? 'background:#f5f6fa;' : 'background:#fff8e1;'}" ${lockedSA ? 'readonly' : ''}>
-                            <span class="stok-badge">${data.stokAkhirManual ? 'MANUAL' : 'AUTO'}</span>
+                            <input type="number" step="1" class="stok-akhir" data-produk="${p}" value="${valInt(data.stokAkhir)}" placeholder="Akhir" style="${lockedSA ? 'background:#f5f6fa;' : 'background:#fff8e1;'}" ${lockedSA ? 'readonly' : ''}>
+                            <span class="stok-badge badge-stok-akhir" data-produk="${p}">${data.stokAkhirManual ? 'MANUAL' : 'AUTO'}</span>
                             <button class="unlock-mini" onclick="toggleLockKey('stokAkhir${p}')"><i class="fas fa-${lockedSA ? 'lock' : 'unlock'}"></i></button>
                         </div>
                     </td>
                     <td>
                         <div class="penguapan-cell-wrapper">
-                            <input type="text" readonly value="${formatPenguapan(data.penguapan)}" style="font-weight:700;color:${statusColor};background:#fafafa;">
-                            <span class="penguapan-keterangan" style="color:${statusColor};">${statusKet}</span>
+                            <input type="text" readonly class="stok-penguapan-val" data-produk="${p}" value="${formatPenguapan(data.penguapan)}" style="font-weight:700;color:${statusColor};background:#fafafa;">
+                            <span class="penguapan-keterangan" data-produk="${p}" style="color:${statusColor};">${statusKet}</span>
                         </div>
                     </td>
                 `;
@@ -1464,7 +1476,6 @@
             });
         }
 
-        // GENERATE PENJUALAN RANDOM SESUAI TOTAL PENJUALAN
         function sinkronkanProduk(p) {
             const data = stokData[p] || { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0, modeTotalizer: 'auto' };
             const nozz = nozzles.filter(n => n.product === p);
@@ -1481,11 +1492,10 @@
                 S = nozz.reduce((s, n) => s + Math.max(0, (totalizerData[n.id]?.akhir || 0) - (totalizerData[n.id]?.awal || 0)), 0);
             }
 
-            S = Math.round(S * 10) / 10;
+            S = Math.round(S);
 
-            // Alokasi acak saat mode auto agar penjualan tidak sama rata
             if (!modeManual && (data.penjualanManual || data.stokAkhirManual) && S >= 0 && nozz.length > 0) {
-                const rndFactors = nozz.map(() => 0.6 + Math.random() * 0.8);
+                const rndFactors = nozz.map(() => 0.65 + Math.random() * 0.7);
                 const sumRnd = rndFactors.reduce((a, b) => a + b, 0);
 
                 let allocatedSum = 0;
@@ -1498,7 +1508,6 @@
                         totalizerData[n.id].akhir = Math.round((awal + nozzleSales) * 10) / 10;
                         allocatedSum += nozzleSales;
                     } else {
-                        // Sisa penjualan dialokasikan ke nozzle terakhir agar totalnya 100% presisi
                         const remainingSales = Math.round((S - allocatedSum) * 10) / 10;
                         totalizerData[n.id].akhir = Math.round((awal + remainingSales) * 10) / 10;
                     }
@@ -1506,11 +1515,11 @@
             }
 
             if (!data.stokAkhirManual) {
-                data.stokAkhir = Math.round((data.stokAwal + data.pembelian - S) * 10) / 10;
+                data.stokAkhir = Math.round(data.stokAwal + data.pembelian - S);
             }
 
-            data.penjualanStok = Math.round((data.stokAwal + data.pembelian - data.stokAkhir) * 10) / 10;
-            data.penguapan = Math.round((Math.floor(S) - data.penjualanStok) * 10) / 10;
+            data.penjualanStok = Math.round(data.stokAwal + data.pembelian - data.stokAkhir);
+            data.penguapan = Math.round(S - data.penjualanStok);
             if (!data.penjualanManual) data.penjualan = S;
             stokData[p] = data;
             return data;
@@ -1525,6 +1534,8 @@
                 }
             });
             updateAll();
+            renderTotalisator();
+            renderStok();
             showToast('Semua input BBM diset kembali ke mode AUTO');
         }
 
@@ -1536,8 +1547,8 @@
                 row.className = 'expense-row';
                 row.innerHTML = `
                     <span>${idx + 1}.</span>
-                    <input type="text" value="${e.keterangan || ''}" placeholder="Keterangan" onchange="updateExpense(${e.id}, 'keterangan', this.value)">
-                    <input type="number" value="${valInput(e.nominal)}" placeholder="0" onchange="updateExpense(${e.id}, 'nominal', this.value)">
+                    <input type="text" value="${e.keterangan || ''}" placeholder="Keterangan" oninput="updateExpense(${e.id}, 'keterangan', this.value)">
+                    <input type="number" value="${valInt(e.nominal)}" placeholder="0" oninput="updateExpense(${e.id}, 'nominal', this.value)">
                     <button class="btn btn-danger btn-sm" onclick="hapusExpense(${e.id})"><i class="fas fa-trash"></i></button>
                 `;
                 container.appendChild(row);
@@ -1558,7 +1569,8 @@
                 if (f === 'nominal') e.nominal = parseFloat(val) || 0;
                 else e.keterangan = val;
             }
-            renderExpenses();
+            const tot = expenses.reduce((s, exp) => s + (parseFloat(exp.nominal) || 0), 0);
+            document.getElementById('totalPengeluaranDisplay').textContent = formatRupiah(tot);
             updateAll();
         }
 
@@ -1584,12 +1596,12 @@
 
             document.querySelectorAll('#stokTable .stok-awal, #stokTable .stok-pembelian, #stokTable .stok-akhir').forEach(inp => {
                 const p = inp.dataset.produk;
-                const v = parseFloat(inp.value) || 0;
+                const v = Math.round(parseFloat(inp.value) || 0);
                 if (!stokData[p]) stokData[p] = { stokAwal: 0, pembelian: 0, stokAkhir: 0, penjualanStok: 0, penguapan: 0 };
-                if (inp.classList.contains('stok-awal')) stokData[p].stokAwal = Math.round(v * 10) / 10;
-                if (inp.classList.contains('stok-pembelian')) stokData[p].pembelian = Math.round(v * 10) / 10;
+                if (inp.classList.contains('stok-awal')) stokData[p].stokAwal = v;
+                if (inp.classList.contains('stok-pembelian')) stokData[p].pembelian = v;
                 if (inp.classList.contains('stok-akhir')) {
-                    stokData[p].stokAkhir = Math.round(v * 10) / 10;
+                    stokData[p].stokAkhir = v;
                     stokData[p].stokAkhirManual = true;
                 }
             });
@@ -1597,35 +1609,35 @@
             document.querySelectorAll('.stok-penjualan-total').forEach(inp => {
                 const p = inp.dataset.produk;
                 if (inp.value !== '') {
-                    stokData[p].penjualan = Math.round((parseFloat(inp.value) || 0) * 10) / 10;
+                    stokData[p].penjualan = Math.round(parseFloat(inp.value) || 0);
                     stokData[p].penjualanManual = true;
                 }
             });
 
-            setorBank = parseFloat(document.getElementById('setorBank').value) || 0;
+            setorBank = Math.round(parseFloat(document.getElementById('setorBank').value) || 0);
         }
 
         function getSummary() {
             const hj = getHargaJual();
-            const pP = Math.round((stokData.Pertalite?.penjualan || 0) * 10) / 10;
-            const pX = Math.round((stokData.Pertamax?.penjualan || 0) * 10) / 10;
+            const pP = Math.round(stokData.Pertalite?.penjualan || 0);
+            const pX = Math.round(stokData.Pertamax?.penjualan || 0);
             const omzetP = pP * hj.pertalite;
             const omzetX = pX * hj.pertamax;
             const totalOmzet = omzetP + omzetX;
 
-            const mP = parseFloat(document.getElementById('marginPertalite').value) || 0;
-            const mX = parseFloat(document.getElementById('marginPertamax').value) || 0;
+            const mP = Math.round(parseFloat(document.getElementById('marginPertalite').value) || 0);
+            const mX = Math.round(parseFloat(document.getElementById('marginPertamax').value) || 0);
             const untungP = pP * mP;
             const untungX = pX * mX;
             const totalKeuntungan = untungP + untungX;
 
-            const pengP = Math.round((stokData.Pertalite?.penguapan || 0) * 10) / 10;
-            const pengX = Math.round((stokData.Pertamax?.penguapan || 0) * 10) / 10;
+            const pengP = Math.round(stokData.Pertalite?.penguapan || 0);
+            const pengX = Math.round(stokData.Pertamax?.penguapan || 0);
             const nilPengP = pengP * hj.pertalite;
             const nilPengX = pengX * hj.pertamax;
             const totalNilPeng = nilPengP + nilPengX;
 
-            const totalPengeluaran = expenses.reduce((s, e) => s + (parseFloat(e.nominal) || 0), 0);
+            const totalPengeluaran = Math.round(expenses.reduce((s, e) => s + (parseFloat(e.nominal) || 0), 0));
             const hasilKeseluruhan = totalKeuntungan + totalNilPeng;
             const labaBersih = hasilKeseluruhan - totalPengeluaran;
             const sisaKas = totalOmzet - totalPengeluaran - setorBank;
@@ -1640,13 +1652,69 @@
 
         function updateAll() {
             readInputs();
-            ['Pertalite', 'Pertamax'].forEach(p => sinkronkanProduk(p));
+            const prods = ['Pertalite', 'Pertamax'];
+            const hj = getHargaJual();
+
+            prods.forEach(p => {
+                sinkronkanProduk(p);
+                const d = stokData[p] || {};
+                const modeAuto = (d.modeTotalizer || 'auto') !== 'manual';
+                const pNozz = nozzles.filter(n => n.product === p);
+                let sumOmzet = 0;
+
+                pNozz.forEach(n => {
+                    const t = totalizerData[n.id] || { awal: 0, akhir: 0 };
+                    const penjualan = Math.max(0, Math.round((t.akhir - t.awal) * 10) / 10);
+                    const harga = p === 'Pertalite' ? hj.pertalite : hj.pertamax;
+                    sumOmzet += Math.round(penjualan * harga);
+
+                    if (modeAuto) {
+                        const elAkhir = document.querySelector(`.total-akhir[data-id="${n.id}"]`);
+                        if (elAkhir && document.activeElement !== elAkhir) elAkhir.value = valInput(t.akhir);
+                    }
+                    const elPenj = document.querySelector(`.total-penjualan[data-id="${n.id}"]`);
+                    if (elPenj) elPenj.value = valInput(penjualan);
+                    const elOmz = document.querySelector(`.total-omzet[data-id="${n.id}"]`);
+                    if (elOmz) elOmz.value = penjualan > 0 ? formatRupiah(Math.round(penjualan * harga)) : '';
+                });
+
+                const elTotPenj = document.querySelector(`.stok-penjualan-total[data-produk="${p}"]`);
+                if (elTotPenj && document.activeElement !== elTotPenj) elTotPenj.value = valInt(d.penjualan);
+
+                const elSubOmz = document.querySelector(`.sub-omzet[data-produk="${p}"]`);
+                if (elSubOmz) elSubOmz.textContent = formatRupiah(sumOmzet);
+
+                const badgePenj = document.querySelector(`.badge-penjualan[data-produk="${p}"]`);
+                if (badgePenj) badgePenj.textContent = d.penjualanManual ? 'MANUAL' : 'AUTO';
+
+                if (!d.stokAkhirManual) {
+                    const elStokAkhir = document.querySelector(`.stok-akhir[data-produk="${p}"]`);
+                    if (elStokAkhir && document.activeElement !== elStokAkhir) elStokAkhir.value = valInt(d.stokAkhir);
+                }
+
+                const badgeStok = document.querySelector(`.badge-stok-akhir[data-produk="${p}"]`);
+                if (badgeStok) badgeStok.textContent = d.stokAkhirManual ? 'MANUAL' : 'AUTO';
+
+                const elPengVal = document.querySelector(`.stok-penguapan-val[data-produk="${p}"]`);
+                const elPengKet = document.querySelector(`.penguapan-keterangan[data-produk="${p}"]`);
+                const statusColor = d.penguapan < 0 ? '#c41e3a' : '#00b894';
+                const statusKet = d.penguapan === 0 ? '✓ Ideal' : (d.penguapan < 0 ? 'Kehilangan (−)' : 'Kelebihan (+)');
+
+                if (elPengVal) {
+                    elPengVal.value = formatPenguapan(d.penguapan);
+                    elPengVal.style.color = statusColor;
+                }
+                if (elPengKet) {
+                    elPengKet.textContent = statusKet;
+                    elPengKet.style.color = statusColor;
+                }
+            });
 
             const s = getSummary();
 
             document.getElementById('dashPenjualan').textContent = formatRupiah(s.totalOmzet);
-            document.getElementById('dashPertalite').textContent = s.pP.toFixed(1).replace('.', ',') + ' L';
-            document.getElementById('dashPertamax').textContent = s.pX.toFixed(1).replace('.', ',') + ' L';
+            document.getElementById('dashPertalite').textContent = s.pP + ' L';
+            document.getElementById('dashPertamax').textContent = s.pX + ' L';
             document.getElementById('dashPenjualanPertalite').textContent = formatRupiah(s.omzetP);
             document.getElementById('dashPenjualanPertamax').textContent = formatRupiah(s.omzetX);
             document.getElementById('dashLabaKotor').textContent = formatRupiah(s.totalKeuntungan);
@@ -1656,12 +1724,12 @@
             dLaba.textContent = formatRupiah(s.labaBersih);
             dLaba.className = 'value ' + (s.labaBersih >= 0 ? 'positive' : 'negative');
 
-            const totStok = (stokData.Pertalite?.stokAkhir || 0) + (stokData.Pertamax?.stokAkhir || 0);
-            document.getElementById('dashStok').textContent = totStok.toFixed(1).replace('.', ',') + ' L';
+            const totStok = Math.round((stokData.Pertalite?.stokAkhir || 0) + (stokData.Pertamax?.stokAkhir || 0));
+            document.getElementById('dashStok').textContent = totStok + ' L';
             document.getElementById('dashPenguapan').textContent = formatPenguapan(s.pengP + s.pengX);
 
-            document.getElementById('labaPenjualanPertalite').textContent = s.pP.toFixed(1).replace('.', ',') + ' L';
-            document.getElementById('labaPenjualanPertamax').textContent = s.pX.toFixed(1).replace('.', ',') + ' L';
+            document.getElementById('labaPenjualanPertalite').textContent = s.pP + ' L';
+            document.getElementById('labaPenjualanPertamax').textContent = s.pX + ' L';
             document.getElementById('labaKeuntunganPertalite').textContent = formatRupiah(s.untungP);
             document.getElementById('labaKeuntunganPertamax').textContent = formatRupiah(s.untungX);
             document.getElementById('labaPenguapanPertalite').textContent = formatPenguapan(s.pengP);
@@ -1679,9 +1747,7 @@
 
         function hitungOtomatis() {
             updateAll();
-            renderTotalisator();
-            renderStok();
-            showToast('Data berhasil dihitung ulang');
+            showToast('Data berhasil disinkronkan');
         }
 
         function buatLaporanBaru() {
@@ -1787,6 +1853,7 @@
                     <div style="font-size:12px;color:${s.labaBersih >= 0 ? '#00b894' : '#d63031'};">Laba Bersih: <strong>${formatRupiah(s.labaBersih)}</strong></div>
                     <div class="btn-group" style="margin-top:6px;">
                         <button class="btn btn-primary btn-sm" onclick="editLaporan(${r.id})"><i class="fas fa-edit"></i> Buka</button>
+                        <button class="btn btn-outline btn-sm" onclick="previewPDF(${r.id})"><i class="fas fa-file-pdf"></i> Preview</button>
                         <button class="btn btn-outline btn-sm" onclick="openShare(${r.id})"><i class="fas fa-share-alt"></i> Bagikan</button>
                         <button class="btn btn-danger btn-sm" onclick="hapusLaporan(${r.id})"><i class="fas fa-trash"></i></button>
                     </div>
@@ -1883,91 +1950,269 @@
         function closeShare() { document.getElementById('shareModal').classList.remove('active'); }
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
-        // FITUR BAGIKAN
-        function susunRingkasanTeks(rep) {
+        // GENERATOR TEMPLATE LAPORAN PDF 1 HALAMAN A4 PENUH & LENGKAP
+        function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
-            return `*LAPORAN HARIAN SPBU 34-17603*
-Tanggal : ${formatTanggalIndo(rep.tanggal)}
-Shift   : ${rep.shift}
-Pengawas: ${rep.penanggungJawab}
+            const isColor = format === 'warna';
+            const themeCol = isColor ? '#c41e3a' : '#111';
+            const bgHdr = isColor ? '#c41e3a' : '#333';
+            const bgSec = isColor ? '#ffebee' : '#f0f0f0';
 
-*1. PENJUALAN BBM*
-- Pertalite : ${(s.pP || 0).toFixed(1).replace('.', ',')} L (${formatRupiah(s.omzetP || 0)})
-- Pertamax  : ${(s.pX || 0).toFixed(1).replace('.', ',')} L (${formatRupiah(s.omzetX || 0)})
-- Total Omzet: ${formatRupiah(s.totalOmzet || 0)}
+            const td = rep.totalizerData || {};
+            const sd = rep.stokData || {};
+            const hj = rep.hargaJual || { pertalite: 10000, pertamax: 15950 };
 
-*2. PENGUAPAN & SUSUT*
-- Pertalite : ${formatPenguapan(s.pengP || 0)}
-- Pertamax  : ${formatPenguapan(s.pengX || 0)}
+            let nozRows = '';
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                const pNozz = nozzles.filter(n => n.product === p);
+                let sumOmz = 0;
+                pNozz.forEach(n => {
+                    const t = td[n.id] || { awal: 0, akhir: 0 };
+                    const penj = Math.max(0, Math.round((t.akhir - t.awal) * 10) / 10);
+                    const hrg = p === 'Pertalite' ? hj.pertalite : hj.pertamax;
+                    sumOmz += Math.round(penj * hrg);
+                    nozRows += `
+                        <tr>
+                            <td>${p}</td>
+                            <td style="text-align:center;">${n.label}</td>
+                            <td style="text-align:right;">${(t.awal || 0).toFixed(1)}</td>
+                            <td style="text-align:right;">${(t.akhir || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-weight:bold;">${penj.toFixed(1)}</td>
+                            <td style="text-align:right;">${formatRupiah(hrg)}</td>
+                            <td style="text-align:right;">${formatRupiah(Math.round(penj * hrg))}</td>
+                        </tr>
+                    `;
+                });
+                const totVol = Math.round(sd[p]?.penjualan || 0);
+                nozRows += `
+                    <tr style="background:${bgSec};font-weight:bold;">
+                        <td colspan="4">TOTAL ${p}</td>
+                        <td style="text-align:right;">${totVol} L</td>
+                        <td></td>
+                        <td style="text-align:right;">${formatRupiah(sumOmz)}</td>
+                    </tr>
+                `;
+            });
 
-*3. KEUANGAN*
-- Keuntungan Margin : ${formatRupiah(s.totalKeuntungan || 0)}
-- Pengeluaran Harian: ${formatRupiah(s.totalPengeluaran || 0)}
-- Laba Bersih Real  : ${formatRupiah(s.labaBersih || 0)}
-- Setor Bank        : ${formatRupiah(rep.setorBank || 0)}
-- Sisa Kas Real     : ${formatRupiah(s.sisaKas || 0)}`;
+            let stokRows = '';
+            ['Pertalite', 'Pertamax'].forEach(p => {
+                const d = sd[p] || {};
+                stokRows += `
+                    <tr>
+                        <td><strong>${p}</strong></td>
+                        <td style="text-align:right;">${Math.round(d.stokAwal || 0)} L</td>
+                        <td style="text-align:right;">${Math.round(d.pembelian || 0)} L</td>
+                        <td style="text-align:right;font-weight:bold;">${Math.round(d.stokAkhir || 0)} L</td>
+                        <td style="text-align:right;color:${(d.penguapan || 0) < 0 ? '#c41e3a' : '#00b894'};font-weight:bold;">
+                            ${formatPenguapan(d.penguapan || 0)}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            let expRows = '';
+            (rep.expenses || []).forEach((e, idx) => {
+                if (e.nominal > 0) {
+                    expRows += `<tr><td>${idx + 1}. ${e.keterangan || '-'}</td><td style="text-align:right;">${formatRupiah(e.nominal)}</td></tr>`;
+                }
+            });
+            if (!expRows) expRows = '<tr><td colspan="2" style="text-align:center;color:#888;">Tidak ada pengeluaran operasional</td></tr>';
+
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <style>
+                        @page { size: A4 portrait; margin: 8mm 10mm; }
+                        * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #222; }
+                        body { margin: 0; padding: 0; }
+                        .pdf-header { background: ${bgHdr}; color: white; padding: 8px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+                        .pdf-header h1 { font-size: 13px; margin: 0; color: white; font-weight: bold; }
+                        .pdf-meta { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ddd; margin-bottom: 6px; font-weight: bold; }
+                        h2 { font-size: 10.5px; margin: 5px 0 3px; color: ${themeCol}; text-transform: uppercase; border-bottom: 1px solid ${themeCol}; padding-bottom: 2px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+                        th, td { border: 1px solid #bbb; padding: 3.5px 5px; }
+                        th { background: ${bgSec}; font-weight: bold; }
+                        .grid-split { display: flex; gap: 10px; width: 100%; }
+                        .grid-col { flex: 1; }
+                        .box-summary { background: #fafafa; border: 1px solid #ccc; border-radius: 4px; padding: 6px; }
+                        .sum-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px dashed #ddd; }
+                        .sum-row.total { font-weight: bold; font-size: 11px; border-top: 1px solid #444; border-bottom: none; padding-top: 4px; margin-top: 2px; }
+                        .footer { font-size: 8px; color: #777; text-align: right; margin-top: 6px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="pdf-header">
+                        <div>
+                            <h1>LAPORAN HARIAN PENJUALAN & LABA/RUGI SPBU 34-17603</h1>
+                            <div style="font-size: 9px; opacity: 0.9;">Jl. Raya Rengasbandung, Cikarang Timur, Bekasi</div>
+                        </div>
+                        <div style="font-size: 11px; font-weight: bold;">LEMBAR REKAP A4</div>
+                    </div>
+
+                    <div class="pdf-meta">
+                        <div>Tanggal: ${formatTanggalIndo(rep.tanggal)}</div>
+                        <div>Shift: ${rep.shift}</div>
+                        <div>Penanggung Jawab: ${rep.penanggungJawab}</div>
+                    </div>
+
+                    <h2>1. Totalisator Nozzle Dispenser</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th style="text-align:center;">Msn</th>
+                                <th style="text-align:right;">Tot. Awal</th>
+                                <th style="text-align:right;">Tot. Akhir</th>
+                                <th style="text-align:right;">Penjualan</th>
+                                <th style="text-align:right;">Harga/L</th>
+                                <th style="text-align:right;">Total Omzet</th>
+                            </tr>
+                        </thead>
+                        <tbody>${nozRows}</tbody>
+                    </table>
+
+                    <div class="grid-split">
+                        <div class="grid-col">
+                            <h2>2. Stok BBM & Penguapan (Liter)</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Produk</th>
+                                        <th style="text-align:right;">Awal</th>
+                                        <th style="text-align:right;">DO</th>
+                                        <th style="text-align:right;">Akhir</th>
+                                        <th style="text-align:right;">Susut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${stokRows}</tbody>
+                            </table>
+
+                            <h2>3. Potongan / Pengeluaran</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Keterangan</th>
+                                        <th style="text-align:right;width:95px;">Nominal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${expRows}</tbody>
+                            </table>
+                        </div>
+
+                        <div class="grid-col">
+                            <h2>4. Laba / Margin Real Harian</h2>
+                            <div class="box-summary">
+                                <div class="sum-row"><span>Omzet Pertalite (${s.pP} L)</span><strong>${formatRupiah(s.omzetP)}</strong></div>
+                                <div class="sum-row"><span>Omzet Pertamax (${s.pX} L)</span><strong>${formatRupiah(s.omzetX)}</strong></div>
+                                <div class="sum-row" style="background:#eee;"><span>TOTAL OMZET HARIAN</span><strong>${formatRupiah(s.totalOmzet)}</strong></div>
+                                
+                                <div class="sum-row" style="margin-top:4px;"><span>Keuntungan Margin BBM</span><strong>${formatRupiah(s.totalKeuntungan)}</strong></div>
+                                <div class="sum-row"><span>Nilai Penguapan BBM</span><strong style="color:${s.totalNilPeng < 0 ? '#c41e3a' : '#00b894'};">${formatRupiah(s.totalNilPeng)}</strong></div>
+                                <div class="sum-row"><span>Hasil Keseluruhan</span><strong>${formatRupiah(s.hasilKeseluruhan)}</strong></div>
+                                <div class="sum-row"><span>Pengeluaran Harian</span><strong style="color:#c41e3a;">- ${formatRupiah(s.totalPengeluaran)}</strong></div>
+                                
+                                <div class="sum-row total" style="color:${s.labaBersih >= 0 ? '#00b894' : '#c41e3a'};">
+                                    <span>HASIL LABA BERSIH REAL</span>
+                                    <span>${formatRupiah(s.labaBersih)}</span>
+                                </div>
+
+                                <div class="sum-row" style="margin-top:5px;border-top:1px solid #aaa;"><span>Setoran Bank</span><strong>${formatRupiah(rep.setorBank || 0)}</strong></div>
+                                <div class="sum-row total"><span>SISA KAS (REAL CASH)</span><span>${formatRupiah(s.sisaKas)}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        Dicetak pada: ${new Date().toLocaleString('id-ID')} | Sistem Rekapitulasi SPBU 34-17603
+                    </div>
+                </body>
+                </html>
+            `;
         }
 
-        function bagikanWA() {
-            const rep = reports.find(r => r.id === currentShareId);
-            if (!rep) return;
-            const teks = susunRingkasanTeks(rep);
-            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(teks)}`;
-            window.open(waUrl, '_blank');
-            closeShare();
-        }
-
-        function bagikanEmail() {
-            const rep = reports.find(r => r.id === currentShareId);
-            if (!rep) return;
-            const subject = encodeURIComponent(`Laporan Harian SPBU 34-17603 - ${rep.tanggal} (${rep.shift})`);
-            const body = encodeURIComponent(susunRingkasanTeks(rep).replace(/\*/g, ''));
-            window.location.href = `mailto:?subject=${subject}&body=${body}`;
-            closeShare();
-        }
-
-        function simpanKeFileTeks() {
-            const rep = reports.find(r => r.id === currentShareId);
-            if (!rep) return;
-            const teks = susunRingkasanTeks(rep).replace(/\*/g, '');
-            const blob = new Blob([teks], { type: 'text/plain;charset=utf-8' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `Laporan_SPBU_3417603_${rep.tanggal}_${rep.shift}.txt`;
-            a.click();
-            showToast('Ringkasan tersimpan ke berkas teks');
-            closeShare();
-        }
-
-        function bagikanLaporan(id, format) {
-            closeShare();
+        function previewPDF(id) {
             const rep = reports.find(r => r.id === id);
             if (!rep) return;
-            const s = rep.summary || {};
-
+            const htmlContent = generatePdfHtml(rep, 'warna');
             const frame = document.getElementById('previewFrame');
-            frame.srcdoc = `
-                <html><head><style>
-                    body { font-family: sans-serif; padding: 20px; color: ${format === 'warna' ? '#2d3436' : '#000'}; font-size: 13px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
-                    th { background: ${format === 'warna' ? '#ffebee' : '#f0f0f0'}; }
-                </style></head><body>
-                    <h2 style="color:${format === 'warna' ? '#c41e3a' : '#000'};">LAPORAN HARIAN SPBU 34-17603</h2>
-                    <p>Tanggal: ${formatTanggalIndo(rep.tanggal)} | Shift: ${rep.shift} | PJ: ${rep.penanggungJawab}</p>
-                    <table>
-                        <tr><th>Item</th><th>Hasil Perhitungan</th></tr>
-                        <tr><td>Penjualan Pertalite</td><td>${(s.pP ? s.pP.toFixed(1) : '0,0').replace('.', ',')} L (${formatRupiah(s.omzetP)})</td></tr>
-                        <tr><td>Penjualan Pertamax</td><td>${(s.pX ? s.pX.toFixed(1) : '0,0').replace('.', ',')} L (${formatRupiah(s.omzetX)})</td></tr>
-                        <tr><td>Total Omzet</td><td>${formatRupiah(s.totalOmzet)}</td></tr>
-                        <tr><td>Total Pengeluaran</td><td>${formatRupiah(s.totalPengeluaran)}</td></tr>
-                        <tr><td>Setor Bank</td><td>${formatRupiah(rep.setorBank || 0)}</td></tr>
-                        <tr><td><strong>LABA BERSIH</strong></td><td><strong>${formatRupiah(s.labaBersih)}</strong></td></tr>
-                        <tr><td><strong>SISA KAS REAL</strong></td><td><strong>${formatRupiah(s.sisaKas)}</strong></td></tr>
-                    </table>
-                </body></html>
-            `;
+            frame.srcdoc = htmlContent;
             document.getElementById('previewModal').classList.add('active');
+        }
+
+        // FUNGSI MEMBUAT FILE PDF DARI HTML
+        async function renderPdfBlob(rep, format) {
+            const html = generatePdfHtml(rep, format);
+            const container = document.createElement('div');
+            container.innerHTML = html;
+            document.body.appendChild(container);
+
+            const opt = {
+                margin: 0,
+                filename: `Laporan_SPBU_3417603_${rep.tanggal}_${rep.shift}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const blob = await html2pdf().from(container).set(opt).output('blob');
+            document.body.removeChild(container);
+            return blob;
+        }
+
+        // BAGIKAN LANGSUNG FORMAT PDF KE SEMUA APLIKASI
+        async function eksekusiBagikanPDF(format) {
+            closeShare();
+            const rep = reports.find(r => r.id === currentShareId);
+            if (!rep) return;
+
+            showToast('Menyiapkan file PDF...');
+            try {
+                const blob = await renderPdfBlob(rep, format);
+                const filename = `Laporan_SPBU_3417603_${rep.tanggal}_${rep.shift}.pdf`;
+                const file = new File([blob], filename, { type: 'application/pdf' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: `Laporan SPBU 34-17603 ${rep.tanggal}`,
+                        text: `Laporan Penjualan SPBU 34-17603 Tanggal ${rep.tanggal} (${rep.shift})`,
+                        files: [file]
+                    });
+                } else {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    showToast('PDF berhasil diunduh ke perangkat');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Gagal membagikan berkas PDF');
+            }
+        }
+
+        async function unduhPDFLangsung() {
+            closeShare();
+            const rep = reports.find(r => r.id === currentShareId);
+            if (!rep) return;
+
+            showToast('Mengunduh berkas PDF...');
+            try {
+                const blob = await renderPdfBlob(rep, 'warna');
+                const filename = `Laporan_SPBU_3417603_${rep.tanggal}_${rep.shift}.pdf`;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Laporan PDF berhasil diunduh');
+            } catch (e) {
+                showToast('Gagal mengunduh PDF');
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
