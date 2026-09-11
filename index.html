@@ -266,7 +266,7 @@
             color: #2d3436;
         }
 
-        /* ===== PERBAIKAN TABEL: JARAK PROPORSI & TIDAK TIMPA ===== */
+        /* ===== TABEL TOTALISATOR & STOK: PROPORSI RAPAT ===== */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -282,54 +282,72 @@
         }
 
         #tabelTotalisator {
-            min-width: 620px;
+            min-width: 530px;
         }
 
         #tabelStok {
-            min-width: 680px;
+            min-width: 630px;
         }
 
         table th {
             background: #f4f6f9;
             color: #636e72;
             font-weight: 700;
-            padding: 8px 6px;
+            padding: 8px 4px;
             text-align: left;
             border-bottom: 2px solid #dfe6e9;
-            font-size: 11px;
+            font-size: 10.5px;
             text-transform: uppercase;
             white-space: nowrap;
         }
 
         table td {
-            padding: 6px 4px;
+            padding: 5px 3px;
             border-bottom: 1px solid #f0f0f0;
             vertical-align: middle;
             white-space: nowrap;
         }
 
-        /* Dekatkan jarak Produk dan Mesin */
+        /* Jarak produk & mesin sangat rapat ke input awal */
         .col-produk {
-            width: 85px !important;
-            max-width: 90px;
-            padding-right: 4px !important;
+            width: 62px !important;
+            max-width: 65px;
+            padding-right: 2px !important;
+            font-size: 11.5px;
         }
 
         .col-mesin {
-            width: 45px !important;
-            max-width: 50px;
+            width: 36px !important;
+            max-width: 38px;
             padding-left: 2px !important;
+            padding-right: 4px !important;
+            text-align: center;
+            font-weight: 700;
+            color: #636e72;
+        }
+
+        /* Kolom penjualan ringkas */
+        .col-penjualan-th {
+            width: 72px !important;
             text-align: center;
         }
 
-        /* Input tabel */
+        .col-penjualan-input {
+            width: 68px !important;
+            min-width: 60px !important;
+            text-align: center !important;
+            font-weight: 700 !important;
+            color: #0984e3 !important;
+            padding: 6px 2px !important;
+        }
+
         table input {
             width: 100%;
-            padding: 7px 6px;
+            padding: 6px 6px;
             border: 1.5px solid #dfe6e9;
             border-radius: 6px;
-            font-size: 13px;
-            min-width: 75px;
+            font-size: 12.5px;
+            min-width: 68px;
             background: white;
             transition: border-color 0.2s;
             touch-action: manipulation;
@@ -347,48 +365,48 @@
             cursor: not-allowed;
         }
 
-        /* Wadah Khusus Kolom Penguapan agar tidak tertimpa */
+        /* Wadah Kolom Penguapan agar tidak bertumpukan */
         .penguapan-cell-wrapper {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             width: 100%;
-            min-width: 140px;
+            min-width: 135px;
         }
 
         .penguapan-cell-wrapper input {
-            min-width: 65px;
-            width: 75px;
+            min-width: 60px;
+            width: 65px;
             flex-shrink: 0;
             text-align: center;
+            padding: 6px 2px;
         }
 
         .penguapan-keterangan {
-            font-size: 10px;
-            font-weight: 600;
+            font-size: 9.5px;
+            font-weight: 700;
             white-space: nowrap;
             color: #636e72;
-            flex-grow: 1;
         }
 
         .param-badge {
             display: inline-block;
             background: #fff8e1;
-            padding: 1px 6px;
-            border-radius: 10px;
-            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 8px;
+            font-size: 8.5px;
             font-weight: 700;
             color: #e65100;
             border: 1px solid #f9a825;
-            margin-left: 3px;
+            margin-left: 2px;
         }
 
         .stok-badge {
             display: inline-block;
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 700;
-            padding: 1px 5px;
-            border-radius: 6px;
+            padding: 1px 4px;
+            border-radius: 5px;
             background: #e8f5e9;
             color: #1b5e20;
             border: 1px solid #00b894;
@@ -567,7 +585,7 @@
             gap: 2px;
             background: #f8f9fa;
             border-radius: 6px;
-            padding: 4px 8px;
+            padding: 4px 6px;
             flex: 1;
             min-width: 0;
         }
@@ -635,6 +653,7 @@
         .btn-primary { background: #c41e3a; color: white; }
         .btn-primary:hover { background: #a01830; }
         .btn-success { background: #00b894; color: white; }
+        .btn-success:hover { background: #00a381; }
         .btn-danger { background: #d63031; color: white; }
         .btn-outline { background: transparent; border: 2px solid #c41e3a; color: #c41e3a; }
         .btn-sm { padding: 4px 10px; font-size: 11px; min-height: 28px; }
@@ -752,25 +771,25 @@
             color: #636e72;
             cursor: pointer;
             font-size: 11px;
-            padding: 2px 4px;
+            padding: 2px 3px;
             margin-left: 2px;
             vertical-align: middle;
         }
 
         .mode-switch {
             display: inline-flex;
-            gap: 3px;
-            margin-top: 4px;
+            gap: 2px;
+            margin-top: 3px;
         }
 
         .mode-btn {
             border: 1.5px solid #dfe6e9;
             background: white;
             color: #636e72;
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 8px;
+            padding: 1px 5px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
@@ -844,6 +863,18 @@
             cursor: pointer;
             color: #636e72;
         }
+
+        .share-btn-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-wa { background: #25D366; color: white; }
+        .btn-wa:hover { background: #1ebc59; }
+        .btn-email { background: #ea4335; color: white; }
+        .btn-email:hover { background: #d33828; }
     </style>
 </head>
 <body>
@@ -970,12 +1001,12 @@
                             <thead>
                                 <tr>
                                     <th class="col-produk">Produk</th>
-                                    <th class="col-mesin">Mesin</th>
-                                    <th style="min-width: 95px;">Tot. Awal</th>
-                                    <th style="min-width: 95px;">Tot. Akhir</th>
-                                    <th style="min-width: 95px;">Penjualan</th>
-                                    <th style="min-width: 85px;">Harga/L</th>
-                                    <th style="min-width: 110px;">Total (Rp)</th>
+                                    <th class="col-mesin">Msn</th>
+                                    <th style="min-width: 85px;">Tot. Awal</th>
+                                    <th style="min-width: 85px;">Tot. Akhir</th>
+                                    <th class="col-penjualan-th">Penjualan</th>
+                                    <th style="min-width: 75px;">Harga/L</th>
+                                    <th style="min-width: 100px;">Total (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody id="totalisatorTable"></tbody>
@@ -990,11 +1021,11 @@
                         <table id="tabelStok">
                             <thead>
                                 <tr>
-                                    <th style="width: 110px;">Produk</th>
-                                    <th style="min-width: 100px;">Stok Awal</th>
-                                    <th style="min-width: 100px;">Pembelian (DO)</th>
-                                    <th style="min-width: 130px;">Stok Akhir <span class="param-badge">PARAM</span></th>
-                                    <th style="min-width: 165px;">Penguapan</th>
+                                    <th style="width: 85px;">Produk</th>
+                                    <th style="min-width: 85px;">Stok Awal</th>
+                                    <th style="min-width: 85px;">Pembelian (DO)</th>
+                                    <th style="min-width: 120px;">Stok Akhir <span class="param-badge">PARAM</span></th>
+                                    <th style="min-width: 150px;">Penguapan</th>
                                 </tr>
                             </thead>
                             <tbody id="stokTable"></tbody>
@@ -1143,13 +1174,17 @@
             </div>
         </div>
 
-        <!-- PENGATURAN -->
+        <!-- PENGATURAN (BACKUP & RESTORE LENGKAP) -->
         <div id="pengaturan" class="tab-content">
             <div class="form-section">
-                <h3><i class="fas fa-database"></i> Cadangan Data Lokal</h3>
-                <p style="font-size:12px;color:#636e72;margin-bottom:14px;">Simpan semua laporan lokal ke dalam file JSON atau bersihkan seluruh data perangkat.</p>
+                <h3><i class="fas fa-database"></i> Backup & Restore Data</h3>
+                <p style="font-size:12px;color:#636e72;margin-bottom:14px;line-height:1.5;">
+                    Simpan seluruh data laporan dan konfigurasi ke dalam berkas JSON, atau pulihkan kembali dari file cadangan yang telah tersimpan.
+                </p>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-outline" onclick="eksporDataLokal()"><i class="fas fa-download"></i> Cadangkan JSON</button>
+                    <button type="button" class="btn btn-primary" onclick="eksporDataLokal()"><i class="fas fa-download"></i> Cadangkan Data (Backup)</button>
+                    <button type="button" class="btn btn-outline" onclick="document.getElementById('fileRestore').click()"><i class="fas fa-upload"></i> Pulihkan Data (Restore)</button>
+                    <input type="file" id="fileRestore" accept=".json" style="display:none;" onchange="pulihkanDataLokal(event)">
                     <button type="button" class="btn btn-danger" onclick="resetDataLokal()"><i class="fas fa-trash"></i> Hapus Seluruh Data</button>
                 </div>
             </div>
@@ -1163,15 +1198,19 @@
             </div>
         </div>
 
-        <!-- MODAL BAGIKAN -->
+        <!-- MODAL BAGIKAN (WHATSAPP, EMAIL, SIMPAN FILE, PDF) -->
         <div id="shareModal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeShare()">&times;</button>
-                <h3 style="color:#c41e3a;margin-bottom:10px;"><i class="fas fa-share-alt"></i> Bagikan Laporan</h3>
-                <div class="btn-group" style="flex-direction:column;">
+                <h3 style="color:#c41e3a;margin-bottom:6px;"><i class="fas fa-share-alt"></i> Bagikan Laporan</h3>
+                <p style="font-size:12px;color:#636e72;margin-bottom:12px;">Pilih jalur pengiriman laporan:</p>
+                
+                <div class="share-btn-list">
+                    <button type="button" class="btn btn-wa" onclick="bagikanWA()"><i class="fab fa-whatsapp"></i> Kirim ke WhatsApp</button>
+                    <button type="button" class="btn btn-email" onclick="bagikanEmail()"><i class="fas fa-envelope"></i> Kirim via Email</button>
+                    <button type="button" class="btn btn-outline" onclick="simpanKeFileTeks()"><i class="fas fa-file-download"></i> Simpan File Ringkasan (.txt)</button>
                     <button type="button" class="btn btn-primary" onclick="bagikanLaporan(currentShareId, 'warna')"><i class="fas fa-print"></i> Cetak PDF Berwarna</button>
                     <button type="button" class="btn btn-outline" onclick="bagikanLaporan(currentShareId, 'bw')"><i class="fas fa-file"></i> Cetak PDF Hitam Putih</button>
-                    <button type="button" class="btn btn-outline" onclick="bagikanLaporan(currentShareId, 'teks')"><i class="fas fa-copy"></i> Salin Ringkasan Teks</button>
                 </div>
             </div>
         </div>
@@ -1356,7 +1395,7 @@
                         <td class="col-mesin">${n.label}</td>
                         <td><input type="number" step="0.1" class="total-awal" data-id="${n.id}" value="${valInput(awal)}" placeholder="Awal"></td>
                         <td><input type="number" step="0.1" ${modeAuto ? 'readonly' : ''} class="total-akhir" data-id="${n.id}" value="${valInput(akhir)}" placeholder="Akhir" style="${modeAuto ? 'background:#f5f3ff;color:#6c5ce7;' : ''}"></td>
-                        <td><input type="number" step="0.1" readonly class="total-penjualan" value="${valInput(penjualan)}" placeholder="auto" style="font-weight:600;color:#0984e3;"></td>
+                        <td><input type="number" step="0.1" readonly class="total-penjualan col-penjualan-input" value="${valInput(penjualan)}" placeholder="0.0"></td>
                         <td>${formatRupiah(harga)}</td>
                         <td><input type="text" readonly class="total-omzet" value="${penjualan > 0 ? formatRupiah(penjualan * harga) : ''}" placeholder="Rp 0"></td>
                     `;
@@ -1378,9 +1417,9 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <div style="display:flex;align-items:center;gap:2px;">
-                            <input type="number" step="0.1" class="stok-penjualan-total" data-produk="${p}" value="${valInput(d.penjualan)}" placeholder="Otomatis" style="${lockedPJ ? 'background:#f5f6fa;' : 'background:#fff;'}" ${lockedPJ ? 'readonly' : ''}>
-                            <span class="stok-badge">${d.penjualanManual ? 'MANUAL' : 'AUTO'}</span>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:2px;">
+                            <input type="number" step="0.1" class="stok-penjualan-total col-penjualan-input" data-produk="${p}" value="${valInput(d.penjualan)}" placeholder="Otomatis" style="${lockedPJ ? 'background:#f5f6fa;' : 'background:#fff;'}" ${lockedPJ ? 'readonly' : ''}>
+                            <span class="stok-badge">${d.penjualanManual ? 'M' : 'A'}</span>
                             <button class="unlock-mini" onclick="toggleLockKey('penjualan${p}')"><i class="fas fa-${lockedPJ ? 'lock' : 'unlock'}"></i></button>
                         </div>
                     </td>
@@ -1411,7 +1450,7 @@
                     <td>
                         <div style="display:flex;align-items:center;gap:2px;">
                             <input type="number" step="0.1" class="stok-akhir" data-produk="${p}" value="${valInput(data.stokAkhir)}" placeholder="Akhir" style="${lockedSA ? 'background:#f5f6fa;' : 'background:#fff8e1;'}" ${lockedSA ? 'readonly' : ''}>
-                            <span class="stok-badge">${data.stokAkhirManual ? 'MANUAL' : 'AUTO'}</span>
+                            <span class="stok-badge">${data.stokAkhirManual ? 'M' : 'A'}</span>
                             <button class="unlock-mini" onclick="toggleLockKey('stokAkhir${p}')"><i class="fas fa-${lockedSA ? 'lock' : 'unlock'}"></i></button>
                         </div>
                     </td>
@@ -1470,7 +1509,7 @@
                 }
             });
             updateAll();
-            showToast('Semua input BBM diset kembali ke mode AUTO');
+            showToast('Semua input BBM kembali ke mode AUTO');
         }
 
         function renderExpenses() {
@@ -1626,7 +1665,7 @@
             updateAll();
             renderTotalisator();
             renderStok();
-            showToast('Perhitungan telah disinkronkan');
+            showToast('Data berhasil dihitung ulang');
         }
 
         function buatLaporanBaru() {
@@ -1650,7 +1689,7 @@
             updateAll();
 
             pindahTab('laporan', true);
-            showToast('Form laporan siap diisi');
+            showToast('Form baru siap diisi');
         }
 
         function simpanLaporan() {
@@ -1753,12 +1792,55 @@
             showToast('Laporan telah dihapus');
         }
 
+        // ===== BACKUP & RESTORE DATA =====
         function eksporDataLokal() {
-            const blob = new Blob([JSON.stringify(reports, null, 2)], { type: 'application/json' });
+            if (!reports || reports.length === 0) {
+                alert('Belum ada data laporan untuk dicadangkan.');
+                return;
+            }
+            const dataToSave = {
+                spbu: "34-17603",
+                backupDate: new Date().toISOString(),
+                reports: reports
+            };
+            const blob = new Blob([JSON.stringify(dataToSave, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `Cadangan_SPBU_${new Date().toISOString().slice(0, 10)}.json`;
+            a.download = `Backup_SPBU_3417603_${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
+            showToast('File backup berhasil diunduh');
+        }
+
+        function pulihkanDataLokal(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const parsed = JSON.parse(evt.target.result);
+                    let dataPulih = [];
+
+                    if (Array.isArray(parsed)) {
+                        dataPulih = parsed;
+                    } else if (parsed && Array.isArray(parsed.reports)) {
+                        dataPulih = parsed.reports;
+                    } else {
+                        throw new Error('Format file cadangan tidak valid');
+                    }
+
+                    if (confirm(`Ditemukan ${dataPulih.length} laporan. Timpa seluruh data saat ini?`)) {
+                        reports = dataPulih;
+                        localStorage.setItem('spbuReports', JSON.stringify(reports));
+                        loadHistory();
+                        showToast(`Berhasil memulihkan ${dataPulih.length} laporan`);
+                    }
+                } catch (err) {
+                    alert('Gagal memulihkan file cadangan: ' + err.message);
+                }
+                e.target.value = '';
+            };
+            reader.readAsText(file);
         }
 
         function resetDataLokal() {
@@ -1785,42 +1867,91 @@
         function closeShare() { document.getElementById('shareModal').classList.remove('active'); }
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
+        // ===== FITUR BAGIKAN (WHATSAPP, EMAIL, TXT, PDF) =====
+        function susunRingkasanTeks(rep) {
+            const s = rep.summary || {};
+            return `*LAPORAN HARIAN SPBU 34-17603*
+Tanggal : ${formatTanggalIndo(rep.tanggal)}
+Shift   : ${rep.shift}
+Pengawas: ${rep.penanggungJawab}
+
+*1. PENJUALAN BBM*
+- Pertalite : ${(s.pP || 0).toFixed(1)} L (${formatRupiah(s.omzetP || 0)})
+- Pertamax  : ${(s.pX || 0).toFixed(1)} L (${formatRupiah(s.omzetX || 0)})
+- Total Omzet: ${formatRupiah(s.totalOmzet || 0)}
+
+*2. PENGUAPAN & SUSUT*
+- Pertalite : ${formatPenguapan(s.pengP || 0)}
+- Pertamax  : ${formatPenguapan(s.pengX || 0)}
+
+*3. KEUANGAN*
+- Keuntungan Margin : ${formatRupiah(s.totalKeuntungan || 0)}
+- Pengeluaran Harian: ${formatRupiah(s.totalPengeluaran || 0)}
+- Laba Bersih Real  : ${formatRupiah(s.labaBersih || 0)}
+- Setor Bank        : ${formatRupiah(rep.setorBank || 0)}
+- Sisa Kas Real     : ${formatRupiah(s.sisaKas || 0)}`;
+        }
+
+        function bagikanWA() {
+            const rep = reports.find(r => r.id === currentShareId);
+            if (!rep) return;
+            const teks = susunRingkasanTeks(rep);
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(teks)}`;
+            window.open(waUrl, '_blank');
+            closeShare();
+        }
+
+        function bagikanEmail() {
+            const rep = reports.find(r => r.id === currentShareId);
+            if (!rep) return;
+            const subject = encodeURIComponent(`Laporan Harian SPBU 34-17603 - ${rep.tanggal} (${rep.shift})`);
+            const body = encodeURIComponent(susunRingkasanTeks(rep).replace(/\*/g, ''));
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            closeShare();
+        }
+
+        function simpanKeFileTeks() {
+            const rep = reports.find(r => r.id === currentShareId);
+            if (!rep) return;
+            const teks = susunRingkasanTeks(rep).replace(/\*/g, '');
+            const blob = new Blob([teks], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `Laporan_SPBU_3417603_${rep.tanggal}_${rep.shift}.txt`;
+            a.click();
+            showToast('Ringkasan tersimpan ke berkas teks');
+            closeShare();
+        }
+
         function bagikanLaporan(id, format) {
             closeShare();
             const rep = reports.find(r => r.id === id);
             if (!rep) return;
             const s = rep.summary || {};
 
-            if (format === 'teks') {
-                const teks = `*LAPORAN SPBU 34-17603*\nTanggal: ${rep.tanggal} (${rep.shift})\nPJ: ${rep.penanggungJawab}\n\n*Total Omzet:* ${formatRupiah(s.totalOmzet)}\n*Pertalite:* ${s.pP ? s.pP.toFixed(1) : 0} L\n*Pertamax:* ${s.pX ? s.pX.toFixed(1) : 0} L\n*Total Pengeluaran:* ${formatRupiah(s.totalPengeluaran)}\n*Laba Bersih:* ${formatRupiah(s.labaBersih)}`;
-                if (navigator.share) {
-                    navigator.share({ title: 'Laporan SPBU', text: teks });
-                } else {
-                    navigator.clipboard.writeText(teks).then(() => showToast('Teks disalin ke clipboard'));
-                }
-            } else {
-                const frame = document.getElementById('previewFrame');
-                frame.srcdoc = `
-                    <html><head><style>
-                        body { font-family: sans-serif; padding: 20px; color: ${format === 'warna' ? '#2d3436' : '#000'}; font-size: 13px; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                        th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
-                        th { background: ${format === 'warna' ? '#ffebee' : '#f0f0f0'}; }
-                    </style></head><body>
-                        <h2 style="color:${format === 'warna' ? '#c41e3a' : '#000'};">LAPORAN HARIAN SPBU 34-17603</h2>
-                        <p>Tanggal: ${rep.tanggal} | Shift: ${rep.shift} | PJ: ${rep.penanggungJawab}</p>
-                        <table>
-                            <tr><th>Item</th><th>Hasil</th></tr>
-                            <tr><td>Penjualan Pertalite</td><td>${s.pP ? s.pP.toFixed(1) : 0} L (${formatRupiah(s.omzetP)})</td></tr>
-                            <tr><td>Penjualan Pertamax</td><td>${s.pX ? s.pX.toFixed(1) : 0} L (${formatRupiah(s.omzetX)})</td></tr>
-                            <tr><td>Total Omzet</td><td>${formatRupiah(s.totalOmzet)}</td></tr>
-                            <tr><td>Pengeluaran Harian</td><td>${formatRupiah(s.totalPengeluaran)}</td></tr>
-                            <tr><td><strong>LABA BERSIH</strong></td><td><strong>${formatRupiah(s.labaBersih)}</strong></td></tr>
-                        </table>
-                    </body></html>
-                `;
-                document.getElementById('previewModal').classList.add('active');
-            }
+            const frame = document.getElementById('previewFrame');
+            frame.srcdoc = `
+                <html><head><style>
+                    body { font-family: sans-serif; padding: 20px; color: ${format === 'warna' ? '#2d3436' : '#000'}; font-size: 13px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+                    th { background: ${format === 'warna' ? '#ffebee' : '#f0f0f0'}; }
+                </style></head><body>
+                    <h2 style="color:${format === 'warna' ? '#c41e3a' : '#000'};">LAPORAN HARIAN SPBU 34-17603</h2>
+                    <p>Tanggal: ${formatTanggalIndo(rep.tanggal)} | Shift: ${rep.shift} | PJ: ${rep.penanggungJawab}</p>
+                    <table>
+                        <tr><th>Item</th><th>Hasil Perhitungan</th></tr>
+                        <tr><td>Penjualan Pertalite</td><td>${s.pP ? s.pP.toFixed(1) : 0} L (${formatRupiah(s.omzetP)})</td></tr>
+                        <tr><td>Penjualan Pertamax</td><td>${s.pX ? s.pX.toFixed(1) : 0} L (${formatRupiah(s.omzetX)})</td></tr>
+                        <tr><td>Total Omzet</td><td>${formatRupiah(s.totalOmzet)}</td></tr>
+                        <tr><td>Total Pengeluaran</td><td>${formatRupiah(s.totalPengeluaran)}</td></tr>
+                        <tr><td>Setor Bank</td><td>${formatRupiah(rep.setorBank || 0)}</td></tr>
+                        <tr><td><strong>LABA BERSIH</strong></td><td><strong>${formatRupiah(s.labaBersih)}</strong></td></tr>
+                        <tr><td><strong>SISA KAS REAL</strong></td><td><strong>${formatRupiah(s.sisaKas)}</strong></td></tr>
+                    </table>
+                </body></html>
+            `;
+            document.getElementById('previewModal').classList.add('active');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
