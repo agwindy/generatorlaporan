@@ -2022,20 +2022,20 @@
         function closePreview() { document.getElementById('previewModal').classList.remove('active'); }
 
         // ============================================================
-        // GENERATE PDF — DESAIN MENGIKUTI CONTOH GAMBAR
+        // GENERATE PDF — TABEL PERMESIN + GARIS JELAS + FONT BESAR
         // ============================================================
         function generatePdfHtml(rep, format) {
             const s = rep.summary || {};
             const isColor = format === 'warna';
 
-            // Warna utama
             const blueDark = isColor ? '#0b3c8c' : '#1f2937';
             const redMain = isColor ? '#c41e3a' : '#1f2937';
             const colPertalite = isColor ? '#059669' : '#374151';
             const bgPertalite = isColor ? '#ecfdf5' : '#f3f4f6';
             const colPertamax = isColor ? '#2563eb' : '#374151';
             const bgPertamax = isColor ? '#eff6ff' : '#f3f4f6';
-            const border = '#d1d5db';
+            const border = '#9ca3af';       // garis tabel lebih tegas
+            const borderLight = '#d1d5db';
 
             const td = rep.totalizerData || {};
             const sd = rep.stokData || {};
@@ -2044,21 +2044,23 @@
             const pColor = (p) => p === 'Pertalite' ? colPertalite : colPertamax;
             const pBg = (p) => p === 'Pertalite' ? bgPertalite : bgPertamax;
 
-            // ---------- 1. TOTALISATOR ----------
+            // ---------- 1. TOTALISATOR (baris per mesin) ----------
             let nozRows = '';
             ['Pertalite', 'Pertamax'].forEach(p => {
                 const pNozz = nozzles.filter(n => n.product === p);
                 let sumOmz = 0;
                 const c = pColor(p), bg = pBg(p);
 
+                // Baris header produk
                 nozRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:11px;padding:6px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="7" style="background:${bg};color:${c};font-weight:700;font-size:13px;padding:8px 12px;border-left:5px solid ${c};letter-spacing:0.4px;border-bottom:1px solid ${border};">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
                 `;
 
+                // Baris per mesin — dengan kolom lengkap
                 pNozz.forEach(n => {
                     const t = td[n.id] || { awal: 0, akhir: 0 };
                     const penj = Math.max(0, Math.round((t.akhir - t.awal) * 10) / 10);
@@ -2066,20 +2068,21 @@
                     sumOmz += Math.round(penj * harga);
                     nozRows += `
                         <tr>
-                            <td style="padding-left:16px;font-weight:600;font-size:11px;">Mesin ${n.label}</td>
-                            <td style="text-align:right;font-size:11px;">${(t.awal || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-size:11px;">${(t.akhir || 0).toFixed(1)}</td>
-                            <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${penj.toFixed(1)} L</td>
-                            <td style="text-align:right;font-weight:700;font-size:11px;">${formatRupiah(Math.round(penj * harga))}</td>
+                            <td style="padding-left:18px;font-weight:600;font-size:12px;border:1px solid ${borderLight};">Mesin ${n.label}</td>
+                            <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${(t.awal || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${(t.akhir || 0).toFixed(1)}</td>
+                            <td style="text-align:right;font-weight:700;color:${c};font-size:12px;border:1px solid ${borderLight};">${penj.toFixed(1)} L</td>
+                            <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${formatRupiah(harga)}</td>
+                            <td style="text-align:right;font-weight:700;font-size:12px;border:1px solid ${borderLight};">${formatRupiah(Math.round(penj * harga))}</td>
                         </tr>
                     `;
                 });
 
                 nozRows += `
                     <tr style="background:${bg};">
-                        <td colspan="3" style="font-weight:700;color:${c};font-size:11px;padding:6px 10px;">TOTAL ${p.toUpperCase()}</td>
-                        <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${Math.round(sd[p]?.penjualan || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${c};font-size:11px;">${formatRupiah(sumOmz)}</td>
+                        <td colspan="4" style="font-weight:700;color:${c};font-size:12px;padding:7px 12px;border:1px solid ${borderLight};">TOTAL ${p.toUpperCase()}</td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;border:1px solid ${borderLight};"></td>
+                        <td style="text-align:right;font-weight:700;color:${c};font-size:12px;border:1px solid ${borderLight};">${formatRupiah(sumOmz)}</td>
                     </tr>
                 `;
             });
@@ -2089,23 +2092,23 @@
             let expRows = '';
             expRows += `
                 <tr style="background:#eff6ff;">
-                    <td style="padding-left:16px;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:11px;">Setoran Bank</td>
-                    <td style="text-align:right;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:11px;">${formatRupiah(rep.setorBank || 0)}</td>
+                    <td style="padding-left:18px;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:12px;border:1px solid ${borderLight};">Setoran Bank</td>
+                    <td style="text-align:right;font-weight:700;color:${isColor ? '#1d4ed8' : '#1f2937'};font-size:12px;border:1px solid ${borderLight};">${formatRupiah(rep.setorBank || 0)}</td>
                 </tr>
             `;
             if (expFiltered.length > 0) {
                 expFiltered.forEach(e => {
                     expRows += `
                         <tr>
-                            <td style="padding-left:16px;font-size:11px;">${e.keterangan || 'Tanpa keterangan'}</td>
-                            <td style="text-align:right;font-weight:600;color:${isColor ? '#dc2626' : '#1f2937'};font-size:11px;">${formatRupiah(e.nominal)}</td>
+                            <td style="padding-left:18px;font-size:12px;border:1px solid ${borderLight};">${e.keterangan || 'Tanpa keterangan'}</td>
+                            <td style="text-align:right;font-weight:600;color:${isColor ? '#dc2626' : '#1f2937'};font-size:12px;border:1px solid ${borderLight};">${formatRupiah(e.nominal)}</td>
                         </tr>
                     `;
                 });
             } else {
                 expRows += `
                     <tr>
-                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:10px;font-style:italic;padding:5px;">Tidak ada pengeluaran operasional</td>
+                        <td colspan="2" style="text-align:center;color:#9ca3af;font-size:11px;font-style:italic;padding:7px;border:1px solid ${borderLight};">Tidak ada pengeluaran operasional</td>
                     </tr>
                 `;
             }
@@ -2117,16 +2120,16 @@
                 const c = pColor(p), bg = pBg(p);
                 stokRows += `
                     <tr>
-                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:11px;padding:6px 10px;border-left:4px solid ${c};letter-spacing:0.3px;">
+                        <td colspan="5" style="background:${bg};color:${c};font-weight:700;font-size:13px;padding:8px 12px;border-left:5px solid ${c};letter-spacing:0.4px;border:1px solid ${borderLight};">
                             ⛽ ${p.toUpperCase()}
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-left:16px;font-weight:600;font-size:11px;">Stok Awal</td>
-                        <td style="text-align:right;font-size:11px;">${Math.round(d.stokAwal || 0)} L</td>
-                        <td style="text-align:right;font-size:11px;">${Math.round(d.pembelian || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;font-size:11px;">${Math.round(d.stokAkhir || 0)} L</td>
-                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};font-size:11px;">
+                        <td style="padding-left:18px;font-weight:600;font-size:12px;border:1px solid ${borderLight};">Stok Awal</td>
+                        <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${Math.round(d.stokAwal || 0)} L</td>
+                        <td style="text-align:right;font-size:12px;border:1px solid ${borderLight};">${Math.round(d.pembelian || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;font-size:12px;border:1px solid ${borderLight};">${Math.round(d.stokAkhir || 0)} L</td>
+                        <td style="text-align:right;font-weight:700;color:${(d.penguapan || 0) < 0 ? '#dc2626' : c};font-size:12px;border:1px solid ${borderLight};">
                             ${formatPenguapan(d.penguapan || 0)}
                         </td>
                     </tr>
@@ -2141,14 +2144,14 @@
                     <style>
                         @page { size: A4 portrait; margin: 10mm 12mm 10mm 12mm; }
                         * { box-sizing: border-box; font-family: Arial, sans-serif; margin:0; padding:0; }
-                        body { color: #1f2937; font-size: 11px; line-height: 1.4; }
+                        body { color: #1f2937; font-size: 12px; line-height: 1.4; }
 
-                        /* ===== HEADER BIRU DENGAN SUDUT KANAN ===== */
+                        /* ===== HEADER ===== */
                         .hdr-wrap {
                             background: ${blueDark};
                             color: #fff;
                             padding: 14px 18px;
-                            border-radius: 8px 8px 8px 8px;
+                            border-radius: 8px;
                             margin-bottom: 10px;
                             position: relative;
                             overflow: hidden;
@@ -2163,10 +2166,10 @@
                             background: rgba(255,255,255,0.08);
                             border-radius: 50%;
                         }
-                        .hdr-wrap h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 3px; }
-                        .hdr-wrap .sub { font-size: 12px; font-weight: 600; opacity: 0.95; }
+                        .hdr-wrap h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 3px; }
+                        .hdr-wrap .sub { font-size: 13px; font-weight: 600; opacity: 0.95; }
 
-                        /* ===== META BAR ===== */
+                        /* ===== META ===== */
                         .meta {
                             display: flex;
                             background: #fff;
@@ -2180,25 +2183,25 @@
                             display: flex;
                             align-items: center;
                             gap: 8px;
-                            padding: 9px 12px;
+                            padding: 10px 14px;
                             border-right: 1px solid ${border};
                         }
                         .meta-item:last-child { border-right: none; }
                         .meta-icon {
-                            font-size: 16px;
+                            font-size: 18px;
                             color: ${blueDark};
                             flex-shrink: 0;
                         }
                         .meta-content { display: flex; flex-direction: column; }
                         .meta-lbl {
-                            font-size: 8px;
+                            font-size: 9px;
                             color: #6b7280;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
                         }
                         .meta-val {
-                            font-size: 11px;
+                            font-size: 12px;
                             font-weight: 700;
                             color: #1f2937;
                             margin-top: 1px;
@@ -2212,9 +2215,9 @@
                             gap: 8px;
                             background: ${redMain};
                             color: #fff;
-                            padding: 6px 12px;
+                            padding: 7px 14px;
                             border-radius: 6px 6px 0 0;
-                            font-size: 12px;
+                            font-size: 14px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.4px;
@@ -2223,12 +2226,12 @@
                             display: inline-flex;
                             align-items: center;
                             justify-content: center;
-                            width: 22px;
-                            height: 22px;
+                            width: 24px;
+                            height: 24px;
                             background: #fff;
                             color: ${redMain};
                             border-radius: 50%;
-                            font-size: 11px;
+                            font-size: 12px;
                             font-weight: 700;
                             flex-shrink: 0;
                         }
@@ -2245,30 +2248,29 @@
                         th {
                             background: #f3f4f6;
                             color: #374151;
-                            font-size: 10px;
+                            font-size: 11px;
                             font-weight: 700;
                             text-transform: uppercase;
                             letter-spacing: 0.3px;
-                            padding: 7px 10px;
-                            border-bottom: 1px solid ${border};
+                            padding: 9px 10px;
+                            border: 1px solid ${borderLight};
                             text-align: left;
                         }
                         th.right, td.right { text-align: right; }
                         td {
-                            padding: 6px 10px;
-                            border-bottom: 1px solid #f0f0f0;
-                            font-size: 11px;
+                            padding: 7px 10px;
+                            border: 1px solid ${borderLight};
+                            font-size: 12px;
                         }
-                        tr:last-child td { border-bottom: none; }
 
                         /* ===== REKAP ===== */
                         .rekap-row {
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 6px 14px;
-                            border-bottom: 1px solid #f0f0f0;
-                            font-size: 11px;
+                            padding: 8px 16px;
+                            border-bottom: 1px solid ${borderLight};
+                            font-size: 12px;
                         }
                         .rekap-row:last-child { border-bottom: none; }
                         .rekap-row .lbl { color: #4b5563; }
@@ -2276,9 +2278,9 @@
                         .rekap-row.highlight {
                             background: ${blueDark};
                             color: #fff;
-                            font-size: 14px;
+                            font-size: 16px;
                             font-weight: 700;
-                            padding: 10px 14px;
+                            padding: 12px 16px;
                             text-transform: uppercase;
                             letter-spacing: 0.5px;
                         }
@@ -2319,18 +2321,19 @@
                         </div>
                     </div>
 
-                    <!-- 1. TOTALISATOR -->
+                    <!-- 1. TOTALISATOR — TABEL PERMESIN -->
                     <div class="sec">
                         <div class="sec-hdr"><span class="sec-num">1</span> Totalisator Nozzle Dispenser</div>
                         <div class="sec-body">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th style="width:28%;">Mesin</th>
-                                        <th class="right" style="width:16%;">Tot. Awal</th>
-                                        <th class="right" style="width:16%;">Tot. Akhir</th>
-                                        <th class="right" style="width:18%;">Penjualan</th>
-                                        <th class="right" style="width:22%;">Total Omzet</th>
+                                        <th style="width:26%;">Mesin</th>
+                                        <th class="right" style="width:15%;">Tot. Awal</th>
+                                        <th class="right" style="width:15%;">Tot. Akhir</th>
+                                        <th class="right" style="width:15%;">Penjualan</th>
+                                        <th class="right" style="width:14%;">Harga/L</th>
+                                        <th class="right" style="width:15%;">Total Omzet</th>
                                     </tr>
                                 </thead>
                                 <tbody>${nozRows}</tbody>
@@ -2352,8 +2355,8 @@
                                 <tbody>
                                     ${expRows}
                                     <tr style="background:${isColor ? '#fef2f2' : '#f3f4f6'};">
-                                        <td style="font-weight:700;color:${redMain};font-size:11px;padding-left:16px;">TOTAL PENGELUARAN</td>
-                                        <td style="text-align:right;font-weight:700;color:${redMain};font-size:12px;">${formatRupiah(s.totalPengeluaran)}</td>
+                                        <td style="font-weight:700;color:${redMain};font-size:12px;padding-left:18px;border:1px solid ${borderLight};">TOTAL PENGELUARAN</td>
+                                        <td style="text-align:right;font-weight:700;color:${redMain};font-size:13px;border:1px solid ${borderLight};">${formatRupiah(s.totalPengeluaran)}</td>
                                     </tr>
                                 </tbody>
                             </table>
