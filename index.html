@@ -2228,7 +2228,36 @@
         // ============================================================
         // RENDER PDF — STABIL & TANPA ERROR
         // ============================================================
+        // ============================================================
+        // HELPER: muat script CDN sekali saja
+        // ============================================================
+        function loadScriptOnce(src) {
+            return new Promise((resolve, reject) => {
+                if (document.querySelector('script[src="' + src + '"]')) return resolve();
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = resolve;
+                s.onerror = () => reject(new Error('Gagal memuat library: ' + src));
+                document.head.appendChild(s);
+            });
+        }
+
+        // Pastikan html2canvas & jsPDF tersedia (html2pdf.bundle kadang
+        // tidak mengekspos keduanya sebagai global di semua perangkat/browser).
+        async function ensurePdfLibs() {
+            const jobs = [];
+            if (typeof html2canvas === 'undefined') {
+                jobs.push(loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'));
+            }
+            if (typeof jspdf === 'undefined' || !window.jspdf || !window.jspdf.jsPDF) {
+                jobs.push(loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'));
+            }
+            if (jobs.length) await Promise.all(jobs);
+        }
+
         async function renderPdfBlob(rep, format) {
+            await ensurePdfLibs();
+
             const html = generatePdfHtml(rep, format);
 
             // Bersihkan tag doctype/html/head/body agar aman diparse di dalam div
@@ -2238,11 +2267,12 @@
                 .replace(/<\/?head[^>]*>/gi, '')
                 .replace(/<\/?body[^>]*>/gi, '');
 
-            // Container di-render ON-SCREEN (bukan off-screen) agar html2canvas
-            // tidak menghasilkan kanvas kosong. z-index -1 agar tidak terlihat user.
+            // Container di-render ON-SCREEN (bukan off-screen / z-index negatif)
+            // agar html2canvas menangkap konten nyata, bukan kanvas kosong.
             const container = document.createElement('div');
             container.id = 'pdf-render-container';
-            container.style.cssText = 'position:fixed;left:0;top:0;width:794px;height:1123px;z-index:-1;overflow:hidden;background:#ffffff;pointer-events:none;';
+            container.setAttribute('aria-hidden', 'true');
+            container.style.cssText = 'position:fixed;left:0;top:0;width:794px;height:1123px;z-index:999999;overflow:hidden;background:#ffffff;pointer-events:none;';
             container.innerHTML = cleanHtml;
             document.body.appendChild(container);
 
@@ -2256,6 +2286,7 @@
                 const canvas = await html2canvas(page, {
                     scale: 2,
                     useCORS: true,
+                    allowTaint: true,
                     backgroundColor: '#ffffff',
                     logging: false,
                     width: 794,
@@ -2266,6 +2297,9 @@
                     scrollY: 0
                 });
 
+                if (!window.jspdf || !window.jspdf.jsPDF) {
+                    throw new Error('Library jsPDF tidak tersedia');
+                }
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
                 const pageWidth = pdf.internal.pageSize.getWidth();
@@ -2277,6 +2311,21 @@
             } finally {
                 container.remove();
             }
+        }
+
+        // Fallback: buka laporan di jendela cetak browser (Ctrl+P → Save as PDF)
+        function fallbackCetakBrowser(rep, format) {
+            const html = generatePdfHtml(rep, format);
+            const win = window.open('', '_blank');
+            if (!win) {
+                alert('Popup diblokir browser. Izinkan popup untuk mencetak laporan.');
+                return;
+            }
+            win.document.open();
+            win.document.write(html);
+            win.document.close();
+            win.focus();
+            setTimeout(() => { try { win.print(); } catch(e) {} }, 600);
         }
 
         async function eksekusiBagikanPDF(format) {
@@ -2307,7 +2356,8 @@
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Gagal membagikan berkas PDF');
+                showToast('Gagal PDF: ' + (err && err.message ? err.message : err));
+                fallbackCetakBrowser(rep, format);
             }
         }
 
@@ -2329,7 +2379,8 @@
                 showToast('Laporan PDF berhasil diunduh');
             } catch (err) {
                 console.error(err);
-                showToast('Gagal mengunduh PDF');
+                showToast('Gagal PDF: ' + (err && err.message ? err.message : err));
+                fallbackCetakBrowser(rep, format);
             }
         }
 
