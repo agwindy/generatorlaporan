@@ -2082,6 +2082,17 @@
                             white-space: nowrap;
                         }
 
+                        .rekap-subtotal {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-top: 3px;
+                            padding: 3px 0 0 12px;
+                            border-top: 1px dashed ${borderRow};
+                            font-size: 8.5px;
+                            font-weight: 700;
+                            color: ${textDark};
+                        }
                         .rekap-total {
                             display: flex;
                             justify-content: space-between;
@@ -2178,7 +2189,6 @@
                                 <div class="rekap-item">
                                     <div class="rekap-head">
                                         <span class="lbl">Keuntungan Margin Penjualan</span>
-                                        <span class="val" style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
                                     </div>
                                     <div class="rekap-formula-row">
                                         <span class="name"><span class="dot pt"></span> Pertalite</span>
@@ -2190,12 +2200,15 @@
                                         <span class="formula"><strong>${formatAngka(pX)} L</strong> × <strong>${formatRupiah(mX)}/L</strong></span>
                                         <span class="result">${formatRupiah(untungX)}</span>
                                     </div>
+                                    <div class="rekap-subtotal">
+                                        <span>Total Keuntungan Margin</span>
+                                        <span style="color:${colPertalite};">${formatRupiah(s.totalKeuntungan)}</span>
+                                    </div>
                                 </div>
 
                                 <div class="rekap-item">
                                     <div class="rekap-head">
                                         <span class="lbl">Nilai Penguapan BBM</span>
-                                        <span class="val" style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
                                     </div>
                                     <div class="rekap-formula-row">
                                         <span class="name"><span class="dot pt"></span> Pertalite</span>
@@ -2206,6 +2219,10 @@
                                         <span class="name"><span class="dot px"></span> Pertamax</span>
                                         <span class="formula"><strong>${formatAngka(pengX)} L</strong> × <strong>${formatRupiah(hj.pertamax)}/L</strong></span>
                                         <span class="result">${formatRupiah(nilPengX)}</span>
+                                    </div>
+                                    <div class="rekap-subtotal">
+                                        <span>Total Nilai Penguapan</span>
+                                        <span style="color:${s.totalNilPeng < 0 ? '#dc2626' : colPertalite};">${formatRupiah(s.totalNilPeng)}</span>
                                     </div>
                                 </div>
 
